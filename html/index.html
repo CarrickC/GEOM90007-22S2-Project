@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../css/index.css" rel="stylesheet">
+    <link href="../css/tab_bus.css" rel="stylesheet">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js'></script>
+</head>
+<body>
+<div id="app">
+
+    <header id="navbar">
+        <div id="navbar-title">
+            <h2>Title</h2>
+        </div>
+
+        <ul id="navbar-tabs">
+            <li><a href="#tab-ov" class="navbar-tab current-tab">Overview</a></li>
+            <li><a href="#tab-road" class="navbar-tab">Road</a></li>
+            <li><a href="#tab-rail" class="navbar-tab">Rail</a></li>
+            <li><a href="#tab-bus" class="navbar-tab">Bus</a></li>
+        </ul>
+
+        <div id="navbar-tail"></div>
+    </header>
+
+    <main>
+        <div id="tab-ov" class="tab-content width-ov">
+
+            <div class="ov-title">
+                <h1>Transport in Melbourne City</h1>
+            </div>
+            <p>
+                Transport in Melbourne, the state capital of Victoria, Australia, consists of several interlinking modes.
+                Melbourne is a hub for intercity, intracity and regional travel. Road-based transport accounts for most
+                trips across many parts of the city, facilitated by Australia's largest freeway network. Public
+                transport, including the world's largest tram network, trains and buses, also forms a key part of the
+                transport system.
+            </p>
+
+        </div>
+
+        <div id="tab-road" class="tab-content">
+            <div class="tab-title">
+                <h1>Road Map</h1>
+            </div>
+
+        </div>
+
+        <div id="tab-rail" class="tab-content">
+            <div class="tab-title">
+                <h1>Rail Map</h1>
+            </div>
+
+        </div>
+
+        <div id="tab-bus" class="tab-content">
+            <div class="tab-title">
+                <h1>Bus Map</h1>
+            </div>
+            <div id="bus-map"></div>
+
+        </div>
+
+
+    </main>
+
+
+</div>
+<script src="../js/index.js"></script>
+<script src="../js/tab-bus.js"></script>
+</body>
+</html>
