@@ -1,0 +1,23 @@
+/* body {
+    margin: 0;
+  }
+  
+#parking-map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+} */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#parking-map {
+    width: var(--map-width);
+    min-width: var(--map-min-width);
+    height: var(--map-height);
+    margin: auto;
+}
