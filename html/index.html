@@ -6,6 +6,7 @@
     <link href="../css/index.css" rel="stylesheet">
     <link href="../css/tab_rail.css" rel="stylesheet">
     <link href="../css/tab_bus.css" rel="stylesheet">
+    <link href="../css/tab_road.css" rel="stylesheet">
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css' rel='stylesheet' />
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js'></script>
 </head>
@@ -44,16 +45,14 @@
         </div>
 
         <div id="tab-road" class="tab-content">
-            <div class="tab-title">
-                <h1>Road Map</h1>
-            </div>
-
+            <div id="parking-map"></div>
         </div>
 
         <div id="tab-rail" class="tab-content">
             <div class="tab-title">
                 <h1>Rail Map</h1>
             </div>
+
             <div id="rail-map"></div>
 
         </div>
@@ -63,16 +62,13 @@
                 <h1>Bus Map</h1>
             </div>
             <div id="bus-map"></div>
-
         </div>
-
-
     </main>
-
 
 </div>
 <script src="../js/index.js"></script>
 <script src="../js/tab-rail.js"></script>
 <script src="../js/tab-bus.js"></script>
+<script src="../js/tab-road.js"></script>
 </body>
 </html>
