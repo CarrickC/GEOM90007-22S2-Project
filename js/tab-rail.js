@@ -89,7 +89,7 @@ railMap.addSource('stations', {
         {
           'type': 'Feature',
           'properties': {
-            'description': '<strong>Flagstaff Railway</strong><p>Belgrave, Craigieburn, Cranbourne, Flemington, Glen Waverley, Hurstbridge, Lilydale, Mernda, Pakenham, Sunbury, Upfield, Alamein</p>'
+            'description': '<strong>Flagstaff</strong><p>Belgrave, Craigieburn, Cranbourne, Flemington, Glen Waverley, Hurstbridge, Lilydale, Mernda, Pakenham, Sunbury, Upfield, Alamein</p>'
           },
           'geometry': {
             'type': 'Point',
@@ -129,7 +129,7 @@ railMap.addSource('stations', {
         {
           'type': 'Feature',
           'properties': {
-            'description': '<strong>Jolimont-MCG</strong><p>Mernda,Hurstbridge</p>'
+            'description': '<strong>Jolimont</strong><p>Mernda,Hurstbridge</p>'
           },
           'geometry': {
             'type': 'Point',
@@ -183,11 +183,7 @@ railMap.addSource('stations', {
     popup.remove();
   });
 
-
-
-
   });
-
 
 railMapContainer = document.querySelector('#rail-map');
 respondToVisibility(railMapContainer, visible => {

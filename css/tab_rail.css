@@ -9,6 +9,8 @@
     min-width: var(--map-min-width);
     height: var(--map-height);
     margin: auto;
+    bottom: 100px;
+    height: 400px;
 }
 .map-overlay {
   position: absolute;
