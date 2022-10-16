@@ -12,6 +12,8 @@ railMap.on('render', function () {
 });
 
 railMapContainer = document.querySelector('#rail-map');
+
+
 respondToVisibility(railMapContainer, visible => {
     if (visible) {
         railMap.resize();
