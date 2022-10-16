@@ -74,18 +74,75 @@
                 </p>
             </div>
             <div id="tab-road" class="tab-content">
-                <!-- <div id="parking-map"></div> -->
-                <!-- <div class="container-fluid">
+                <div class="tab-title">
+                    <h1>Traffic Map</h1>
+                </div>
+                <div class="container-fluid">
                     <div class="row">
+                        <div class="sidebar col-sm-4">
+                            <div id="first-row" class="row p-1">
+                            </div>
+                            <div id="secondary-row" class="row">
+                                <div class="col pt-3 label">
+                                    <span>Search</span>
+                                    <div id="search-panel-container" class="row">
+                                        <div id="search-panel" class="container-fluid pb-4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-border">
+                                <div class="col py-3 label">
+                                    <span class="show-traffic-layers">Click to show layers</span>
+                                    <div class="row align-items-center pt-2">
+                                        <div class="col pt-2">
+                                            <label for="incidents-toggle" class="traffic-text">Traffic incidents</label>
+                                        </div>
+                                        <div class="col-sm-3 pt-2 text-right">
+                                            <label class="switch">
+                                                <input id="incidents-toggle" type="checkbox" />
+                                                <span class="toggle round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row align-items-center pt-2">
+
+                                        <div class="col pt-2">
+                                            <label for="flow-toggle" class="traffic-text">Traffic flow</label>
+                                        </div>
+                                        <div class="col-sm-3 pt-2 text-right">
+                                            <label class="switch">
+                                                <input id="flow-toggle" type="checkbox" />
+                                                <span class="toggle round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="incident-list-wrapper" class="row pt-0">
+                                <div class="col">
+                                    <div id="incident-list-container" class="p-0">
+                                        <div class="list-group" id="incident-list">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="py-3 row row-border">
+                                <div class="col">
+                                    <span class="show-traffic-layers">Bounding box for traffic incidents</span>
+                                    <button id="bounding-box-button" type="button" class="btn btn-block my-2">
+                                        Drag Rectangle
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
                         <div class="col" id="map"></div>
                         <div id="popup-wrapper">
                         </div>
                     </div>
-                </div> -->
-                <div class="tab-title">
-                    <h1>Traffic Map</h1>
                 </div>
-                <div class="col" id="map"></div>
             </div>
 
             <div id="tab-rail" class="tab-content">

@@ -1,5 +1,5 @@
 var apiKey = "NXXiqvnNA5ONcLNg0m7Cf9O2JWULZfVq";
-var centerCoords = [4.89218, 52.37187];
+var centerCoords = [144.9588, -37.815];
 var initialZoom = 13;
 var map = tt.map({
     key: apiKey,
@@ -7,22 +7,6 @@ var map = tt.map({
     center: centerCoords,
     zoom: initialZoom
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -241,6 +225,7 @@ function getLngLatBoundsForIncidentDetailsCall(startCornerLngLat, endCornerLngLa
 }
 
 function getPolygonSourceData(startCornerLngLat, endCornerLngLat) {
+    console.log(startCornerLngLat.lng, startCornerLngLat.lat)
     return {
         type: "Feature",
         geometry: {
