@@ -11,6 +11,35 @@ railMap.on('render', function () {
     railMap.resize();
 });
 
+railMap.on('load', e => {
+  let layers = [{
+      "name": "Electric",
+      "color": "#6db06d"
+    },
+    {
+      "name": "Not electric & unknown",
+      "color": "#d2b74b"
+    }
+  ];
+  let legend = document.querySelector('#legend');
+
+    for (let layer of layers) {
+      let item = document.createElement('div');
+
+      let key = document.createElement('span');
+      key.classList.add('legend-key');
+      key.style.backgroundColor = layer.color;
+
+      let value = document.createElement('span');
+      value.innerHTML = layer.name;
+
+      item.appendChild(key);
+      item.appendChild(value);
+      legend.appendChild(item);
+    }
+  });
+
+
 railMapContainer = document.querySelector('#rail-map');
 
 

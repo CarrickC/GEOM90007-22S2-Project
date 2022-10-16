@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+
     <title>Title</title>
     <link href="../css/index.css" rel="stylesheet">
     <link href="../css/tab_rail.css" rel="stylesheet">
@@ -12,18 +14,19 @@
 
     <!--Tomtom Map API-->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
-    </script>
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+        </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-    </script>
+        </script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
-    </script>
+        </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://api.tomtom.com/maps-sdk-for-web/cdn/5.x/5.57.0/maps/maps.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://api.tomtom.com/maps-sdk-for-web/cdn/5.x/5.57.0/maps/maps.css" />
     <link rel="stylesheet" type="text/css"
         href="https://api.tomtom.com/maps-sdk-for-web/cdn/plugins/SearchBox/2.23.1//SearchBox.css" />
     <link rel="stylesheet" type="text/css"
@@ -35,81 +38,88 @@
     <link rel="stylesheet" type="text/css" href="../css/styles.css" />
 
 </head>
+
 <body>
-<div id="app">
 
-    <header id="navbar">
-        <div id="navbar-title">
-            <h2>Title</h2>
-        </div>
+    <div id="app">
 
-        <ul id="navbar-tabs">
-            <li><a href="#tab-ov" class="navbar-tab current-tab">Overview</a></li>
-            <li><a href="#tab-road" class="navbar-tab">Road</a></li>
-            <li><a href="#tab-rail" class="navbar-tab">Rail</a></li>
-            <li><a href="#tab-bus" class="navbar-tab">Bus</a></li>
-        </ul>
-
-        <div id="navbar-tail"></div>
-    </header>
-
-    <main>
-        <div id="tab-ov" class="tab-content width-ov">
-
-            <div class="ov-title">
-                <h1>Transport in Melbourne City</h1>
+        <header id="navbar">
+            <div id="navbar-title">
+                <h2>Title</h2>
             </div>
-            <p>
-                Transport in Melbourne, the state capital of Victoria, Australia, consists of several interlinking modes.
-                Melbourne is a hub for intercity, intracity and regional travel. Road-based transport accounts for most
-                trips across many parts of the city, facilitated by Australia's largest freeway network. Public
-                transport, including the world's largest tram network, trains and buses, also forms a key part of the
-                transport system.
-            </p>
 
-        </div>
+            <ul id="navbar-tabs">
+                <li><a href="#tab-ov" class="navbar-tab current-tab">Overview</a></li>
+                <li><a href="#tab-road" class="navbar-tab">Road</a></li>
+                <li><a href="#tab-rail" class="navbar-tab">Rail</a></li>
+                <li><a href="#tab-bus" class="navbar-tab">Bus</a></li>
+            </ul>
 
-        <div id="tab-road" class="tab-content">
-           <!-- <div class="container-fluid">
-                <div class="row">                 
-                  <div class="col" id="map"></div>
-                  <div id="popup-wrapper"></div>
+            <div id="navbar-tail"></div>
+        </header>
+        <main>
+            <div id="tab-ov" class="tab-content width-ov">
+                <div class="ov-title">
+                    <h1>Transport in Melbourne City</h1>
                 </div>
-            </div> -->
-            <div id="parking-map"></div>
-        </div>
-
-
-        <div id="tab-rail" class="tab-content">
-            <div class="tab-title">
-                <h1>Rail Map</h1>
+                <p>
+                    Transport in Melbourne, the state capital of Victoria, Australia, consists of several interlinking
+                    modes.
+                    Melbourne is a hub for intercity, intracity and regional travel. Road-based transport accounts for
+                    most
+                    trips across many parts of the city, facilitated by Australia's largest freeway network. Public
+                    transport, including the world's largest tram network, trains and buses, also forms a key part of
+                    the
+                    transport system.
+                </p>
             </div>
-            <div id="rail-map"></div>
-        </div>
-
-        <div id="tab-bus" class="tab-content">
-            <div class="tab-title">
-                <h1>Bus Map</h1>
+            <div id="tab-road" class="tab-content">
+                <!-- <div id="parking-map"></div> -->
+                <!-- <div class="container-fluid">
+                    <div class="row">
+                        <div class="col" id="map"></div>
+                        <div id="popup-wrapper">
+                        </div>
+                    </div>
+                </div> -->
+                <div class="tab-title">
+                    <h1>Traffic Map</h1>
+                </div>
+                <div class="col" id="map"></div>
             </div>
-            <div id="bus-map"></div>
-        </div>
-    </main>
 
-</div>
-<script src="../js/index.js"></script>
-<!-- <script src="../js/tab-rail.js"></script> -->
-<script src="../js/tab-bus.js"></script>
-<script src="../js/tab-road.js"></script>
-<!-- <script src="../js/traffic.js"></script> -->
+            <div id="tab-rail" class="tab-content">
+                <div class="tab-title">
+                    <h1>Rail Map</h1>
+                </div>
+                <div id="rail-map"></div>
+                <div class="map-overlay" id="legend"></div>
+            </div>
+
+            <div id="tab-bus" class="tab-content">
+                <div class="tab-title">
+                    <h1>Bus Map</h1>
+                </div>
+                <div id="bus-map"></div>
+            </div>
+        </main>
+    </div>
 
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.1/bootstrap-slider.min.js"></script>
-<script src="https://api.tomtom.com/maps-sdk-for-web/cdn/5.x/5.57.0/maps/maps-web.min.js"></script>
-<script src="https://api.tomtom.com/maps-sdk-for-web/cdn/5.x/5.57.0/services/services-web.min.js"></script>
-<script src="https://api.tomtom.com/maps-sdk-for-web/cdn/plugins/SearchBox/2.23.1/SearchBox-web.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.1/bootstrap-slider.min.js"></script>
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/5.x/5.57.0/maps/maps-web.min.js"></script>
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/5.x/5.57.0/services/services-web.min.js"></script>
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/plugins/SearchBox/2.23.1/SearchBox-web.js"></script>
 
+
+    <script src="../js/index.js"></script>
+    <!-- <script src="../js/tab-road.js"></script> -->
+    <script src="../js/tab-rail.js"></script>
+    <script src="../js/tab-bus.js"></script>
+    <script src="../js/traffic.js"></script>
 </body>
+
 </html>

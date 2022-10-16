@@ -23,6 +23,14 @@ var map = tt.map({
 
 
 
+
+
+
+
+
+
+
+
 var searchBoxInstance;
 var startCornerLngLat;
 var endCornerLngLat;
