@@ -17,6 +17,5 @@ respondToVisibility = function(element, callback) {
                 callback(entry.intersectionRatio > 0);
             });
         }, options);
-
     observer.observe(element);
 }

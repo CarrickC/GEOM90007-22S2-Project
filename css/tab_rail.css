@@ -3,5 +3,19 @@
     min-width: var(--map-min-width);
     height: var(--map-height);
     margin: auto;
+    bottom: 100px;
+    height: 400px;
+}
+.map-overlay {
+  position: absolute;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.8);
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+}
+.mapboxgl-popup {
+         max-width: 400px;
+         font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 
