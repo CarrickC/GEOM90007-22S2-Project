@@ -1,3 +1,7 @@
+
+/*
+    Variable initialize
+*/
 var apiKey = "NXXiqvnNA5ONcLNg0m7Cf9O2JWULZfVq";
 var centerCoords = [144.9588, -37.815];
 var initialZoom = 13;
@@ -7,12 +11,6 @@ var map = tt.map({
     center: centerCoords,
     zoom: initialZoom
 });
-
-
-
-
-
-
 
 
 var searchBoxInstance;
@@ -25,12 +23,24 @@ var layerOutlineID = "layerOutlineID";
 var sourceID = "sourceID";
 var styleBase = "tomtom://vector/1/";
 var styleS1 = "s1";
-var styleRelative = "relative";
-var refreshTimeInMillis = 30000;
+var styleRelative = "relative-delay";
+var refreshTimeInMillis = 40000;
 var popupHideDelayInMilis = 4000;
+
+
 var incidentListContainer = document.getElementById("incident-list");
 var trafficFlowTilesToggle = document.getElementById("flow-toggle");
 
+var commonSearchBoxOptions = {
+    key: apiKey,
+    center: map.getCenter()
+};
+
+
+
+/*
+    Initialize two layers: Flow & Incidents
+*/
 var trafficIncidentsTier = new tt.TrafficIncidentTier({
     key: apiKey,
     incidentDetails: {
@@ -48,11 +58,9 @@ var trafficFlowTilesTier = new tt.TrafficFlowTilesTier({
     refresh: refreshTimeInMillis
 });
 
-var commonSearchBoxOptions = {
-    key: apiKey,
-    center: map.getCenter()
-};
-
+/*
+    Traffic flow toggle events
+*/
 function toggleTrafficFlowTilesTier() {
     if (trafficFlowTilesToggle.checked) {
         map.addTier(trafficFlowTilesTier);
@@ -61,6 +69,11 @@ function toggleTrafficFlowTilesTier() {
     }
 }
 
+/*
+    Traffic incidents events
+
+    Clear bounding box when close layer
+*/
 function showTrafficIncidentsTier() {
     document.getElementById("incidents-toggle").checked = true;
     map.addTier(trafficIncidentsTier);
@@ -81,6 +94,12 @@ function toggleTrafficIncidentsTier() {
     }
 }
 
+/*
+    Search box
+    
+    Update search range with current map position
+*/
+
 function updateSearchBoxOptions() {
     var updatedOptions = Object.assign(commonSearchBoxOptions, {
         center: map.getCenter()
@@ -99,46 +118,16 @@ function onSearchBoxResult(result) {
     });
 }
 
+
+/*
+    Bounding Box
+    Show incidents information on bounding box
+*/
 function enableBoundingBoxDraw() {
-    showInfoPopup("Click and drag to draw a bounding box");
+    // showInfoPopup("Click and drag to draw a bounding box");
     drawBoundingBoxButtonPressed = true;
     removeBoundingBox();
     clearIncidentList();
-}
-
-function getPopupWrapper() {
-    return document.getElementById("popup-wrapper");
-}
-
-function showPopup(element) {
-    element.style.opacity = "0.9";
-}
-
-function showInfoPopup(message) {
-    var popupElementDiv = getPopupWrapper();
-    popupElementDiv.innerHTML = getPopupInnerHTML("popup-info", message);
-    showPopup(popupElementDiv);
-}
-
-function showErrorPopup(message) {
-    var popupElementDiv = getPopupWrapper();
-    popupElementDiv.innerHTML = getPopupInnerHTML("popup-error", message);
-    showPopup(popupElementDiv);
-}
-
-function hidePopup(delayInMilis) {
-    var element = getPopupWrapper();
-    if (delayInMilis == 0) {
-        element.style.opacity = "0";
-    } else {
-        setTimeout(function () {
-            element.style.opacity = "0";
-        }, delayInMilis);
-    }
-}
-
-function getPopupInnerHTML(popupClass, popupMessage) {
-    return `<div class="container ${popupClass} popup"> <div class="row"> <div class="col py-2"> <div class="row align-items-center pt-1"> <div class="col-sm-1"> <img src="img/error-symbol.png" alt=""/> </div><div id="popup-message" class="col"> ${popupMessage} </div></div></div></div></div>`;
 }
 
 function removeBoundingBox() {
@@ -155,17 +144,22 @@ function onMouseDown(eventDetails) {
         mousePressed = true;
         startCornerLngLat = eventDetails.lngLat;
         removeBoundingBox();
+        // Add rectangle data
         map.addSource(sourceID, getPolygonSource(startCornerLngLat, startCornerLngLat));
+
+        // Add rectangle inner
         map.addLayer({
             id: layerFillID,
             type: "fill",
             source: sourceID,
             layout: {},
             paint: {
-                "fill-color": "#666",
-                "fill-opacity": 0.1
+                "fill-color": "#777",
+                "fill-opacity": 0.2
             }
         });
+
+        // Add Retangle edge
         map.addLayer({
             id: layerOutlineID,
             type: "line",
@@ -181,6 +175,7 @@ function onMouseDown(eventDetails) {
     }
 }
 
+
 function onMouseMove(eventDetails) {
     if (mousePressed) {
         endCornerLngLat = eventDetails.lngLat;
@@ -188,9 +183,9 @@ function onMouseMove(eventDetails) {
     }
 }
 
+
 function onMouseUp(eventDetails) {
     mousePressed = false;
-    hidePopup(0);
     if (drawBoundingBoxButtonPressed) {
         endCornerLngLat = eventDetails.lngLat;
         if (bothLngLatAreDifferent(startCornerLngLat, endCornerLngLat)) {
@@ -199,8 +194,7 @@ function onMouseUp(eventDetails) {
             displayTrafficIncidents(getLngLatBoundsForIncidentDetailsCall(startCornerLngLat, endCornerLngLat));
             showTrafficIncidentsTier();
         } else {
-            showErrorPopup("Try to select bigger bounding box.");
-            hidePopup(popupHideDelayInMilis);
+            console.log("Bigger rectangle")
         }
     }
     drawBoundingBoxButtonPressed = false;
@@ -223,6 +217,11 @@ function getLngLatBoundsForIncidentDetailsCall(startCornerLngLat, endCornerLngLa
         startCornerLngLat.lat > endCornerLngLat.lat ? startCornerLngLat.lat : endCornerLngLat.lat);
     return tt.LngLatBounds.convert([bottomLeftCorner.toArray(), topRightCorner.toArray()]);
 }
+
+
+/*
+    Rectangle data
+*/
 
 function getPolygonSourceData(startCornerLngLat, endCornerLngLat) {
     console.log(startCornerLngLat.lng, startCornerLngLat.lat)
@@ -271,8 +270,7 @@ function displayTrafficIncidents(boundingBox) {
         .go()
         .then(function (results) {
             if (results.tm.poi.length === 0) {
-                showErrorPopup("There are no traffic incidents in this area.");
-                hidePopup(popupHideDelayInMilis);
+                console.log("No incidents data")
             } else {
                 results.tm.poi.forEach(function (incident) {
                     var buttonListItem = createButtonItem(incident.p);
@@ -310,22 +308,37 @@ function getButtonClusterContent(description, numberOfIncidents, delayMagnitude)
     return `<div class="row align-items-center pb-2"> <div class="col-sm-2"> <div class="tt-traffic-icon"> <div class="tt-icon-circle-${delayMagnitude} traffic-icon"> <div id="cluster-icon" class="tt-icon-number">${numberOfIncidents}</div></div></div></div><div class="col label pl-0"> ${description} </div></div>`;
 }
 
+
+
+
+
+/**
+ * Running applications
+ */
 function initApplication() {
     searchBoxInstance = new tt.plugins.SearchBox(tt.services, {
         minNumberOfCharacters: 0,
         labels: {
-            placeholder: "Search"
+            placeholder: "Enter a location"
         },
         noResultsMessage: "No results found.",
         searchOptions: commonSearchBoxOptions,
         autocompleteOptions: commonSearchBoxOptions
     });
 
-    searchBoxInstance.on("tomtom.searchbox.resultselected", onSearchBoxResult);
 
+    // Append searchBox inner html document 
     document.getElementById("search-panel").append(searchBoxInstance.getSearchBoxHTML());
+
+    // Return search result and move map to position
+    searchBoxInstance.on("tomtom.searchbox.resultselected", onSearchBoxResult);
+    
+    // Add flow layer when toggle
     trafficFlowTilesToggle.addEventListener("change", toggleTrafficFlowTilesTier);
+
     document.getElementById("incidents-toggle").addEventListener("change", toggleTrafficIncidentsTier);
+
+    // When click, start to record lat and lng
     document.getElementById("bounding-box-button").addEventListener("click", enableBoundingBoxDraw);
 
     map.on("mousedown", onMouseDown);

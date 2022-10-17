@@ -1,4 +1,5 @@
 
+
 #help-modal {
   padding: 0;
 }
@@ -296,10 +297,6 @@
 #map {
   height: 550px;
   width: 1080px;
-  /* width: var(--map-width);
-  min-width: var(--map-min-width);
-  height: var(--map-height);
-  margin: auto; */
 }
 input:checked+.toggle {
   background-color: #8dc3eb;

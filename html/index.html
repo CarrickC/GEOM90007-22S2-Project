@@ -79,20 +79,23 @@
                 </div>
                 <div class="container-fluid">
                     <div class="row">
+                        <!-- Entire sidebar -->
                         <div class="sidebar col-sm-4">
-                            <div id="first-row" class="row p-1">
-                            </div>
+                            <!-- Search Panel -->
                             <div id="secondary-row" class="row">
                                 <div class="col pt-3 label">
-                                    <span>Search</span>
+                                    <span>Enter a location</span>
                                     <div id="search-panel-container" class="row">
                                         <div id="search-panel" class="container-fluid pb-4"></div>
                                     </div>
                                 </div>
                             </div>
+                            
+                            <!-- Show layer -->
                             <div class="row row-border">
                                 <div class="col py-3 label">
                                     <span class="show-traffic-layers">Click to show layers</span>
+                                    <!-- Incidents toggle -->
                                     <div class="row align-items-center pt-2">
                                         <div class="col pt-2">
                                             <label for="incidents-toggle" class="traffic-text">Traffic incidents</label>
@@ -104,6 +107,7 @@
                                             </label>
                                         </div>
                                     </div>
+                                    <!-- Flow toggle -->
                                     <div class="row align-items-center pt-2">
 
                                         <div class="col pt-2">
@@ -118,7 +122,8 @@
                                     </div>
                                 </div>
                             </div>
-
+                            
+                            <!-- Incident List  -->
                             <div id="incident-list-wrapper" class="row pt-0">
                                 <div class="col">
                                     <div id="incident-list-container" class="p-0">
@@ -130,13 +135,11 @@
 
                             <div class="py-3 row row-border">
                                 <div class="col">
-                                    <span class="show-traffic-layers">Bounding box for traffic incidents</span>
                                     <button id="bounding-box-button" type="button" class="btn btn-block my-2">
                                         Drag Rectangle
                                     </button>
                                 </div>
                             </div>
-
                         </div>
                         <div class="col" id="map"></div>
                         <div id="popup-wrapper">
@@ -173,10 +176,9 @@
 
 
     <script src="../js/index.js"></script>
-    <!-- <script src="../js/tab-road.js"></script> -->
     <script src="../js/tab-rail.js"></script>
     <script src="../js/tab-bus.js"></script>
-    <script src="../js/traffic.js"></script>
+    <script src="../js/tab-traffic.js"></script>
 </body>
 
 </html>
