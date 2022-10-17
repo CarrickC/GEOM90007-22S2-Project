@@ -28,8 +28,12 @@
     color: var(--gray-900);
 }
 
-li {
+#navbar-tabs li {
     list-style: none;
+}
+
+#navbar-tabs {
+    margin-bottom: 0;
 }
 
 hr {
@@ -97,6 +101,7 @@ hr {
 .navbar-tab:hover{
     font-weight: bold;
     color: var(--gray-900);
+    text-decoration: none;
     border-bottom: 5px solid var(--gray-800);
     transition: border .2s ease-out;
 }

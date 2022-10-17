@@ -135,6 +135,7 @@ busRouteTitles.on('click', (e) => {
     icon.toggleClass('fa-angle-down fa-angle-up')
 });
 
+
 $('#pt-mode-select').selectize({
     maxItems: 1,
     valueField: 'id',
@@ -159,3 +160,4 @@ $('#pt-route-select').selectize({
     ],
     create: false,
 });
+
