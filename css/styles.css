@@ -1,9 +1,5 @@
 
 
-#help-modal {
-  padding: 0;
-}
-
 #incident-list-wrapper {
   position: relative;
   flex: 1;
@@ -28,12 +24,6 @@
   color: #fff;
 }
 
-#github-button {
-  background-color: #fff;
-  border: none;
-  color: #000;
-  font: 700 14px/1.14 Gotham;
-}
 
 #modal-close-button {
   background-color: #df1b12;
@@ -132,34 +122,6 @@
   width: 364px;
 }
 
-.popup {
-  position: fixed;
-  top: 50px;
-  right: 50px;
-  width: 450px;
-  height: 50px;
-  color: white;
-}
-
-#popup-wrapper {
-  display: block;
-  opacity: 0;
-  transition: opacity 2s;
-}
-
-.popup-info {
-  background-color: #004b7f;
-}
-
-.popup-error {
-  background-color: #df1b12;
-}
-
-#popup-message {
-  font-family: Gotham;
-  font-size: 16px;
-  font-weight: bold;
-}
 
 .incident-details-list-item-button {
   border: none;
