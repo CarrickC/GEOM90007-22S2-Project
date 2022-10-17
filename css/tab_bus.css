@@ -11,6 +11,38 @@
     margin: auto;
 }
 
+#pt-layer-select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 20px 0 0 20px;
+    z-index: 2;
+}
+
+#pt-layer-list {
+    display: inline-flex;
+    list-style: none;
+    margin-bottom: 0;
+}
+
+.pt-layer-button {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--gray-600);
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-left: 1px solid var(--gray-200);
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.pt-layer-button:hover {
+    color: white;
+    background-position: left;
+}
+
 .bus-route-item {
     margin-bottom: 15px;
     border-radius: 5px;
@@ -50,13 +82,56 @@
     background-color: var(--bus-orange);
 }
 
+.bus-selected {
+    color: white;
+    background: var(--bus-orange);
+}
+
+.tram-selected {
+    color: white;
+    background: var(--tram-green);
+}
+
+.train-selected {
+    color: white;
+    background: var(--train-blue);
+}
+
+.bus-left-border {
+    border-left: 10px solid var(--bus-orange);
+}
+
+.tram-left-border {
+    border-left: 10px solid var(--tram-green);
+}
+
+.train-left-border {
+    border-left: 10px solid var(--train-blue);
+}
+
+.bus-linear-background {
+    background: linear-gradient(to right, var(--bus-orange) 50%, rgba(255, 255, 255, 0.8) 50%) right;
+    background-size: 200%;
+    transition: all 0.2s ease-out;
+}
+
+.tram-linear-background {
+    background: linear-gradient(to right, var(--tram-green) 50%, rgba(255, 255, 255, 0.8) 50%) right;
+    background-size: 200%;
+    transition: all 0.2s ease-out;
+}
+
+.train-linear-background {
+    background: linear-gradient(to right, var(--train-blue) 50%, rgba(255, 255, 255, 0.8) 50%) right;
+    background-size: 200%;
+    transition: all 0.2s ease-out;
+}
+
 .bus-route-title {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-right: 20px;
-    background: linear-gradient(to right, var(--bus-orange) 50%, white 50%) right;
-    background-size: 200%;
     transition: all .4s ease-out;
 }
 
@@ -64,7 +139,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /*font-weight: 500;*/
     color: white;
     padding-right: 20px;
     background: var(--bus-orange);
@@ -140,6 +214,11 @@
 
 #clear-button:active {
     box-shadow: 0 0 0 0 var(--gray-700);
+}
+
+#clear-button:focus,
+.pt-layer-button:focus {
+    outline: none;
 }
 
 #routes-list {

@@ -163,18 +163,31 @@
         </div>
 
     <div id="tab-rail" class="tab-content">
-            <div class="tab-title">
-                <h1>Rail Map</h1>
-            </div>
-            <div id="rail-map"></div>
-            <div class="map-overlay" id="legend"></div>
+        <div class="tab-title">
+            <h1>Rail Map</h1>
         </div>
+        <div id="rail-map"></div>
+        <div class="map-overlay" id="legend"></div>
+    </div>
 
     <div id="tab-bus" class="tab-content">
-        <div id="bus-map"></div>
+        <div id="bus-map">
+            <div id="pt-layer-select">
+                <ul id="pt-layer-list">
+                    <li>
+                        <button class="pt-layer-button bus-selected current">Bus</button>
+                    </li>
+                    <li>
+                        <button class="pt-layer-button tram-linear-background">Tram</button>
+                    </li>
+                    <li>
+                        <button class="pt-layer-button train-linear-background">Train</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <div id="bus-content">
             <h1 class="center-content">Find Your Routes</h1>
-            <hr>
             <div id="pt-select" class="center-content">
                 <div id="pt-mode-select-wrapper" class="inline-block">
                     <div id="pt-mode-select"></div>
@@ -186,7 +199,7 @@
             </div>
             <ul id="routes-list" class="center-content">
                 <li class="bus-route-item">
-                    <div class="bus-route-title">
+                    <div class="bus-route-title bus-linear-background">
                         <div class="bus-route-icon">
                             <i class="icon icon-bus"></i>
                             402
@@ -199,7 +212,7 @@
                     </div>
                 </li>
                 <li class="bus-route-item">
-                    <div class="bus-route-title">
+                    <div class="bus-route-title bus-linear-background">
                         <div class="bus-route-icon">
                             <i class="icon icon-bus"></i>
                             402

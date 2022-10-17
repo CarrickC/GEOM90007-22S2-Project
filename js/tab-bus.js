@@ -1,29 +1,41 @@
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY2NhcnJpY2tjYyIsImEiOiJjbDkxaW0yc3AxYXJ3M3Z0NWc2a3d5d3RoIn0.DsBfI0AbR2c_ZEfvrUXNEA';
-let busMap = new mapboxgl.Map({
+let ptMap = new mapboxgl.Map({
     container: 'bus-map',
-    style: 'mapbox://styles/ccarrickcc/cl91jeqf6001214mos5t57hx7/draft',
+    style: 'mapbox://styles/ccarrickcc/cl91jeqf6001214mos5t57hx7',
     center: [144.956785, -37.812000],
     zoom: 11.9
 });
 
-busMap.addControl(new mapboxgl.NavigationControl());
-busMap.addControl(new mapboxgl.ScaleControl({
+ptMap.addControl(new mapboxgl.NavigationControl());
+ptMap.addControl(new mapboxgl.ScaleControl({
     maxWidth: 200,
 }));
 
-busLayers = [
-    'ptv-metro-bus-route',
-    'ptv-metro-bus-stop'
-];
+const allLayers = {
+    "Bus": [
+        'ptv-metro-bus-route',
+        'ptv-metro-bus-stop'
+    ],
+    "Tram": [
+        'ptv-metro-tram-route',
+        'ptv-metro-tram-stop'
+    ],
+    "Train": [
+        'ptv-train-track-centreline',
+        'ptv-metro-train-station'
+    ]
+};
 
-busMap.on('render', function () {
-    busMap.resize();
+let currLayers = 'Bus';
+
+ptMap.on('render', function () {
+    ptMap.resize();
 });
 
 respondToVisibility($('#bus-map')[0], visible => {
     if (visible) {
-        busMap.resize();
+        ptMap.resize();
     }
 });
 
@@ -33,9 +45,9 @@ busRouteProps = {};
 busStopProps = {};
 
 
-busMap.on('load', () => {
+ptMap.on('load', () => {
 
-    let busStopFeats = busMap.querySourceFeatures(
+    let busStopFeats = ptMap.querySourceFeatures(
         'composite',
         {sourceLayer: 'PTV_METRO_BUS_STOP-82rco0'}
     );
@@ -56,7 +68,7 @@ busMap.on('load', () => {
         busStopProps[feat.properties['STOP_ID']] = feat.properties
     });
 
-    let busRouteFeats = busMap.querySourceFeatures(
+    let busRouteFeats = ptMap.querySourceFeatures(
         'composite',
         {sourceLayer: 'PTV_METRO_BUS_ROUTE-cgxses'}
     );
@@ -67,36 +79,36 @@ busMap.on('load', () => {
 
 });
 
-busMap.on('mouseenter', busLayers, () => {
-    busMap.getCanvas().style.cursor = 'pointer';
+ptMap.on('mouseenter', allLayers['Bus'], () => {
+    ptMap.getCanvas().style.cursor = 'pointer';
 });
 
-busMap.on('mouseleave', busLayers, () => {
-    busMap.getCanvas().style.cursor = '';
+ptMap.on('mouseleave', allLayers['Bus'], () => {
+    ptMap.getCanvas().style.cursor = '';
 });
 
-busMap.on('click', 'ptv-metro-bus-stop', (e) => {
-    busMap.setFilter('ptv-metro-bus-route', null);
+ptMap.on('click', 'ptv-metro-bus-stop', (e) => {
+    ptMap.setFilter('ptv-metro-bus-route', null);
     let busStopID = e.features[0].properties['STOP_ID']
-    busMap.setFilter(
+    ptMap.setFilter(
         'ptv-metro-bus-stop',
         ['in', 'STOP_ID', busStopID]
     );
-    busMap.setFilter(
+    ptMap.setFilter(
         'ptv-metro-bus-route',
         ['in', 'ROUTESHTNM', ...busStopProps[busStopID]['ROUTEUSSP'].split(',')]
     );
 });
 
-busMap.on('click', 'ptv-metro-bus-route', (e) => {
-    let busStopfeats = busMap.queryRenderedFeatures(
+ptMap.on('click', 'ptv-metro-bus-route', (e) => {
+    let busStopfeats = ptMap.queryRenderedFeatures(
         e.point,
         {layers: ['ptv-metro-bus-stop']}
     );
 
     if (busStopfeats.length === 0) {
         let routes = e.features.map(feat => feat.properties['ROUTESHTNM']);
-        busMap.setFilter(
+        ptMap.setFilter(
             'ptv-metro-bus-route',
             ['in', 'ROUTESHTNM', ...routes]
         );
@@ -105,7 +117,7 @@ busMap.on('click', 'ptv-metro-bus-route', (e) => {
         routes.forEach((route) => {
             busRouteStops[route].forEach(stop => stops.add(stop));
         });
-        busMap.setFilter(
+        ptMap.setFilter(
             'ptv-metro-bus-stop',
             ['in', 'STOP_ID', ...stops]
         );
@@ -114,21 +126,52 @@ busMap.on('click', 'ptv-metro-bus-route', (e) => {
     console.log(e.features);
 });
 
-busMap.on('click', (e) => {
-    let feats = busMap.queryRenderedFeatures(
+ptMap.on('click', (e) => {
+    let feats = ptMap.queryRenderedFeatures(
         e.point,
-        {layers: busLayers}
+        {layers: allLayers['Bus']}
     );
 
     if (feats.length === 0) {
-        busLayers.forEach(layer => busMap.setFilter(layer, null))
+        allLayers['Bus'].forEach(layer => ptMap.setFilter(layer, null))
     }
 });
 
-busRouteTitles = $('.bus-route-title')
-busRouteTitles.on('click', (e) => {
+let toggleLayers = function (toHide, toVisi) {
+    allLayers[toHide].forEach(layer => ptMap.setLayoutProperty(layer, 'visibility', 'none'));
+    allLayers[toVisi].forEach(layer => ptMap.setLayoutProperty(layer, 'visibility', 'visible'));
+};
+
+$layerButtons = $('.pt-layer-button')
+$layerButtons.on('click', (e) => {
+    let clicked = $(e.target);
+    if (!clicked.hasClass('current')) {
+        let current = $('.pt-layer-button.current')
+        if (current.text() === 'Bus') {
+            current.toggleClass('bus-selected bus-linear-background');
+        } else if (current.text() === 'Tram') {
+            current.toggleClass('tram-selected tram-linear-background');
+        } else if (current.text() === 'Train') {
+            current.toggleClass('train-selected train-linear-background');
+        }
+        if (clicked.text() === 'Bus') {
+            clicked.toggleClass('bus-linear-background bus-selected');
+        } else if (clicked.text() === 'Tram') {
+            clicked.toggleClass('tram-linear-background tram-selected');
+        } else if (clicked.text() === 'Train') {
+            clicked.toggleClass('train-linear-background train-selected');
+        }
+        clicked.toggleClass('current');
+        current.toggleClass('current');
+        currLayers = clicked.text();
+        toggleLayers(current.text(), clicked.text())
+    }
+});
+
+$('.bus-route-title').on('click', (e) => {
     let content = $(e.currentTarget).next();
     $(e.currentTarget).toggleClass('bus-route-title bus-route-title-expend');
+    $(e.currentTarget).toggleClass('bus-linear-background');
     content.toggleClass('collapse expand');
 
     let icon = $(e.currentTarget).children().last();
