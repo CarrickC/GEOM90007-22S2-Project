@@ -53,3 +53,21 @@
 .mapboxgl-popup-content div {
   padding: 10px;
 }
+
+.header {
+  font-family: 'Roboto Slab', sans-serif;
+  color: white;
+  text-shadow: 0 0 5px black;
+  text-align: center;
+  padding: 2em 0;
+  background: linear-gradient(to bottom, rgba(0,36,2,0.94) 0%, rgba(14,181,17,0.85) 100%),
+    url("https://www.littlegreenworkshops.com.au/wp-content/uploads/2018/08/Australian-bush.jpg");
+  background-size: cover;
+}
+
+.content {
+  max-width: 52em;
+  margin: auto;
+  padding-left: 1em;
+  padding-right: 1em;
+}
