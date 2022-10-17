@@ -1,9 +1,3 @@
-* {
-    box-sizing: border-box;
-    margin: 10;
-    padding: 0;
-}
-
 #rail-map {
     width: var(--map-width);
     min-width: var(--map-min-width);
@@ -22,7 +16,6 @@
 }
 .mapboxgl-popup {
          max-width: 400px;
-         font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;}
-
+         font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 

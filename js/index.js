@@ -1,16 +1,11 @@
-// document.location.hash = '#tab-bus';
 document.location.hash = '#tab-ov';
 
-let tabs = document.querySelectorAll('.navbar-tab')
-for (let i=0; i<tabs.length; i++) {
-    // tabs[i].setAttribute('data-index', i.toString());
-    tabs[i].onclick = function() {
-        for (let i=0; i<tabs.length; i++) {
-            tabs[i].classList.remove('current-tab')
-        }
-        this.classList.add('current-tab');
-    }
-}
+$('.navbar-tab').each(function() {
+    $(this).click(function() {
+        $('.navbar-tab').removeClass('current-tab');
+        $(this).addClass('current-tab');
+    });
+});
 
 respondToVisibility = function(element, callback) {
     let options = {
@@ -22,6 +17,5 @@ respondToVisibility = function(element, callback) {
                 callback(entry.intersectionRatio > 0);
             });
         }, options);
-
     observer.observe(element);
 }
