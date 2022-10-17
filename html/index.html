@@ -3,18 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="../css/index.css" rel="stylesheet">
-    <link href="../css/tab_rail.css" rel="stylesheet">
-    <link href="../css/tab_bus.css" rel="stylesheet">
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css' rel='stylesheet' />
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js'></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Bungee+Shade&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/css/selectize.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/tab_rail.css">
+    <link rel="stylesheet" href="../css/tab_bus.css">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/js/selectize.min.js"></script>
 </head>
 <body>
-<div id="app">
 
+<div id="app">
     <header id="navbar">
         <div id="navbar-title">
-            <h2>Title</h2>
+            Commute<br><!--
+            --><span style="color: var(--gray-600);">M</span><!--
+            --><span style="color: var(--bus-orange);">e</span><!--
+            --><span style="color: var(--tram-green);">l</span><!--
+            --><span style="color: var(--train-blue);">b</span><!--
+            -->ourne
         </div>
 
         <ul id="navbar-tabs">
@@ -58,19 +70,55 @@
         </div>
 
         <div id="tab-bus" class="tab-content">
-            <div class="tab-title">
-                <h1>Bus Map</h1>
-            </div>
             <div id="bus-map"></div>
+            <div id="bus-content">
+                <h1 class="center-content">Find Your Routes</h1>
+                <hr>
+                <div id="pt-select" class="center-content">
+                    <div id="pt-mode-select-wrapper" class="inline-block">
+                        <div id="pt-mode-select"></div>
+                    </div>
+                    <div id="pt-route-select-wrapper" class="inline-block">
+                        <div id="pt-route-select"></div>
+                    </div>
+                    <button id="clear-button">Clear</button>
+                </div>
+                <ul id="routes-list" class="center-content">
+                    <li class="bus-route-item">
+                        <div class="bus-route-title">
+                            <div class="bus-route-icon">
+                                <i class="icon icon-bus"></i>
+                                402
+                            </div>
+                            Footscray Station - East Melbourne
+                            <i class="icon fa-solid fa-angle-down fa-lg"></i>
+                        </div>
+                        <div class="bus-route-content collapse">
+                            Route content
+                        </div>
+                    </li>
+                    <li class="bus-route-item">
+                        <div class="bus-route-title">
+                            <div class="bus-route-icon">
+                                <i class="icon icon-bus"></i>
+                                402
+                            </div>
+                            Footscray Station - East Melbourne
+                            <i class="icon fa-solid fa-angle-down fa-lg"></i>
+                        </div>
+                        <div class="bus-route-content collapse">
+                            Route content
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
-
-
     </main>
 
 
 </div>
 <script src="../js/index.js"></script>
-<script src="../js/tab-rail.js"></script>
+<!--<script src="../js/tab-rail.js"></script>-->
 <script src="../js/tab-bus.js"></script>
 </body>
 </html>
