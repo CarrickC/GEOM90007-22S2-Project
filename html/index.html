@@ -48,175 +48,177 @@
 <body>
 
 <div id="app">
-    <header id="navbar">
-        <div id="navbar-title">
-            Commute<br><!--
-            --><span style="color: var(--gray-600);">M</span><!--
-            --><span style="color: var(--bus-orange);">e</span><!--
-            --><span style="color: var(--tram-green);">l</span><!--
-            --><span style="color: var(--train-blue);">b</span><!--
-            -->ourne
+<header id="navbar">
+    <div id="navbar-title">
+        Commute<br><!--
+        --><span style="color: var(--gray-600);">M</span><!--
+        --><span style="color: var(--bus-orange);">e</span><!--
+        --><span style="color: var(--tram-green);">l</span><!--
+        --><span style="color: var(--train-blue);">b</span><!--
+        -->ourne
+    </div>
+
+    <ul id="navbar-tabs">
+        <li><a href="#tab-ov" class="navbar-tab current-tab">Overview</a></li>
+        <li><a href="#tab-road" class="navbar-tab">Road</a></li>
+        <li><a href="#tab-rail" class="navbar-tab">Rail</a></li>
+        <li><a href="#tab-bus" class="navbar-tab">Bus</a></li>
+    </ul>
+
+    <div id="navbar-tail"></div>
+</header>
+
+<main>
+    <div id="tab-ov" class="tab-content width-ov">
+        <div class="ov-title">
+            <h1>Transport in Melbourne City</h1>
+        </div>
+        <p>
+            Transport in Melbourne, the state capital of Victoria, Australia, consists of several interlinking
+            modes.
+            Melbourne is a hub for intercity, intracity and regional travel. Road-based transport accounts for
+            most
+            trips across many parts of the city, facilitated by Australia's largest freeway network. Public
+            transport, including the world's largest tram network, trains and buses, also forms a key part of
+            the
+            transport system.
+        </p>
+    </div>
+
+    <div id="tab-road" class="tab-content">
+        <div class="tab-title">
+            <h1>Traffic Map</h1>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Entire sidebar -->
+                <div class="sidebar col-sm-4">
+                    <!-- Search Panel -->
+                    <div id="secondary-row" class="row">
+                        <div class="col pt-3 label">
+                            <span>Enter a location</span>
+                            <div id="search-panel-container" class="row">
+                                <div id="search-panel" class="container-fluid pb-4"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <!-- Show layer -->
+                    <div class="row row-border">
+                        <div class="col py-3 label">
+                            <span class="show-traffic-layers">Click to show layers</span>
+                            <!-- Incidents toggle -->
+                            <div class="row align-items-center pt-2">
+                                <div class="col pt-2">
+                                    <label for="incidents-toggle" class="traffic-text">Traffic incidents</label>
+                                </div>
+                                <div class="col-sm-3 pt-2 text-right">
+                                    <label class="switch">
+                                        <input id="incidents-toggle" type="checkbox" />
+                                        <span class="toggle round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Flow toggle -->
+                            <div class="row align-items-center pt-2">
+
+                                <div class="col pt-2">
+                                    <label for="flow-toggle" class="traffic-text">Traffic flow</label>
+                                </div>
+                                <div class="col-sm-3 pt-2 text-right">
+                                    <label class="switch">
+                                        <input id="flow-toggle" type="checkbox" />
+                                        <span class="toggle round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <!-- Incident List  -->
+                        <div id="incident-list-wrapper" class="row pt-0">
+                            <div class="col">
+                                <div id="incident-list-container" class="p-0">
+                                    <div class="list-group" id="incident-list">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="py-3 row row-border">
+                            <div class="col">
+                                <button id="bounding-box-button" type="button" class="btn btn-block my-2">
+                                    Drag Rectangle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col" id="map"></div>
+                    <div id="popup-wrapper">
+                    </div>
+                </div>
+            </div>
         </div>
 
-            <ul id="navbar-tabs">
-                <li><a href="#tab-ov" class="navbar-tab current-tab">Overview</a></li>
-                <li><a href="#tab-road" class="navbar-tab">Road</a></li>
-                <li><a href="#tab-rail" class="navbar-tab">Rail</a></li>
-                <li><a href="#tab-bus" class="navbar-tab">Bus</a></li>
+    <div id="tab-rail" class="tab-content">
+            <div class="tab-title">
+                <h1>Rail Map</h1>
+            </div>
+            <div id="rail-map"></div>
+            <div class="map-overlay" id="legend"></div>
+        </div>
+
+    <div id="tab-bus" class="tab-content">
+        <div id="bus-map"></div>
+        <div id="bus-content">
+            <h1 class="center-content">Find Your Routes</h1>
+            <hr>
+            <div id="pt-select" class="center-content">
+                <div id="pt-mode-select-wrapper" class="inline-block">
+                    <div id="pt-mode-select"></div>
+                </div>
+                <div id="pt-route-select-wrapper" class="inline-block">
+                    <div id="pt-route-select"></div>
+                </div>
+                <button id="clear-button">Clear</button>
+            </div>
+            <ul id="routes-list" class="center-content">
+                <li class="bus-route-item">
+                    <div class="bus-route-title">
+                        <div class="bus-route-icon">
+                            <i class="icon icon-bus"></i>
+                            402
+                        </div>
+                        Footscray Station - East Melbourne
+                        <i class="icon fa-solid fa-angle-down fa-lg"></i>
+                    </div>
+                    <div class="bus-route-content collapse">
+                        Route content
+                    </div>
+                </li>
+                <li class="bus-route-item">
+                    <div class="bus-route-title">
+                        <div class="bus-route-icon">
+                            <i class="icon icon-bus"></i>
+                            402
+                        </div>
+                        Footscray Station - East Melbourne
+                        <i class="icon fa-solid fa-angle-down fa-lg"></i>
+                    </div>
+                    <div class="bus-route-content collapse">
+                        Route content
+                    </div>
+                </li>
             </ul>
-
-            <div id="navbar-tail"></div>
-        </header>
-        <main>
-            <div id="tab-ov" class="tab-content width-ov">
-                <div class="ov-title">
-                    <h1>Transport in Melbourne City</h1>
-                </div>
-                <p>
-                    Transport in Melbourne, the state capital of Victoria, Australia, consists of several interlinking
-                    modes.
-                    Melbourne is a hub for intercity, intracity and regional travel. Road-based transport accounts for
-                    most
-                    trips across many parts of the city, facilitated by Australia's largest freeway network. Public
-                    transport, including the world's largest tram network, trains and buses, also forms a key part of
-                    the
-                    transport system.
-                </p>
-            </div>
-            <div id="tab-road" class="tab-content">
-                <div class="tab-title">
-                    <h1>Traffic Map</h1>
-                </div>
-                <div class="container-fluid">
-                    <div class="row">
-                        <!-- Entire sidebar -->
-                        <div class="sidebar col-sm-4">
-                            <!-- Search Panel -->
-                            <div id="secondary-row" class="row">
-                                <div class="col pt-3 label">
-                                    <span>Enter a location</span>
-                                    <div id="search-panel-container" class="row">
-                                        <div id="search-panel" class="container-fluid pb-4"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Show layer -->
-                            <div class="row row-border">
-                                <div class="col py-3 label">
-                                    <span class="show-traffic-layers">Click to show layers</span>
-                                    <!-- Incidents toggle -->
-                                    <div class="row align-items-center pt-2">
-                                        <div class="col pt-2">
-                                            <label for="incidents-toggle" class="traffic-text">Traffic incidents</label>
-                                        </div>
-                                        <div class="col-sm-3 pt-2 text-right">
-                                            <label class="switch">
-                                                <input id="incidents-toggle" type="checkbox" />
-                                                <span class="toggle round"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <!-- Flow toggle -->
-                                    <div class="row align-items-center pt-2">
-
-                                        <div class="col pt-2">
-                                            <label for="flow-toggle" class="traffic-text">Traffic flow</label>
-                                        </div>
-                                        <div class="col-sm-3 pt-2 text-right">
-                                            <label class="switch">
-                                                <input id="flow-toggle" type="checkbox" />
-                                                <span class="toggle round"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Incident List  -->
-                            <div id="incident-list-wrapper" class="row pt-0">
-                                <div class="col">
-                                    <div id="incident-list-container" class="p-0">
-                                        <div class="list-group" id="incident-list">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="py-3 row row-border">
-                                <div class="col">
-                                    <button id="bounding-box-button" type="button" class="btn btn-block my-2">
-                                        Drag Rectangle
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col" id="map"></div>
-                        <div id="popup-wrapper">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tab-rail" class="tab-content">
-                <div class="tab-title">
-                    <h1>Rail Map</h1>
-                </div>
-                <div id="rail-map"></div>
-                <div class="map-overlay" id="legend"></div>
-            </div>
-
-        <div id="tab-bus" class="tab-content">
-            <div id="bus-map"></div>
-            <div id="bus-content">
-                <h1 class="center-content">Find Your Routes</h1>
-                <hr>
-                <div id="pt-select" class="center-content">
-                    <div id="pt-mode-select-wrapper" class="inline-block">
-                        <div id="pt-mode-select"></div>
-                    </div>
-                    <div id="pt-route-select-wrapper" class="inline-block">
-                        <div id="pt-route-select"></div>
-                    </div>
-                    <button id="clear-button">Clear</button>
-                </div>
-                <ul id="routes-list" class="center-content">
-                    <li class="bus-route-item">
-                        <div class="bus-route-title">
-                            <div class="bus-route-icon">
-                                <i class="icon icon-bus"></i>
-                                402
-                            </div>
-                            Footscray Station - East Melbourne
-                            <i class="icon fa-solid fa-angle-down fa-lg"></i>
-                        </div>
-                        <div class="bus-route-content collapse">
-                            Route content
-                        </div>
-                    </li>
-                    <li class="bus-route-item">
-                        <div class="bus-route-title">
-                            <div class="bus-route-icon">
-                                <i class="icon icon-bus"></i>
-                                402
-                            </div>
-                            Footscray Station - East Melbourne
-                            <i class="icon fa-solid fa-angle-down fa-lg"></i>
-                        </div>
-                        <div class="bus-route-content collapse">
-                            Route content
-                        </div>
-                    </li>
-                </ul>
-            </div>
         </div>
-    </main>
+    </div>
+</main>
+</div>
 
-
-    <script src="../js/index.js"></script>
-    <script src="../js/tab-rail.js"></script>
-    <script src="../js/tab-bus.js"></script>
-    <script src="../js/tab-traffic.js"></script>
+<script src="../js/index.js"></script>
+<script src="../js/tab-rail.js"></script>
+<script src="../js/tab-bus.js"></script>
+<script src="../js/tab-traffic.js"></script>
 </body>
 
 </html>
