@@ -21,7 +21,7 @@ const stations = {
       'properties': {
         'address': 'South Kensington',
         'rail': 'Williamstown, Werribee',
-        'id': "chart1"
+        'id': 'chart1'
       }
     },
     {
@@ -33,6 +33,7 @@ const stations = {
       'properties': {
         'address': 'Kensington',
         'rail': 'Craigieburn',
+        'id': 'chart1'
       }
     },
     {
@@ -44,6 +45,7 @@ const stations = {
       'properties': {
         'address': 'Macaulay',
         'rail': 'Upfield',
+        'id': 'chart1'
       }
     },
     {
@@ -55,6 +57,7 @@ const stations = {
       'properties': {
         'address': 'Flemington Bridge',
         'rail': 'Upfield',
+        'id': 'chart1'
       }
     },
     {
@@ -66,6 +69,7 @@ const stations = {
       'properties': {
         'address': 'Royal Park',
         'rail': 'Upfield',
+        'id': 'chart1'
       }
     },
     {
@@ -77,6 +81,7 @@ const stations = {
       'properties': {
         'address': 'North Melbourne',
         'rail': 'Flemington, Sunbury, Upfield, Werribee, Williamstown, Craigieburn',
+        'id': 'chart1'
       }
     },
     {
@@ -88,6 +93,7 @@ const stations = {
       'properties': {
         'address': 'Southern Cross',
         'rail': 'Belgrave, Craigieburn, Cranbourne, Flemington, Frankston, Glen Waverley, Hurstbridge, Lilydale, Mernda, Pakenham, Sandringham, Sunbury, Upfield, Werribee, Williamstown, Alamein',
+        'id': 'chart1'
       }
     },
     {
@@ -99,6 +105,7 @@ const stations = {
       'properties': {
         'address': 'Flagstaff',
         'rail': 'Belgrave, Craigieburn, Cranbourne, Flemington, Glen Waverley, Hurstbridge, Lilydale, Mernda, Pakenham, Sunbury, Upfield, Alamein',
+        'id': 'chart1'
       }
     },{
       'type': 'Feature',
@@ -109,6 +116,7 @@ const stations = {
       'properties': {
         'address': 'Melbourne Central',
         'rail': 'Belgrave, Craigieburn, Cranbourne, Flemington, Glen Waverley, Hurstbridge, Lilydale, Mernda, Pakenham, Sunbury, Upfield, Alamein',
+        'id': 'chart1'
       }
     },{
       'type': 'Feature',
@@ -119,6 +127,7 @@ const stations = {
       'properties': {
         'address': 'Flinders Street',
         'rail': 'Belgrave, Craigieburn, Cranbourne, Flemington, Glen Waverley, Hurstbridge, Lilydale, Mernda, Pakenham, Sunbury, Upfield, Alamein',
+        'id': 'chart1'
       }
     },{
       'type': 'Feature',
@@ -129,6 +138,7 @@ const stations = {
       'properties': {
         'address': 'Parliament',
         'rail': 'Belgrave, Craigieburn, Cranbourne, Flemington, Glen Waverley, Hurstbridge, Lilydale, Mernda, Pakenham, Sunbury, Upfield, Alamein',
+        'id': 'chart1'
       }
     },{
       'type': 'Feature',
@@ -139,6 +149,7 @@ const stations = {
       'properties': {
         'address': 'Jolimont',
         'rail': 'Mernda, Hurstbridge',
+        'id': 'chart1'
       }
     }
   ]
@@ -176,6 +187,57 @@ function addMarkers() {
       /* Fly to the point */
       flyToStation(marker);
       createPopUp(marker);
+      var areaChartData = {
+      		  labels: ['2018', '2019', '2020'],
+      		  datasets: [{
+      		      label: 'flow',
+      		      backgroundColor: 'rgba(60,141,188,0.9)',
+      		      borderColor: 'rgba(60,141,188,0.8)',
+      		      pointRadius: false,
+      		      pointColor: '#3b8bba',
+      		      pointStrokeColor: 'rgba(60,141,188,1)',
+      		      pointHighlightFill: '#fff',
+      		      pointHighlightStroke: 'rgba(60,141,188,1)',
+      		      data: [289550, 225150, 101750]
+      		    },{}
+      		  ]
+      		}
+
+      		//these are the options for testing
+      		var areaChartOptions = {
+      		  maintainAspectRatio: false,
+      		  responsive: true,
+      		  legend: {
+      		    display: false
+      		  },
+      		  scales: {
+      		    xAxes: [{
+      		      gridLines: {
+      		        display: false,
+      		      }
+      		    }],
+      		    yAxes: [{
+      		      gridLines: {
+      		        display: false,
+      		      }
+      		    }]
+      		  }
+      		}
+
+
+      		var chart1Canvas = $('#chart1').get(0).getContext('2d')
+      		var chart1Options = jQuery.extend(true, {}, areaChartOptions)
+      		var chart1Data = jQuery.extend(true, {}, areaChartData)
+      		chart1Data.datasets[0].fill = false;
+      		chart1Data.datasets[1].fill = false;
+      		chart1Options.datasetFill = false
+
+      		var chart1 = new Chart(chart1Canvas, {
+      		  type: 'bar',
+      		  data: chart1Data,
+      		  options: chart1Options
+      		})
+
       /* Highlight listing in sidebar */
       const activeItem = document.getElementsByClassName('active');
       e.stopPropagation();
@@ -217,7 +279,6 @@ function createPopUp(currentFeature) {
       <h4>${currentFeature.properties.address}</h4><div>${currentFeature.properties.rail}</div>
       <div>
       <div class="chart"><canvas id="chart1"></canvas></div>
-      <p>why</p>
         </div>`
     )
     .addTo(railMap);
@@ -225,56 +286,6 @@ function createPopUp(currentFeature) {
 
 // popup table
 
-var areaChartData = {
-		  labels: ['2018', '2019', '2020'],
-		  datasets: [{
-		      label: 'Digital Goods',
-		      backgroundColor: 'rgba(60,141,188,0.9)',
-		      borderColor: 'rgba(60,141,188,0.8)',
-		      pointRadius: false,
-		      pointColor: '#3b8bba',
-		      pointStrokeColor: 'rgba(60,141,188,1)',
-		      pointHighlightFill: '#fff',
-		      pointHighlightStroke: 'rgba(60,141,188,1)',
-		      data: [289550, 225150, 101750]
-		    },{}
-		  ]
-		}
-
-		//these are the options for testing
-		var areaChartOptions = {
-		  maintainAspectRatio: false,
-		  responsive: true,
-		  legend: {
-		    display: false
-		  },
-		  scales: {
-		    xAxes: [{
-		      gridLines: {
-		        display: false,
-		      }
-		    }],
-		    yAxes: [{
-		      gridLines: {
-		        display: false,
-		      }
-		    }]
-		  }
-		}
-
-
-		var chart1Canvas = $('#chart1').get(0).getContext('2d')
-		var chart1Options = jQuery.extend(true, {}, areaChartOptions)
-		var chart1Data = jQuery.extend(true, {}, areaChartData)
-		chart1Data.datasets[0].fill = false;
-		chart1Data.datasets[1].fill = false;
-		chart1Options.datasetFill = false
-
-		var chart1 = new Chart(chart1Canvas, {
-		  type: 'bar',
-		  data: chart1Data,
-		  options: chart1Options
-		})
 
 Chart.defaults.font.family = 'Montserrat';
 Chart.defaults.font.size = 15;
