@@ -213,9 +213,11 @@ function createPopUp(currentFeature) {
     })
     .setLngLat(currentFeature.geometry.coordinates)
     .setHTML(
-      `<div class="content">
+      `<div class="content"><canvas id="chart1"></canvas></div>
       <h4>${currentFeature.properties.address}</h4><div>${currentFeature.properties.rail}</div>
-      <canvas id={currentFeature.properties.id} width="100" height="100"></canvas>
+      <div>
+      <canvas id="chart1"></canvas></div>
+      <p>why</p>
         </div>`
     )
     .addTo(railMap);
