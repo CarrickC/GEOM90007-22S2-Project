@@ -7,6 +7,15 @@ let ptMap = new mapboxgl.Map({
     zoom: 11.9
 });
 
+ptMap.addControl(
+    new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        flyTo: {
+            zoom: 13.5
+        }
+    })
+);
 ptMap.addControl(new mapboxgl.NavigationControl());
 ptMap.addControl(new mapboxgl.ScaleControl({
     maxWidth: 200,
@@ -289,6 +298,8 @@ let addRouteItems = function (mode, routes) {
         routeList.append(item);
     });
 }
+
+
 
 routeSelectize.on('change', (value) => {
     let mode = modeSelectize.getValue();

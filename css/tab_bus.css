@@ -241,3 +241,7 @@
     margin-bottom: 200px;
 }
 
+.mapboxgl-ctrl-geocoder {
+    max-width: 450px;
+    min-width: 400px;
+}
