@@ -12,10 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-    <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../css/tab_rail.css">
-    <link rel="stylesheet" href="../css/tab_bus.css">
-    <link rel="stylesheet" href="../css/tab_road.css">
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
 
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css"/>
@@ -46,10 +43,14 @@
     <link rel="stylesheet" type="text/css"
         href="https://api.tomtom.com/maps-sdk-for-web/cdn/5.x/5.57.0/maps/css-styles/poi.css" />
 
-
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/tab_rail.css">
+    <link rel="stylesheet" href="../css/tab_bus.css">
+    <link rel="stylesheet" href="../css/tab_road.css">
 </head>
 
 <body>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
 
 <div id="app">
 <header id="navbar">
@@ -58,15 +59,14 @@
         --><span style="color: var(--gray-600);">M</span><!--
         --><span style="color: var(--bus-orange);">e</span><!--
         --><span style="color: var(--tram-green);">l</span><!--
-        --><span style="color: var(--train-blue);">b</span><!--
-        -->ourne
+        -->bourne
     </div>
 
     <ul id="navbar-tabs">
         <li><a href="#tab-ov" class="navbar-tab current-tab">Overview</a></li>
         <li><a href="#tab-road" class="navbar-tab">Road</a></li>
         <li><a href="#tab-rail" class="navbar-tab">Rail</a></li>
-        <li><a href="#tab-bus" class="navbar-tab">Bus</a></li>
+        <li><a href="#tab-bus" class="navbar-tab">Public</a></li>
     </ul>
 
     <div id="navbar-tail"></div>
@@ -87,6 +87,89 @@
             the
             transport system.
         </p>
+
+        <head>
+            <title>Line Chart JS</title>
+            <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
+            <style type="text/css">
+      html,
+      body,
+      #container {
+        width: 100%;
+        height: 500px;
+        margin: 0;
+        padding: 0;
+      }
+
+    </style>
+        </head>
+
+        <body>
+        <div id="container"></div>
+        <script>
+      anychart.onDocumentReady(function() {
+
+        // add data
+        var data = [
+          ["Jan", 14774380, 16966847, 7927612],
+          ["Feb", 16040904, 19792614, 10333573],
+          ["Mar", 16297302, 19552255, 10301701],
+          ["Apr", 11898764, 13685871, 6922504],
+          ["May", 12896498, 16494726, 8628232],
+          ["Jun", 11652855, 14938796, 7931778],
+          ["Jul", 12153032, 15155783, 7748407],
+          ["Aug", 12406163, 15690762, 8345273],
+          ["Sep", 10957316, 14193696, 7385466],
+          ["Oct", 12575151, 16039353, 8766030],
+          ["Nov", 12418075, 15886289, 8856295],
+          ["Dec", 11712064, 14141290, 7561703]
+        ];
+
+        // create a data set
+        var dataSet = anychart.data.set(data);
+
+        // map the data for all series
+        var firstSeriesData = dataSet.mapAs({
+          x: 0,
+          value: 1
+        });
+        var secondSeriesData = dataSet.mapAs({
+          x: 0,
+          value: 2
+        });
+        var thirdSeriesData = dataSet.mapAs({
+          x: 0,
+          value: 3
+        });
+
+        // create a line chart
+        var chart = anychart.line();
+
+        // create the series and name them
+        var firstSeries = chart.line(firstSeriesData);
+        firstSeries.name("Tram");
+        var secondSeries = chart.line(secondSeriesData);
+        secondSeries.name("Train");
+        var thirdSeries = chart.line(thirdSeriesData);
+        thirdSeries.name("Bus");
+
+        // add a legend
+        chart.legend().enabled(true);
+
+        // add a title
+        chart.title("Average Monthly Public Transport Flow from 2018 to 2020");
+
+        // specify where to display the chart
+        chart.container("container");
+
+        // draw the resulting chart
+        chart.draw();
+
+      });
+
+    </script>
+        </body>
+
     </div>
 
     <div id="tab-road" class="tab-content">
@@ -165,6 +248,7 @@
         </div>
 
     <div id="tab-rail" class="tab-content">
+
             <div class="tab-title">
                 <h1>Rail Map</h1>
             </div>
@@ -172,13 +256,26 @@
         <canvas id="chart1" width="50" height="30"></canvas>
 
         </div>
+        <div id="rail-map"></div>
+        <div class="map-overlay" id="legend"></div>
+    </div>
 
 
     <div id="tab-bus" class="tab-content">
-        <div id="bus-map"></div>
+        <div id="bus-map">
+            <div id="pt-layer-select">
+                <ul id="pt-layer-list">
+                    <li>
+                        <button id="bus" class="pt-layer-button bus-selected current">Bus</button>
+                    </li>
+                    <li>
+                        <button id="mode-tram" class="pt-layer-button tram-linear-background">Tram</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <div id="bus-content">
             <h1 class="center-content">Find Your Routes</h1>
-            <hr>
             <div id="pt-select" class="center-content">
                 <div id="pt-mode-select-wrapper" class="inline-block">
                     <div id="pt-mode-select"></div>
@@ -189,32 +286,19 @@
                 <button id="clear-button">Clear</button>
             </div>
             <ul id="routes-list" class="center-content">
-                <li class="bus-route-item">
-                    <div class="bus-route-title">
-                        <div class="bus-route-icon">
-                            <i class="icon icon-bus"></i>
-                            402
-                        </div>
-                        Footscray Station - East Melbourne
-                        <i class="icon fa-solid fa-angle-down fa-lg"></i>
-                    </div>
-                    <div class="bus-route-content collapse">
-                        Route content
-                    </div>
-                </li>
-                <li class="bus-route-item">
-                    <div class="bus-route-title">
-                        <div class="bus-route-icon">
-                            <i class="icon icon-bus"></i>
-                            402
-                        </div>
-                        Footscray Station - East Melbourne
-                        <i class="icon fa-solid fa-angle-down fa-lg"></i>
-                    </div>
-                    <div class="bus-route-content collapse">
-                        Route content
-                    </div>
-                </li>
+<!--                <li class="route-item">-->
+<!--                    <div class="route-item-title bus-linear-background">-->
+<!--                        <div class="route-item-icon bus-bg">-->
+<!--                            <i class="icon icon-bus"></i>-->
+<!--                            402-->
+<!--                        </div>-->
+<!--                        Footscray Station - East Melbourne-->
+<!--                        <i class="icon fa-solid fa-angle-down fa-lg"></i>-->
+<!--                    </div>-->
+<!--                    <div class="route-item-content collapse">-->
+<!--                        Route content-->
+<!--                    </div>-->
+<!--                </li>-->
             </ul>
         </div>
     </div>
