@@ -213,10 +213,10 @@ function createPopUp(currentFeature) {
     })
     .setLngLat(currentFeature.geometry.coordinates)
     .setHTML(
-      `<div class="content"><canvas id="chart1"></canvas></div>
+      `
       <h4>${currentFeature.properties.address}</h4><div>${currentFeature.properties.rail}</div>
       <div>
-      <canvas id="chart1"></canvas></div>
+      <div class="chart"><canvas id="chart1"></canvas></div>
       <p>why</p>
         </div>`
     )
@@ -224,69 +224,7 @@ function createPopUp(currentFeature) {
 }
 
 // popup table
-let table1 = [{
-    "year": "2018",
-    "entries": 289550
-  },
-  {
-    "year": "2019",
-    "entries": 225150
-  },
-  {
-    "year": "2020",
-    "entries": 101750
-  }
 
-];
-
-let chart1 = new Chart('chart1', {
-  type: 'bar',
-  data: {
-    datasets: [{
-      data: table1,
-      parsing: {
-        xAxisKey: 'year',
-        yAxisKey: 'entries'
-      },
-      categoryPercentage: 0.75,
-      barPercentage: 1,
-      backgroundColor: "green"
-    }]
-  },
-  options: {
-    scales: {
-      x: {
-        grid: {
-          display: false
-        },
-        ticks: {},
-        title: {}
-      },
-      y: {
-        grid: {},
-        ticks: {},
-        title: {}
-      }
-    },
-    animation: false,
-    plugins: {
-      legend: {
-        display: false
-      },
-      title: {
-        display: true,
-        text: 'Annual entries from 2018 to 2020'
-      },
-      tooltip: {
-        xAlign: 'center',
-        yAlign: 'bottom',
-        displayColors: false,
-        titleAlign: 'center',
-        bodyAlign: 'center'
-      }
-    }
-  }
-});
 
 Chart.defaults.font.family = 'Montserrat';
 Chart.defaults.font.size = 15;
