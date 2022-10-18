@@ -1,49 +1,104 @@
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY2NhcnJpY2tjYyIsImEiOiJjbDkxaW0yc3AxYXJ3M3Z0NWc2a3d5d3RoIn0.DsBfI0AbR2c_ZEfvrUXNEA';
-let busMap = new mapboxgl.Map({
+let ptMap = new mapboxgl.Map({
     container: 'bus-map',
-    style: 'mapbox://styles/ccarrickcc/cl91jeqf6001214mos5t57hx7/draft',
+    style: 'mapbox://styles/ccarrickcc/cl91jeqf6001214mos5t57hx7',
     center: [144.956785, -37.812000],
     zoom: 11.9
 });
 
-busMap.addControl(new mapboxgl.NavigationControl());
-busMap.addControl(new mapboxgl.ScaleControl({
+ptMap.addControl(
+    new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        flyTo: {
+            zoom: 13.5
+        }
+    })
+);
+ptMap.addControl(new mapboxgl.NavigationControl());
+ptMap.addControl(new mapboxgl.ScaleControl({
     maxWidth: 200,
 }));
 
-busLayers = [
-    'ptv-metro-bus-route',
-    'ptv-metro-bus-stop'
-];
+const allLayers = {
+    "Bus": [
+        'ptv-metro-bus-stop',
+        'ptv-metro-bus-route'
+    ],
+    "Tram": [
+        'ptv-metro-tram-stop',
+        'ptv-metro-tram-route'
+    ]
+};
 
-busMap.on('render', function () {
-    busMap.resize();
+let currLayers = 'Bus';
+
+ptMap.on('render', function () {
+    ptMap.resize();
 });
 
 respondToVisibility($('#bus-map')[0], visible => {
     if (visible) {
-        busMap.resize();
+        ptMap.resize();
     }
 });
 
+const busRouteStops = {};
+const busRouteProps = {};
+const tramRouteStops = {};
+const tramRouteProps = {};
 
-busRouteStops = {};
-busRouteProps = {};
-busStopProps = {};
+const routeStops = {
+    'Bus': busRouteStops,
+    'Tram': tramRouteStops,
+}
+const routeProps = {
+    'Bus': busRouteProps,
+    'Tram': tramRouteProps,
+}
 
+let currRouteProps = routeProps['Bus'];
 
-busMap.on('load', () => {
+let routeSelectize = $('#pt-route-select').selectize({
+    maxItems: 1,
+    valueField: 'id',
+    labelField: 'text',
+    searchField: 'text',
+    sortField: 'id',
+    create: false,
+})[0].selectize;
 
-    let busStopFeats = busMap.querySourceFeatures(
+let modeSelectize = $('#pt-mode-select').selectize({
+    maxItems: 1,
+    valueField: 'mode',
+    labelField: 'mode',
+    searchField: 'mode',
+    options: [
+        {mode: 'Bus'},
+        {mode: 'Tram'},
+    ],
+    items: ['Bus'],
+    create: false,
+})[0].selectize;
+
+modeSelectize.on('change', function(value) {
+    routeSelectize.clear(true);
+    routeSelectize.clearOptions(true);
+    routeSelectize.addOption(Object.values(routeProps[value]))
+});
+
+$('#clear-button').on('click', () => {
+    routeSelectize.clear(false);
+});
+
+ptMap.on('load', () => {
+
+    let busStopFeats = ptMap.querySourceFeatures(
         'composite',
         {sourceLayer: 'PTV_METRO_BUS_STOP-82rco0'}
     );
-
-    // console.log(busStopFeats);
-
     busStopFeats.forEach((feat) => {
-        // console.log(feat.properties);
         let routes = feat.properties['ROUTEUSSP'].split(',');
         routes.forEach((route) => {
             if (route in busRouteStops) {
@@ -52,112 +107,203 @@ busMap.on('load', () => {
                 busRouteStops[route] = new Set([feat.properties['STOP_ID']]);
             }
         });
-
-        busStopProps[feat.properties['STOP_ID']] = feat.properties
     });
-
-    let busRouteFeats = busMap.querySourceFeatures(
+    let busRouteFeats = ptMap.querySourceFeatures(
         'composite',
         {sourceLayer: 'PTV_METRO_BUS_ROUTE-cgxses'}
     );
-
     busRouteFeats.forEach((feat) => {
-        busRouteProps[feat.properties['ROUTESHTNM']]  = feat.properties;
+        let routeID = feat.properties['ROUTESHTNM']
+        let routeName = feat.properties['ROUTELONGN']
+        busRouteProps[routeID] = {
+            'id': routeID,
+            'name': routeName,
+            'text': routeID + ' ' + routeName
+        };
     });
 
-});
-
-busMap.on('mouseenter', busLayers, () => {
-    busMap.getCanvas().style.cursor = 'pointer';
-});
-
-busMap.on('mouseleave', busLayers, () => {
-    busMap.getCanvas().style.cursor = '';
-});
-
-busMap.on('click', 'ptv-metro-bus-stop', (e) => {
-    busMap.setFilter('ptv-metro-bus-route', null);
-    let busStopID = e.features[0].properties['STOP_ID']
-    busMap.setFilter(
-        'ptv-metro-bus-stop',
-        ['in', 'STOP_ID', busStopID]
+    let tramStopFeats = ptMap.querySourceFeatures(
+        'composite',
+        {sourceLayer: 'PTV_METRO_TRAM_STOP-0a76zk'}
     );
-    busMap.setFilter(
-        'ptv-metro-bus-route',
-        ['in', 'ROUTESHTNM', ...busStopProps[busStopID]['ROUTEUSSP'].split(',')]
-    );
-});
-
-busMap.on('click', 'ptv-metro-bus-route', (e) => {
-    let busStopfeats = busMap.queryRenderedFeatures(
-        e.point,
-        {layers: ['ptv-metro-bus-stop']}
-    );
-
-    if (busStopfeats.length === 0) {
-        let routes = e.features.map(feat => feat.properties['ROUTESHTNM']);
-        busMap.setFilter(
-            'ptv-metro-bus-route',
-            ['in', 'ROUTESHTNM', ...routes]
-        );
-
-        let stops = new Set();
+    tramStopFeats.forEach((feat) => {
+        let routes = feat.properties['ROUTEUSSP'].split(',');
         routes.forEach((route) => {
-            busRouteStops[route].forEach(stop => stops.add(stop));
+            if (route in tramRouteStops) {
+                tramRouteStops[route].add(feat.properties['STOP_ID'])
+            } else {
+                tramRouteStops[route] = new Set([feat.properties['STOP_ID']]);
+            }
         });
-        busMap.setFilter(
-            'ptv-metro-bus-stop',
-            ['in', 'STOP_ID', ...stops]
-        );
-    }
+    });
+    let tramRouteFeats = ptMap.querySourceFeatures(
+        'composite',
+        {sourceLayer: 'PTV_METRO_TRAM_ROUTE-9xqbxk'}
+    );
+    tramRouteFeats.forEach((feat) => {
+        let routeID = feat.properties['ROUTESHTNM']
+        let routeName = feat.properties['ROUTELONGN']
+        tramRouteProps[routeID] = {
+            'id': routeID,
+            'name': routeName,
+            'text': routeID + ' ' + routeName
+        };
+    });
 
-    console.log(e.features);
+    routeSelectize.addOption(Object.values(routeProps['Bus']));
+    console.log(busRouteProps);
+    console.log(tramRouteProps);
 });
 
-busMap.on('click', (e) => {
-    let feats = busMap.queryRenderedFeatures(
+ptMap.on('mouseenter', allLayers['Bus'], () => {
+    ptMap.getCanvas().style.cursor = 'pointer';
+});
+
+ptMap.on('mouseleave', allLayers['Bus'], () => {
+    ptMap.getCanvas().style.cursor = '';
+});
+
+ptMap.on('mouseenter', allLayers['Tram'], () => {
+    ptMap.getCanvas().style.cursor = 'pointer';
+});
+
+ptMap.on('mouseleave', allLayers['Tram'], () => {
+    ptMap.getCanvas().style.cursor = '';
+});
+
+
+Object.entries(allLayers).forEach(([key, layers]) => {
+    let stopLayer = layers[0];
+    let routeLayer = layers[1];
+
+    ptMap.on('click', stopLayer, (e) => {
+        ptMap.setFilter(routeLayer, null);
+        let busStopID = e.features[0].properties['STOP_ID']
+        ptMap.setFilter(
+            stopLayer,
+            ['in', 'STOP_ID', busStopID]
+        );
+        ptMap.setFilter(
+            routeLayer,
+            ['in', 'ROUTESHTNM', ...e.features[0].properties['ROUTEUSSP'].split(',')]
+        );
+    });
+
+    ptMap.on('click', routeLayer, (e) => {
+        let stopfeats = ptMap.queryRenderedFeatures(
+            e.point,
+            {layers: [stopLayer]}
+        );
+
+        if (stopfeats.length === 0) {
+            let routes = e.features.map(feat => feat.properties['ROUTESHTNM']);
+            ptMap.setFilter(
+                routeLayer,
+                ['in', 'ROUTESHTNM', ...routes]
+            );
+
+            let stops = new Set();
+            routes.forEach((route) => {
+                routeStops[currLayers][route].forEach(stop => stops.add(stop));
+            });
+            ptMap.setFilter(
+                stopLayer,
+                ['in', 'STOP_ID', ...stops]
+            );
+        }
+    });
+});
+
+ptMap.on('click', (e) => {
+    let feats = ptMap.queryRenderedFeatures(
         e.point,
-        {layers: busLayers}
+        {layers: allLayers[currLayers]}
     );
 
     if (feats.length === 0) {
-        busLayers.forEach(layer => busMap.setFilter(layer, null))
+        allLayers[currLayers].forEach(layer => ptMap.setFilter(layer, null))
     }
 });
 
-busRouteTitles = $('.bus-route-title')
-busRouteTitles.on('click', (e) => {
-    let content = $(e.currentTarget).next();
-    $(e.currentTarget).toggleClass('bus-route-title bus-route-title-expend');
-    content.toggleClass('collapse expand');
+let toggleLayers = function (toHide, toVisi) {
+    allLayers[toHide].forEach(layer => ptMap.setLayoutProperty(layer, 'visibility', 'none'));
+    allLayers[toVisi].forEach(layer => ptMap.setLayoutProperty(layer, 'visibility', 'visible'));
+};
 
-    let icon = $(e.currentTarget).children().last();
-    icon.toggleClass('fa-angle-down fa-angle-up')
+
+$('.pt-layer-button').on('click', (e) => {
+    let clicked = $(e.target);
+    if (!clicked.hasClass('current')) {
+        let current = $('.pt-layer-button.current')
+        if (current.text() === 'Bus') {
+            current.toggleClass('bus-selected bus-linear-background');
+        } else if (current.text() === 'Tram') {
+            current.toggleClass('tram-selected tram-linear-background');
+        }
+        if (clicked.text() === 'Bus') {
+            clicked.toggleClass('bus-linear-background bus-selected');
+        } else if (clicked.text() === 'Tram') {
+            clicked.toggleClass('tram-linear-background tram-selected');
+        }
+        clicked.toggleClass('current');
+        current.toggleClass('current');
+        currLayers = clicked.text();
+        currRouteProps = routeProps[clicked.text()];
+        toggleLayers(current.text(), clicked.text())
+    }
 });
 
+let addRouteItems = function (mode, routes) {
+    let routeList = $('#routes-list');
+    let itemTitleBg;
+    let itemIconBg;
+    let icon;
+    if (mode === 'Bus') {
+        itemTitleBg = 'bus-linear-background';
+        itemIconBg = 'bus-bg'
+        icon = 'icon-bus';
+    } else {
+        itemTitleBg = 'tram-linear-background';
+        itemIconBg = 'tram-bg'
+        icon = 'icon-tram';
+    }
 
-$('#pt-mode-select').selectize({
-    maxItems: 1,
-    valueField: 'id',
-    labelField: 'id',
-    searchField: 'id',
-    options: [
-        {id: 'Bus'},
-        {id: 'Tram'},
-        {id: 'Train'},
-    ],
-    items: ['Bus'],
-    create: false,
-});
+    routes.forEach((route) => {
+        let item = $(`
+        <li class="route-item">
+            <div class="route-item-title ${itemTitleBg}">
+                <div class="${itemIconBg} route-item-icon">
+                    <i class="icon ${icon}"></i>
+                    ${route['id']}
+                </div>
+                ${route['name']}
+                <i class="icon fa-solid fa-angle-down fa-lg"></i>
+            </div>
+            <div class="route-item-content collapse">
+                Route content
+            </div>
+        </li>
+        `);
 
-$('#pt-route-select').selectize({
-    maxItems: 1,
-    valueField: 'id',
-    labelField: 'title',
-    searchField: 'title',
-    options: [
-        {id: 1, title: '402 Oh Yeah'}
-    ],
-    create: false,
+        item.children().first().on('click', (e) => {
+            let content = $(e.currentTarget).next();
+            $(e.currentTarget).toggleClass('route-item-title bus-route-title-expend');
+            $(e.currentTarget).toggleClass(`${itemTitleBg} ${itemIconBg}`);
+            content.toggleClass('collapse expand');
+
+            let icon = $(e.currentTarget).children().last();
+            icon.toggleClass('fa-angle-down fa-angle-up')
+        });
+
+        routeList.append(item);
+    });
+}
+
+
+
+routeSelectize.on('change', (value) => {
+    let mode = modeSelectize.getValue();
+    $('#routes-list').empty();
+    addRouteItems(mode, [routeProps[mode][value]]);
 });
 

@@ -11,14 +11,47 @@
     margin: auto;
 }
 
-.bus-route-item {
-    margin-bottom: 15px;
+#pt-layer-select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 20px 0 0 20px;
+    z-index: 2;
+}
+
+#pt-layer-list {
+    display: inline-flex;
+    list-style: none;
+    margin-bottom: 0;
+}
+
+.pt-layer-button {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--gray-600);
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-left: 1px solid var(--gray-200);
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.pt-layer-button:hover {
+    color: white;
+    background-position: left;
+}
+
+.route-item {
+    width: 90%;
+    margin: 0 auto 20px auto;
     border-radius: 5px;
     box-shadow: 1px 0 6px var(--gray-300);
     overflow: hidden
 }
 
-.bus-route-item:hover {
+.route-item:hover {
     box-shadow: 3px 2px 6px var(--gray-400);
     transition: all 0.2s ease-out;
 }
@@ -37,26 +70,76 @@
 .icon-bus {
     width: 50px;
     height: 50px;
-    margin-right: 10px;
+    margin-right: 20px;
     background-image: url("../images/bus_icon.svg");
 }
 
-.bus-route-icon {
-    display: inline-flex;
-    align-items: center;
-    padding: 5px 60px 5px 15px;
-    font-size: 20px;
-    color: white;
-    background-color: var(--bus-orange);
+.icon-tram {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+    background-image: url("../images/tram_icon.svg");
 }
 
-.bus-route-title {
+.route-item-icon {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 30px 5px 15px;
+    font-size: 20px;
+    color: white;
+    /*background-color: var(--bus-orange);*/
+}
+
+.bus-selected {
+    color: white;
+    background: var(--bus-orange);
+}
+
+.tram-selected {
+    color: white;
+    background: var(--tram-green);
+}
+
+.train-selected {
+    color: white;
+    background: var(--train-blue);
+}
+
+.bus-left-border {
+    border-left: 10px solid var(--bus-orange);
+}
+
+.tram-left-border {
+    border-left: 10px solid var(--tram-green);
+}
+
+.train-left-border {
+    border-left: 10px solid var(--train-blue);
+}
+
+.bus-linear-background {
+    background: linear-gradient(to right, var(--bus-orange) 50%, rgba(255, 255, 255, 0.8) 50%) right;
+    background-size: 200%;
+    transition: all 0.2s ease-out;
+}
+
+.tram-linear-background {
+    background: linear-gradient(to right, var(--tram-green) 50%, rgba(255, 255, 255, 0.8) 50%) right;
+    background-size: 200%;
+    transition: all 0.2s ease-out;
+}
+
+.train-linear-background {
+    background: linear-gradient(to right, var(--train-blue) 50%, rgba(255, 255, 255, 0.8) 50%) right;
+    background-size: 200%;
+    transition: all 0.2s ease-out;
+}
+
+.route-item-title {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-right: 20px;
-    background: linear-gradient(to right, var(--bus-orange) 50%, white 50%) right;
-    background-size: 200%;
     transition: all .4s ease-out;
 }
 
@@ -64,19 +147,25 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /*font-weight: 500;*/
     color: white;
     padding-right: 20px;
-    background: var(--bus-orange);
+    /*background-color: var(--bus-orange);*/
 }
 
+.bus-bg {
+    background-color: var(--bus-orange);
+}
 
-.bus-route-title:hover{
+.tram-bg {
+    background-color: var(--tram-green);
+}
+
+.route-item-title:hover{
     color: white;
     background-position: left;
 }
 
-.bus-route-content {
+.route-item-content {
     background-color: var(--gray-100);
 }
 
@@ -112,12 +201,12 @@
 }
 
 #pt-mode-select-wrapper {
-    width: 15%;
+    width: 20%;
     margin-right: 6px;
 }
 
 #pt-route-select-wrapper {
-    width: 73%;
+    width: 68%;
     margin-right: 6px;
 }
 
@@ -142,7 +231,17 @@
     box-shadow: 0 0 0 0 var(--gray-700);
 }
 
-#routes-list {
-    padding-top: 20px;
+#clear-button:focus,
+.pt-layer-button:focus {
+    outline: none;
 }
 
+#routes-list {
+    margin-top: 20px;
+    margin-bottom: 200px;
+}
+
+.mapboxgl-ctrl-geocoder {
+    max-width: 450px;
+    min-width: 400px;
+}

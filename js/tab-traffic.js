@@ -23,7 +23,7 @@ var layerOutlineID = "layerOutlineID";
 var sourceID = "sourceID";
 var styleBase = "tomtom://vector/1/";
 var styleS1 = "s1";
-var styleRelative = "relative-delay";
+var styleRelative = "relative";
 var refreshTimeInMillis = 40000;
 var popupHideDelayInMilis = 4000;
 
