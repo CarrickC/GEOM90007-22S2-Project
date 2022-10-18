@@ -43,14 +43,15 @@
     background-position: left;
 }
 
-.bus-route-item {
-    margin-bottom: 15px;
+.route-item {
+    width: 90%;
+    margin: 0 auto 20px auto;
     border-radius: 5px;
     box-shadow: 1px 0 6px var(--gray-300);
     overflow: hidden
 }
 
-.bus-route-item:hover {
+.route-item:hover {
     box-shadow: 3px 2px 6px var(--gray-400);
     transition: all 0.2s ease-out;
 }
@@ -69,17 +70,24 @@
 .icon-bus {
     width: 50px;
     height: 50px;
-    margin-right: 10px;
+    margin-right: 20px;
     background-image: url("../images/bus_icon.svg");
 }
 
-.bus-route-icon {
+.icon-tram {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+    background-image: url("../images/tram_icon.svg");
+}
+
+.route-item-icon {
     display: inline-flex;
     align-items: center;
-    padding: 5px 60px 5px 15px;
+    padding: 5px 30px 5px 15px;
     font-size: 20px;
     color: white;
-    background-color: var(--bus-orange);
+    /*background-color: var(--bus-orange);*/
 }
 
 .bus-selected {
@@ -127,7 +135,7 @@
     transition: all 0.2s ease-out;
 }
 
-.bus-route-title {
+.route-item-title {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -141,16 +149,23 @@
     justify-content: space-between;
     color: white;
     padding-right: 20px;
-    background: var(--bus-orange);
+    /*background-color: var(--bus-orange);*/
 }
 
+.bus-bg {
+    background-color: var(--bus-orange);
+}
 
-.bus-route-title:hover{
+.tram-bg {
+    background-color: var(--tram-green);
+}
+
+.route-item-title:hover{
     color: white;
     background-position: left;
 }
 
-.bus-route-content {
+.route-item-content {
     background-color: var(--gray-100);
 }
 
@@ -186,12 +201,12 @@
 }
 
 #pt-mode-select-wrapper {
-    width: 15%;
+    width: 20%;
     margin-right: 6px;
 }
 
 #pt-route-select-wrapper {
-    width: 73%;
+    width: 68%;
     margin-right: 6px;
 }
 
@@ -222,6 +237,7 @@
 }
 
 #routes-list {
-    padding-top: 20px;
+    margin-top: 20px;
+    margin-bottom: 200px;
 }
 

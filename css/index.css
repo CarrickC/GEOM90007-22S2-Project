@@ -28,6 +28,10 @@
     color: var(--gray-900);
 }
 
+html {
+    overflow-y: scroll;
+}
+
 #navbar-tabs li {
     list-style: none;
 }
@@ -50,11 +54,11 @@ hr {
 
 #navbar {
     display: flex;
-    justify-content: space-between;
     position: fixed;
+    justify-content: space-between;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     height: var(--web-header-height);
     border-bottom: 1px solid var(--gray-300);
     background-color: white;
@@ -63,13 +67,14 @@ hr {
 
 #navbar-title{
     /*line-height: var(--web-header-height);*/
+    /*position: absolute;*/
     font-family: 'Bungee Inline', cursive;
     font-size: 28px;
     color: var(--gray-900);
     /*background-color: black;*/
     line-height: 30px;
     width: 250px;
-    margin-left: 20px;
+    margin-left: 50px;
     padding: 20px;
 }
 
@@ -79,12 +84,11 @@ hr {
 }
 
 #navbar-tail {
-    width: 250px;
+    width: 400px;
 }
 
 #navbar-tabs {
     display: flex;
-    margin-left: 20px;
 }
 
 .navbar-tab {
