@@ -22,8 +22,8 @@
 .marker {
   border: none;
   cursor: pointer;
-  height: 56px;
-  width: 56px;
+  height: 45px;
+  width: 45px;
 }
 
 .mapboxgl-popup {
