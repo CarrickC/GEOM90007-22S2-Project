@@ -223,10 +223,12 @@
     width: 111px;
 }
 
-
 #map {
-    height: 1080px;
-    width: 1080px;
+    /* height: 1080px;
+    width: 1080px; */
+    position:absolute;
+    width:100%;
+    height:100%;
 }
 
 input:checked+.toggle {
