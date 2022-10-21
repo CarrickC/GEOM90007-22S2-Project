@@ -10,6 +10,7 @@
     bottom: 0;
     right: 0;
     overflow: auto;
+    opacity: 0.7;
 }
 
 
@@ -35,7 +36,6 @@
 }
 
 
-
 #bounding-box-button:hover {
     background-color: #61ADE0;
     color: white;
@@ -43,24 +43,19 @@
 
 .show-traffic-layers {
     color: #b2b2b2;
-    font: 700 14px / normal Gotham;
-    font-stretch: normal;
+    /* font: 700 14px / normal Gotham;
+    font-stretch: normal; */
     height: 16px;
     letter-spacing: -0.25px;
     width: 128px;
 }
 
-.style-relative {
-    font-family: Monaco;
-    font-size: 12px;
-    color: #333333;
-    background-color: #f4f4f4;
-}
+
 
 .app-info-text {
     cursor: pointer;
-    font: 400 12px / normal Noway;
-    font-stretch: normal;
+    /* font: 400 12px / normal Noway;
+    font-stretch: normal; */
     letter-spacing: -0.21px;
 }
 
@@ -68,15 +63,16 @@
     color: #7f7f7f;
 }
 
-
-
 .btn {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
     background-color: #8dc3eb;
     border-color: #8dc3eb;
     border-radius: 0;
     color: #fff;
-    font: 700 14px/1.14 Gotham;
-    padding: 10px;
+    padding: 10px; 
 }
 
 .btn:active {
@@ -84,7 +80,7 @@
     border-color: #e5e5e5;
     box-shadow: none !important;
     color: #ccc;
-}
+} 
 
 .row-border {
     background-color: white;
@@ -116,8 +112,8 @@
 
 .incident-details-list-normal-text {
     color: #000;
-    font: 400 16px / normal Noway;
-    font-stretch: normal;
+    /* font: 400 16px / normal Noway;
+    font-stretch: normal; */
     height: 19px;
     letter-spacing: normal;
     width: 160px;
@@ -125,13 +121,13 @@
 
 .label {
     color: #000;
-    font: 700 14px/1.14 Gotham;
-    font-stretch: normal;
+    /* font: 700 14px/1.14 Gotham;
+    font-stretch: normal; */
     letter-spacing: -0.25px;
 }
 
 .legend-font {
-    font: 700 12px/1.33 Gotham;
+    /* font: 700 12px/1.33 Gotham; */
     letter-spacing: normal;
 }
 
@@ -146,8 +142,6 @@
 }
 
 
-
-
 .modal-header {
     border-bottom: none;
 }
@@ -160,15 +154,12 @@
     display: flex;
     flex-direction: column;
     max-width: 364px;
-    background-color: #f2f2f2;
+    /* background-color: #f2f2f2; */
+    width: 300px;
+    height: 300px;
+    opacity: 0.9;
 }
 
-.style-relative {
-    color: #333;
-    font: 400 12px / normal Monaco;
-    font-stretch: normal;
-    letter-spacing: -0.21px;
-}
 
 .switch {
     display: inline-block;
@@ -225,8 +216,8 @@
 
 .traffic-text {
     color: #000;
-    font: 700 14px/1.14 Gotham;
-    font-stretch: normal;
+    /* font: 700 14px/1.14 Gotham;
+    font-stretch: normal; */
     height: 16px;
     letter-spacing: -0.25px;
     width: 111px;
@@ -234,7 +225,7 @@
 
 
 #map {
-    height: 550px;
+    height: 1080px;
     width: 1080px;
 }
 
@@ -251,8 +242,6 @@ input:focus+.toggle {
 }
 
 
-
-
 /*
     Layer Selection
 */
@@ -263,6 +252,7 @@ input:focus+.toggle {
     left: 0;
     margin: 20px 0 0 20px;
     z-index: 2;
+    height: 600px;
 }
 
 #tf-layer-list {
