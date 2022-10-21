@@ -192,21 +192,20 @@ parkMap.on('idle', () => {
             console.log(id);
             continue;
         }
-
+        //link = document.createElement('a');
 // Create a link.
-        const link = document.createElement('a');
-        link.id = id;
-        link.href = '#';
-        if (id === 'on-street-parking-bays-cjix2f') {
-            link.textContent = 'on-street-parking-bay';
-        } else {
-            link.textContent = 'off-street-parking-bay';
-        }
-        link.className = 'active';
-
+    const link = document.createElement('a');
+    link.id = id;
+    link.href = '#';
+    if (id === 'on-street-parking-bays-cjix2f') {
+        link.textContent = 'on-street-parking-bay';
+    } else {
+        link.textContent = 'off-street-parking-bay';
+    }
+    link.className = 'active';
 // Show or hide layer when the toggle is clicked.
         link.onclick = function (e) {
-            const clickedLayer = this.id;
+            clickedLayer = this.id;
             e.preventDefault();
             e.stopPropagation();
 
@@ -229,7 +228,7 @@ parkMap.on('idle', () => {
             }
         };
 
-        const layers = document.getElementById('menu');
+        const layers = document.getElementById('park-menu');
         layers.appendChild(link);
     }
 });
