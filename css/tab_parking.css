@@ -1,6 +1,3 @@
-body {
-    margin: 0;
-}
 
 #park-map {
     /*position: absolute;*/
@@ -10,7 +7,7 @@ body {
     height: 500px;
 }
 
-.map-overlay {
+.park-map-overlay {
     position: absolute;
     z-index: 100;
     background: rgba(255, 255, 255, 0.8);
@@ -20,9 +17,9 @@ body {
 }
 
 
-#title {
-    top: 0;
-    left: 20px;
+#park-title {
+    top: 70px;
+    left: 10px;
     height: auto;
     margin-top: 20px;
     width: 350px;
@@ -32,15 +29,6 @@ h2 {
     margin: 10px;
     font-size: 1.2em;
     text-align: left;
-}
-
-.mapboxgl-popup {
-    max-width: 200px;
-}
-
-.mapboxgl-popup-content {
-    text-align: center;
-    font-family: 'Arial', sans-serif;
 }
 
 .boxdraw {
@@ -53,11 +41,11 @@ h2 {
     height: 0;
 }
 
-#menu {
+#park-menu {
     background: #fff;
     position: absolute;
     z-index: 1;
-    top: 100px;
+    top: 150px;
     left: 10px;
     border-radius: 3px;
     width: 120px;
@@ -65,7 +53,7 @@ h2 {
     font-family: 'Open Sans', sans-serif;
 }
 
-#menu a {
+#park-menu a {
     font-size: 13px;
     color: #404040;
     display: block;
@@ -77,20 +65,20 @@ h2 {
     text-align: center;
 }
 
-#menu a:last-child {
+#park-menu a:last-child {
     border: none;
 }
 
-#menu a:hover {
+#park-menu a:hover {
     background-color: #f8f8f8;
     color: #404040;
 }
 
-#menu a.active {
+#park-menu a.active {
     background-color: #3887be;
     color: #ffffff;
 }
 
-#menu a.active:hover {
+#park-menu a.active:hover {
     background: #3074a4;
 }
