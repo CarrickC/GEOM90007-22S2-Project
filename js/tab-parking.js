@@ -28,7 +28,7 @@ parkMap.addControl(
 );
 parkMap.on('load', e => {
     // the rest of the code goes in here
-    parkMap.on('click', 'on-street-parking-bays-9bafrm', e => {
+    parkMap.on('click', 'on-street-parking-bays-cjix2f', e => {
         console.log(e.features[0].properties);
         new mapboxgl.Popup()
             .setLngLat(e.lngLat)
@@ -113,7 +113,7 @@ parkMap.on('load', e => {
 // If bbox exists. use this value as the argument for `queryRenderedFeatures`
         if (bbox) {
             const features = parkMap.queryRenderedFeatures(bbox, {
-                layers: ['on-street-parking-bays-9bafrm']
+                layers: ['on-street-parking-bays-cjix2f']
             });
 
             // if (features.length >= 1000) {
@@ -123,14 +123,14 @@ parkMap.on('load', e => {
 
             const ids = features.map((feature) => feature.properties['bay_id']);
 
-            parkMap.setFilter('on-street-parking-bays-9bafrm', ['in', 'bay_id', ...ids]);
+            parkMap.setFilter('on-street-parking-bays-cjix2f', ['in', 'bay_id', ...ids]);
         }
 
         parkMap.dragPan.enable();
     }
 
 
-    parkMap.on('click', 'off-street-car-parks-with-cap-5egxe9', e => {
+    parkMap.on('click', 'off-street-car-parks-with-cap-aw9fts', e => {
         console.log(e.features[0].properties);
         new mapboxgl.Popup()
             .setLngLat(e.lngLat)
@@ -144,16 +144,16 @@ parkMap.on('load', e => {
 parkMap.on('click', (e) => {
     let feats = parkMap.queryRenderedFeatures(
         e.point,
-        {layers: ['on-street-parking-bays-9bafrm']}
+        {layers: ['on-street-parking-bays-cjix2f']}
     );
 
     if (feats.length === 0) {
-        parkMap.setFilter('on-street-parking-bays-9bafrm', null);
+        parkMap.setFilter('on-street-parking-bays-cjix2f', null);
     }
 });
 parkMap.on('mousemove', (e) => {
     const features = parkMap.queryRenderedFeatures(e.point, {
-        layers: ['on-street-parking-bays-9bafrm']
+        layers: ['on-street-parking-bays-cjix2f']
     });
 
     // Change the cursor style as a UI indicator.
@@ -171,17 +171,17 @@ parkMap.on('mousemove', (e) => {
 });
 parkMap.on('idle', () => {
 // If these two layers were not added to the map, abort
-    if (!parkMap.getLayer('on-street-parking-bays-9bafrm') || !parkMap.getLayer('off-street-car-parks-with-cap-5egxe9')) {
+    if (!parkMap.getLayer('on-street-parking-bays-cjix2f') || !parkMap.getLayer('off-street-car-parks-with-cap-aw9fts')) {
         return;
     }
 
 // Enumerate ids of the layers.
     const toggleableLayerIds =
         [
-            'on-street-parking-bays-9bafrm',
+            'on-street-parking-bays-cjix2f',
 
 
-            'off-street-car-parks-with-cap-5egxe9'
+            'off-street-car-parks-with-cap-aw9fts'
         ]
     ;
 
@@ -197,7 +197,7 @@ parkMap.on('idle', () => {
         const link = document.createElement('a');
         link.id = id;
         link.href = '#';
-        if (id === 'on-street-parking-bays-9bafrm') {
+        if (id === 'on-street-parking-bays-cjix2f') {
             link.textContent = 'on-street-parking-bay';
         } else {
             link.textContent = 'off-street-parking-bay';
