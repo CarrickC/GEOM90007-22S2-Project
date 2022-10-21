@@ -1,8 +1,8 @@
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiY2NhcnJpY2tjYyIsImEiOiJjbDkxaW0yc3AxYXJ3M3Z0NWc2a3d5d3RoIn0.DsBfI0AbR2c_ZEfvrUXNEA';
+mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JvdXA5MiIsImEiOiJjbDk3YzEyaGIyd2lqM3VteDV4Nmtqd3ZnIn0.f3fuko4inv9oX1FwG5DZcw';
 let ptMap = new mapboxgl.Map({
     container: 'bus-map',
-    style: 'mapbox://styles/ccarrickcc/cl91jeqf6001214mos5t57hx7',
+    style: 'mapbox://styles/group92/cl9iwhbdt000115nzsxnrxmmz',
     center: [144.956785, -37.812000],
     zoom: 11.9
 });
@@ -77,6 +77,7 @@ let modeSelectize = $('#pt-mode-select').selectize({
     options: [
         {mode: 'Bus'},
         {mode: 'Tram'},
+        {mode: 'Train'},
     ],
     items: ['Bus'],
     create: false,
