@@ -91,6 +91,13 @@ hr {
     display: flex;
 }
 
+#overview_chart {
+        width: 100%;
+        height: 500px;
+        margin: 0;
+        padding: 0;
+      }
+
 .navbar-tab {
     display: inline-block;
     font-weight: bold;

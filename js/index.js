@@ -23,8 +23,6 @@ respondToVisibility = function(element, callback) {
 
 anychart.onDocumentReady(function() {
 
-        // add data
-
         var data = [
           ["Jan", 14774380, 16966847, 7927612],
           ["Feb", 16040904, 19792614, 10333573],
@@ -75,7 +73,7 @@ anychart.onDocumentReady(function() {
         chart.title("Average Monthly Public Transport Flow From 2018 To 2020");
 
         // specify where to display the chart
-        chart.container("container");
+        chart.container("overview_chart");
 
         // draw the resulting chart
         chart.draw();
