@@ -1,43 +1,9 @@
-<!DOCTYPE HTML>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title> car park </title>
-    <link href="../css/tab-parking.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css" rel="stylesheet">
-    <style>
-        .boxdraw {
-            background: rgba(56, 135, 190, 0.1);
-            border: 2px solid #3887be;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-        }
-    </style>
-</head>
-<body>
-<!-- Load the `mapbox-gl-geocoder` plugin. -->
-<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
-<link rel="stylesheet"
-      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
-      type="text/css">
-
-<div id="map"></div>
-<div class="map-overlay" id="legend"></div>
-<div class="map-overlay" id="title">
-    <h2>On-street car park and off-street car </h2>
-</div>
-
-<script>
-    mapboxgl.accessToken = 'pk.eyJ1Ijoiemw3NTMiLCJhIjoiY2w5NDZrazlpMDlnMTN3cjJkem5wZnh4bCJ9.JN_WlrfvOBLWZdOfxL322Q';
-    var pmap = new mapboxgl.Map({
+mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JvdXA5MiIsImEiOiJjbDk3YzEyaGIyd2lqM3VteDV4Nmtqd3ZnIn0.f3fuko4inv9oX1FwG5DZcw';
+    const pmap = new mapboxgl.Map({
         container: 'map',
-        style: 'mapbox://styles/zl753/cl9du7bcj000s15s0jjz7c2c7/draft'
+        style: 'mapbox://styles/group92/cl9if3y0v000115mk30nlomdj'
     });
-    pmap.boxZoom.disable();
+    //pmap.boxZoom.disable(); 
 
     // Create a popup, but don't add it to the map yet.
     const popup = new mapboxgl.Popup({
@@ -146,7 +112,7 @@
 
 
                 const ids = features.map((feature) => feature.properties['bay_id']);
-                console.log(features);
+               
                 pmap.setFilter('on-street-parking-bays-9bafrm', ['in', 'bay_id', ...ids]);
             }
 
@@ -154,32 +120,14 @@
         }
 
 
-        pmap.on('mousemove', (e) => {
-            const features = pmap.queryRenderedFeatures(e.point, {
-                layers: ['on-street-parking-bays-9bafrm']
-            });
-
-// Change the cursor style as a UI indicator.
-            pmap.getCanvas().style.cursor = features.length ? 'pointer' : '';
-
-
-            if (!features.length) {
-                popup.remove();
-                return;
-            }
-            popup
-                .setLngLat(e.lngLat)
-                .setText(e.features[0].properties['bay_id'])
-                .addTo(pmap);
-
-        });
+      
 
 
         pmap.on('click', 'off-street-car-parks-with-cap-5egxe9', e => {
             console.log(e.features[0].properties);
             new mapboxgl.Popup()
                 .setLngLat(e.lngLat)
-                .setHTML('Address: ' + e.features[0].properties['street_nam'] + '<br>' + 'Available space: ' + e.features[0].properties.parking_sp)
+                .setHTML('Address: ' + e.features[0].properties['street_nam'] + '<br>' + 'Available space: ' + parseInt(e.features[0].properties.parking_sp))
 
                 .addTo(pmap);
             // the code in step 3 below must go in here
@@ -196,7 +144,85 @@
             pmap.setFilter('on-street-parking-bays-9bafrm', null);
         }
     });
-</script>
+	pmap.on('mousemove', (e) => {
+    const features = pmap.queryRenderedFeatures(e.point, {
+      layers: ['on-street-parking-bays-9bafrm']
+      });
+ 
+    // Change the cursor style as a UI indicator.
+    pmap.getCanvas().style.cursor = features.length ? 'pointer' : '';
+ 
+    if (!features.length) {
+      popup.remove();
+      return;
+    }
 
-</body>
-</html>
+    popup
+    .setLngLat(e.lngLat)
+    .setText(features[0].properties.rd_seg_dsc)
+    .addTo(pmap);
+});
+pmap.on('idle', () => {
+// If these two layers were not added to the map, abort
+if (!pmap.getLayer('on-street-parking-bays-9bafrm') || !pmap.getLayer('off-street-car-parks-with-cap-5egxe9')) {
+return;
+}
+ 
+// Enumerate ids of the layers.
+const toggleableLayerIds = 
+   [
+    'on-street-parking-bays-9bafrm' ,
+    
+   
+    'off-street-car-parks-with-cap-5egxe9'
+    ]
+;
+
+// Set up the corresponding toggle button for each layer.
+for (const id of toggleableLayerIds) {
+// Skip layers that already have a button set up.
+if (document.getElementById(id)) {
+  console.log(id);
+continue;
+}
+ 
+// Create a link.
+const link = document.createElement('a');
+link.id = id;
+link.href = '#';
+if(id=='on-street-parking-bays-9bafrm'){
+  link.textContent = 'on-street-parking-bay';
+}else{
+  link.textContent = 'off-street-parking-bay';
+}
+link.className = 'active';
+ 
+// Show or hide layer when the toggle is clicked.
+link.onclick = function (e) {
+const clickedLayer = this.id;
+e.preventDefault();
+e.stopPropagation();
+ 
+const visibility = pmap.getLayoutProperty(
+clickedLayer,
+'visibility'
+);
+ 
+// Toggle layer visibility by changing the layout object's visibility property.
+if (visibility === 'visible') {
+pmap.setLayoutProperty(clickedLayer, 'visibility', 'none');
+this.className = '';
+} else {
+this.className = 'active';
+pmap.setLayoutProperty(
+clickedLayer,
+'visibility',
+'visible'
+);
+}
+};
+ 
+const layers = document.getElementById('menu');
+layers.appendChild(link);
+}
+});
