@@ -85,8 +85,8 @@
 }
 
 .btn {
-    background-color: #8dc3eb;
-    border-color: #8dc3eb;
+    background-color: var(--gray-800);
+    border-color: var(--gray-800);
     border-radius: 0;
     color: #fff;
     font: 700 14px/1.14 Gotham;
