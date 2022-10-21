@@ -1,32 +1,42 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JvdXA5MiIsImEiOiJjbDk3YzEyaGIyd2lqM3VteDV4Nmtqd3ZnIn0.f3fuko4inv9oX1FwG5DZcw';
-const pmap = new mapboxgl.Map({
+const parkMap = new mapboxgl.Map({
     container: 'park-map',
     style: 'mapbox://styles/group92/cl9if3y0v000115mk30nlomdj'
 });
 //pmap.boxZoom.disable();
+
+parkMap.on('render', function () {
+    parkMap.resize();
+});
+
+respondToVisibility($('#park-map')[0], visible => {
+    if (visible) {
+        parkMap.resize();
+    }
+});
 
 // Create a popup, but don't add it to the map yet.
 const popup = new mapboxgl.Popup({
     closeButton: false
 });
 // Add the control to the map.
-pmap.addControl(
+parkMap.addControl(
     new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl
     })
 );
-pmap.on('load', e => {
+parkMap.on('load', e => {
     // the rest of the code goes in here
-    pmap.on('click', 'on-street-parking-bays-9bafrm', e => {
+    parkMap.on('click', 'on-street-parking-bays-9bafrm', e => {
         console.log(e.features[0].properties);
         new mapboxgl.Popup()
             .setLngLat(e.lngLat)
             .setHTML('Address: ' + e.features[0].properties.rd_seg_dsc)
-            .addTo(pmap);
+            .addTo(parkMap);
         // the code in step 3 below must go in here
     });
-    const canvas = pmap.getCanvasContainer();
+    const canvas = parkMap.getCanvasContainer();
     let start;
     let current;
     let box;
@@ -46,7 +56,7 @@ pmap.on('load', e => {
         if (!(e.shiftKey && e.button === 0)) return;
 
 // Disable default drag zooming when the shift key is held down.
-        pmap.dragPan.disable();
+        parkMap.dragPan.disable();
 
 // Call functions for the following events
         document.addEventListener('mousemove', onMouseMove);
@@ -102,7 +112,7 @@ pmap.on('load', e => {
 
 // If bbox exists. use this value as the argument for `queryRenderedFeatures`
         if (bbox) {
-            const features = pmap.queryRenderedFeatures(bbox, {
+            const features = parkMap.queryRenderedFeatures(bbox, {
                 layers: ['on-street-parking-bays-9bafrm']
             });
 
@@ -113,41 +123,41 @@ pmap.on('load', e => {
 
             const ids = features.map((feature) => feature.properties['bay_id']);
 
-            pmap.setFilter('on-street-parking-bays-9bafrm', ['in', 'bay_id', ...ids]);
+            parkMap.setFilter('on-street-parking-bays-9bafrm', ['in', 'bay_id', ...ids]);
         }
 
-        pmap.dragPan.enable();
+        parkMap.dragPan.enable();
     }
 
 
-    pmap.on('click', 'off-street-car-parks-with-cap-5egxe9', e => {
+    parkMap.on('click', 'off-street-car-parks-with-cap-5egxe9', e => {
         console.log(e.features[0].properties);
         new mapboxgl.Popup()
             .setLngLat(e.lngLat)
             .setHTML('Address: ' + e.features[0].properties['street_nam'] + '<br>' + 'Available space: ' + parseInt(e.features[0].properties.parking_sp))
 
-            .addTo(pmap);
+            .addTo(parkMap);
         // the code in step 3 below must go in here
     });
 });
 
-pmap.on('click', (e) => {
-    let feats = pmap.queryRenderedFeatures(
+parkMap.on('click', (e) => {
+    let feats = parkMap.queryRenderedFeatures(
         e.point,
         {layers: ['on-street-parking-bays-9bafrm']}
     );
 
     if (feats.length === 0) {
-        pmap.setFilter('on-street-parking-bays-9bafrm', null);
+        parkMap.setFilter('on-street-parking-bays-9bafrm', null);
     }
 });
-pmap.on('mousemove', (e) => {
-    const features = pmap.queryRenderedFeatures(e.point, {
+parkMap.on('mousemove', (e) => {
+    const features = parkMap.queryRenderedFeatures(e.point, {
         layers: ['on-street-parking-bays-9bafrm']
     });
 
     // Change the cursor style as a UI indicator.
-    pmap.getCanvas().style.cursor = features.length ? 'pointer' : '';
+    parkMap.getCanvas().style.cursor = features.length ? 'pointer' : '';
 
     if (!features.length) {
         popup.remove();
@@ -157,11 +167,11 @@ pmap.on('mousemove', (e) => {
     popup
         .setLngLat(e.lngLat)
         .setText(features[0].properties.rd_seg_dsc)
-        .addTo(pmap);
+        .addTo(parkMap);
 });
-pmap.on('idle', () => {
+parkMap.on('idle', () => {
 // If these two layers were not added to the map, abort
-    if (!pmap.getLayer('on-street-parking-bays-9bafrm') || !pmap.getLayer('off-street-car-parks-with-cap-5egxe9')) {
+    if (!parkMap.getLayer('on-street-parking-bays-9bafrm') || !parkMap.getLayer('off-street-car-parks-with-cap-5egxe9')) {
         return;
     }
 
@@ -200,18 +210,18 @@ pmap.on('idle', () => {
             e.preventDefault();
             e.stopPropagation();
 
-            const visibility = pmap.getLayoutProperty(
+            const visibility = parkMap.getLayoutProperty(
                 clickedLayer,
                 'visibility'
             );
 
 // Toggle layer visibility by changing the layout object's visibility property.
             if (visibility === 'visible') {
-                pmap.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                parkMap.setLayoutProperty(clickedLayer, 'visibility', 'none');
                 this.className = '';
             } else {
                 this.className = 'active';
-                pmap.setLayoutProperty(
+                parkMap.setLayoutProperty(
                     clickedLayer,
                     'visibility',
                     'visible'
