@@ -89,7 +89,8 @@ modeSelectize.on('change', function(value) {
 });
 
 $('#clear-button').on('click', () => {
-    routeSelectize.clear(false);
+    // routeSelectize.clear(false);
+    $('#routes-list').empty();
 });
 
 ptMap.on('load', () => {
