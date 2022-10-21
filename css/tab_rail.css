@@ -1,91 +1,96 @@
 #rail-map {
     width: var(--map-width);
-        min-width: var(--map-min-width);
-        height: 700px;
-        margin: auto;
+    min-width: var(--map-min-width);
+    height: 700px;
+    margin: auto;
 }
-.center-content{
+
+.center-content {
     width: var(--content-width);
     min-width: var(--content-min-width);
     margin: auto;
 }
+
 .map-overlay {
-  position: absolute;
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.8);
-  font-family: Arial, sans-serif;
-  overflow: auto;
-  border-radius: 3px;
+    position: absolute;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.8);
+    font-family: Arial, sans-serif;
+    overflow: auto;
+    border-radius: 3px;
 }
 
 
 .marker {
-  border: none;
-  cursor: pointer;
-  height: 45px;
-  width: 45px;
+    border: none;
+    cursor: pointer;
+    height: 45px;
+    width: 45px;
 }
 
 .mapboxgl-popup {
-  padding-bottom: 500px;
+    padding-bottom: 500px;
 }
 
 .mapboxgl-popup-close-button {
-  display: none;
+    display: none;
 }
 
 .mapboxgl-popup-content {
-  font: 12px/20px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
-  padding: 0;
-  width: 500px;
+    font: 12px/20px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+    padding: 0;
+    width: 500px;
 }
 
 .mapboxgl-popup-content h4 {
-  background: #91c949;
-  color: #fff;
-  margin: 0px;
-  padding: 14px;
-  border-radius: 3px 3px 0 0;
-  font-weight: 400;
-  margin-top: -10px;
-  width: 500px;
+    background: #91c949;
+    color: #fff;
+    margin: 0px;
+    padding: 14px;
+    border-radius: 3px 3px 0 0;
+    font-weight: 400;
+    margin-top: -10px;
+    width: 500px;
 }
+
 .mapboxgl-popup-content h5 {
-  color: black
-  margin: 0px;
-  padding: 14px;
-  border-radius: 3px 3px 0 0;
-  font-weight: 400;
-  margin-top: -10px;
-  width: 500px;
+    color: black;
+    margin: 0px;
+    padding: 14px;
+    border-radius: 3px 3px 0 0;
+    font-weight: 400;
+    margin-top: -10px;
+    width: 500px;
 }
+
 .mapboxgl-popup-content h6 {
-  text-align: center;
-  width: 500px;
+    text-align: center;
+    width: 500px;
 }
+
 .mapboxgl-popup-content h7 {
-  font-weight: 400;
-  width: 200px;
+    font-weight: 400;
+    width: 200px;
 }
 
 .mapboxgl-popup-content div {
-  padding: 5px;
+    padding: 5px;
 }
 
 .header {
-  font-family: 'Roboto Slab', sans-serif;
-  color: white;
-  text-shadow: 0 0 5px black;
-  text-align: center;
-  padding: 2em 0;
-  background: linear-gradient(to bottom, rgba(0,36,2,0.94) 0%, rgba(14,181,17,0.85) 100%),
+    font-family: 'Roboto Slab', sans-serif;
+    color: white;
+    text-shadow: 0 0 5px black;
+    text-align: center;
+    padding: 2em 0;
+    background: linear-gradient(to bottom, rgba(0, 36, 2, 0.94) 0%, rgba(14, 181, 17, 0.85) 100%),
     url("https://www.littlegreenworkshops.com.au/wp-content/uploads/2018/08/Australian-bush.jpg");
-  background-size: cover;
+    background-size: cover;
 }
 
 .content {
-  max-width: 20em;
-  margin: auto;
-  padding-left: 1em;
-  padding-right: 1em;
+    max-width: 20em;
+    margin: auto;
+    padding-left: 1em;
+    padding-right: 1em;
 }

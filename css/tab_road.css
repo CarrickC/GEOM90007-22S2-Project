@@ -64,12 +64,8 @@
 }
 
 .btn {
-    display: block;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #8dc3eb;
-    border-color: #8dc3eb;
+    background-color: var(--gray-800);
+    border-color: var(--gray-800);
     border-radius: 0;
     color: #fff;
     padding: 10px; 
