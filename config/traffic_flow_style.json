@@ -1,0 +1,3312 @@
+{
+  "version": 8,
+  "name": "custom_traffic",
+  "metadata": {},
+  "sources": {
+    "vectorTiles": {
+      "maxzoom": 22,
+      "minzoom": 0,
+      "tiles": [
+        "https://a.api.tomtom.com/map/2/tile/basic/{z}/{x}/{y}.pbf?key=NXXiqvnNA5ONcLNg0m7Cf9O2JWULZfVq",
+        "https://b.api.tomtom.com/map/2/tile/basic/{z}/{x}/{y}.pbf?key=NXXiqvnNA5ONcLNg0m7Cf9O2JWULZfVq",
+        "https://c.api.tomtom.com/map/2/tile/basic/{z}/{x}/{y}.pbf?key=NXXiqvnNA5ONcLNg0m7Cf9O2JWULZfVq",
+        "https://d.api.tomtom.com/map/2/tile/basic/{z}/{x}/{y}.pbf?key=NXXiqvnNA5ONcLNg0m7Cf9O2JWULZfVq"
+      ],
+      "type": "vector"
+    },
+    "vectorTilesFlow": {
+      "maxzoom": 22,
+      "minzoom": 0,
+      "tiles": [
+        "https://a.api.tomtom.com/traffic/map/4/tile/flow/relative/{z}/{x}/{y}.pbf?key=NXXiqvnNA5ONcLNg0m7Cf9O2JWULZfVq&tags=[road_category,road_subcategory,traffic_level,left_hand_traffic,road_closure]",
+        "https://b.api.tomtom.com/traffic/map/4/tile/flow/relative/{z}/{x}/{y}.pbf?key=NXXiqvnNA5ONcLNg0m7Cf9O2JWULZfVq&tags=[road_category,road_subcategory,traffic_level,left_hand_traffic,road_closure]",
+        "https://c.api.tomtom.com/traffic/map/4/tile/flow/relative/{z}/{x}/{y}.pbf?key=NXXiqvnNA5ONcLNg0m7Cf9O2JWULZfVq&tags=[road_category,road_subcategory,traffic_level,left_hand_traffic,road_closure]",
+        "https://d.api.tomtom.com/traffic/map/4/tile/flow/relative/{z}/{x}/{y}.pbf?key=NXXiqvnNA5ONcLNg0m7Cf9O2JWULZfVq&tags=[road_category,road_subcategory,traffic_level,left_hand_traffic,road_closure]"
+      ],
+      "type": "vector"
+    }
+  },
+  "sprite": "https://api.tomtom.com/style/1/sprite/23.1.0-7/sprite?map=2%2Fbasic_street-light&traffic_flow=2%2Fflow_relative-light&key=NXXiqvnNA5ONcLNg0m7Cf9O2JWULZfVq",
+  "glyphs": "https://api.tomtom.com/style/1/glyph/23.1.0-7/{fontstack}/{range}.pbf?key=NXXiqvnNA5ONcLNg0m7Cf9O2JWULZfVq",
+  "layers": [
+    {
+      "id": "Traffic - Free flow outline",
+      "type": "line",
+      "metadata": {"group": "flow"},
+      "source": "vectorTilesFlow",
+      "source-layer": "Traffic flow",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        [">=", ["get", "traffic_level"], 0.75],
+        [
+          "any",
+          [
+            "all",
+            [">=", ["zoom"], 6],
+            [
+              "any",
+              ["==", ["get", "road_category"], "motorway"],
+              ["==", ["get", "road_category"], "trunk"]
+            ]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 8.5],
+            ["==", ["get", "road_category"], "primary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 9.5],
+            ["==", ["get", "road_category"], "secondary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 10.5],
+            ["==", ["get", "road_subcategory"], "connecting"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 11.5],
+            ["==", ["get", "road_subcategory"], "major_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 12.5],
+            ["==", ["get", "road_subcategory"], "local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 13.5],
+            ["==", ["get", "road_subcategory"], "minor_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 14.5],
+            ["==", ["has", "road_category"], true]
+          ]
+        ]
+      ],
+      "layout": {
+        "line-cap": ["step", ["zoom"], "butt", 15, "round"],
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "hsl(138, 52%, 40%)",
+        "line-offset": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "+",
+            0.75,
+            [
+              "*",
+              0.8,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                0.5,
+                ["trunk"],
+                0.25,
+                0
+              ]
+            ]
+          ],
+          9,
+          [
+            "+",
+            1,
+            [
+              "*",
+              0.6,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                2.5,
+                ["trunk"],
+                2.25,
+                ["primary"],
+                2,
+                ["secondary"],
+                1.75,
+                ["tertiary"],
+                [
+                  "match",
+                  ["get", "road_subcategory"],
+                  ["connecting"],
+                  1.5,
+                  1.25
+                ],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+                0
+              ]
+            ]
+          ],
+          13,
+          [
+            "+",
+            1.5,
+            [
+              "*",
+              0.4,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                4.5,
+                ["trunk"],
+                4,
+                ["primary"],
+                3.5,
+                ["secondary"],
+                3,
+                ["tertiary"],
+                ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+                0
+              ]
+            ]
+          ],
+          19,
+          [
+            "+",
+            3,
+            [
+              "*",
+              0.2,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                44,
+                ["trunk"],
+                40,
+                ["primary"],
+                36,
+                ["secondary"],
+                32,
+                ["tertiary"],
+                ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+                12
+              ]
+            ]
+          ]
+        ],
+        "line-opacity": 1
+      }
+    },
+    {
+      "id": "Traffic - Free flow",
+      "type": "line",
+      "metadata": {"group": "flow"},
+      "source": "vectorTilesFlow",
+      "source-layer": "Traffic flow",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        [">=", ["get", "traffic_level"], 0.75],
+        [
+          "any",
+          [
+            "all",
+            [">=", ["zoom"], 6],
+            [
+              "any",
+              ["==", ["get", "road_category"], "motorway"],
+              ["==", ["get", "road_category"], "trunk"]
+            ]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 8.5],
+            ["==", ["get", "road_category"], "primary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 9.5],
+            ["==", ["get", "road_category"], "secondary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 10.5],
+            ["==", ["get", "road_subcategory"], "connecting"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 11.5],
+            ["==", ["get", "road_subcategory"], "major_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 12.5],
+            ["==", ["get", "road_subcategory"], "local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 13.5],
+            ["==", ["get", "road_subcategory"], "minor_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 14.5],
+            ["==", ["has", "road_category"], true]
+          ]
+        ]
+      ],
+      "layout": {
+        "line-cap": ["step", ["zoom"], "butt", 15, "round"],
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "hsl(146, 78%, 53%)",
+        "line-offset": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            0.8,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            0.6,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            0.4,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            0.2,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Traffic - Slow flow outline",
+      "type": "line",
+      "metadata": {"group": "flow"},
+      "source": "vectorTilesFlow",
+      "source-layer": "Traffic flow",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        ["<", ["get", "traffic_level"], 0.75],
+        [">=", ["get", "traffic_level"], 0.35],
+        [
+          "any",
+          [
+            "all",
+            [">=", ["zoom"], 6],
+            [
+              "any",
+              ["==", ["get", "road_category"], "motorway"],
+              ["==", ["get", "road_category"], "trunk"]
+            ]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 8.5],
+            ["==", ["get", "road_category"], "primary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 9.5],
+            ["==", ["get", "road_category"], "secondary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 10.5],
+            ["==", ["get", "road_subcategory"], "connecting"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 11.5],
+            ["==", ["get", "road_subcategory"], "major_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 12.5],
+            ["==", ["get", "road_subcategory"], "local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 13.5],
+            ["==", ["get", "road_subcategory"], "minor_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 14.5],
+            ["==", ["has", "road_category"], true]
+          ]
+        ]
+      ],
+      "layout": {
+        "line-cap": ["step", ["zoom"], "butt", 15, "round"],
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "hsl(26, 100%, 50%)",
+        "line-offset": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "+",
+            0.75,
+            [
+              "*",
+              0.8,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                0.5,
+                ["trunk"],
+                0.25,
+                0
+              ]
+            ]
+          ],
+          9,
+          [
+            "+",
+            1,
+            [
+              "*",
+              0.6,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                2.5,
+                ["trunk"],
+                2.25,
+                ["primary"],
+                2,
+                ["secondary"],
+                1.75,
+                ["tertiary"],
+                [
+                  "match",
+                  ["get", "road_subcategory"],
+                  ["connecting"],
+                  1.5,
+                  1.25
+                ],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+                0
+              ]
+            ]
+          ],
+          13,
+          [
+            "+",
+            1.5,
+            [
+              "*",
+              0.4,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                4.5,
+                ["trunk"],
+                4,
+                ["primary"],
+                3.5,
+                ["secondary"],
+                3,
+                ["tertiary"],
+                ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+                0
+              ]
+            ]
+          ],
+          19,
+          [
+            "+",
+            3,
+            [
+              "*",
+              0.2,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                44,
+                ["trunk"],
+                40,
+                ["primary"],
+                36,
+                ["secondary"],
+                32,
+                ["tertiary"],
+                ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+                12
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Traffic - Slow flow",
+      "type": "line",
+      "metadata": {"group": "flow"},
+      "source": "vectorTilesFlow",
+      "source-layer": "Traffic flow",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        ["<", ["get", "traffic_level"], 0.75],
+        [">=", ["get", "traffic_level"], 0.35],
+        [
+          "any",
+          [
+            "all",
+            [">=", ["zoom"], 6],
+            [
+              "any",
+              ["==", ["get", "road_category"], "motorway"],
+              ["==", ["get", "road_category"], "trunk"]
+            ]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 8.5],
+            ["==", ["get", "road_category"], "primary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 9.5],
+            ["==", ["get", "road_category"], "secondary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 10.5],
+            ["==", ["get", "road_subcategory"], "connecting"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 11.5],
+            ["==", ["get", "road_subcategory"], "major_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 12.5],
+            ["==", ["get", "road_subcategory"], "local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 13.5],
+            ["==", ["get", "road_subcategory"], "minor_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 14.5],
+            ["==", ["has", "road_category"], true]
+          ]
+        ]
+      ],
+      "layout": {
+        "line-cap": ["step", ["zoom"], "butt", 15, "round"],
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "hsl(45, 100%, 51%)",
+        "line-offset": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            0.8,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            0.6,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            0.4,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            0.2,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Traffic - Slow flow pattern",
+      "type": "line",
+      "metadata": {"group": "flow"},
+      "source": "vectorTilesFlow",
+      "source-layer": "Traffic flow",
+      "minzoom": 14,
+      "filter": [
+        "all",
+        ["<", ["get", "traffic_level"], 0.75],
+        [">=", ["get", "traffic_level"], 0.35]
+      ],
+      "layout": {"line-cap": "round", "line-join": "round"},
+      "paint": {
+        "line-color": "hsl(45, 100%, 51%)",
+        "line-offset": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ],
+        "line-opacity": {"stops": [[14, 0], [15, 1]]},
+        "line-pattern": "traffic-flow-slow",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            0.8,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            0.6,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            0.4,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            0.2,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Traffic - Queueing flow outline",
+      "type": "line",
+      "metadata": {"group": "flow"},
+      "source": "vectorTilesFlow",
+      "source-layer": "Traffic flow",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        ["<", ["get", "traffic_level"], 0.35],
+        [">=", ["get", "traffic_level"], 0.15],
+        [
+          "any",
+          [
+            "all",
+            [">=", ["zoom"], 6],
+            [
+              "any",
+              ["==", ["get", "road_category"], "motorway"],
+              ["==", ["get", "road_category"], "trunk"]
+            ]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 8.5],
+            ["==", ["get", "road_category"], "primary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 9.5],
+            ["==", ["get", "road_category"], "secondary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 10.5],
+            ["==", ["get", "road_subcategory"], "connecting"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 11.5],
+            ["==", ["get", "road_subcategory"], "major_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 12.5],
+            ["==", ["get", "road_subcategory"], "local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 13.5],
+            ["==", ["get", "road_subcategory"], "minor_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 14.5],
+            ["==", ["has", "road_category"], true]
+          ]
+        ]
+      ],
+      "layout": {
+        "line-cap": ["step", ["zoom"], "butt", 15, "round"],
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "hsl(3, 99%, 37%)",
+        "line-offset": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "+",
+            0.75,
+            [
+              "*",
+              0.8,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                0.5,
+                ["trunk"],
+                0.25,
+                0
+              ]
+            ]
+          ],
+          9,
+          [
+            "+",
+            1,
+            [
+              "*",
+              0.6,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                2.5,
+                ["trunk"],
+                2.25,
+                ["primary"],
+                2,
+                ["secondary"],
+                1.75,
+                ["tertiary"],
+                [
+                  "match",
+                  ["get", "road_subcategory"],
+                  ["connecting"],
+                  1.5,
+                  1.25
+                ],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+                0
+              ]
+            ]
+          ],
+          13,
+          [
+            "+",
+            1.5,
+            [
+              "*",
+              0.4,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                4.5,
+                ["trunk"],
+                4,
+                ["primary"],
+                3.5,
+                ["secondary"],
+                3,
+                ["tertiary"],
+                ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+                0
+              ]
+            ]
+          ],
+          19,
+          [
+            "+",
+            3,
+            [
+              "*",
+              0.2,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                44,
+                ["trunk"],
+                40,
+                ["primary"],
+                36,
+                ["secondary"],
+                32,
+                ["tertiary"],
+                ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+                12
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Traffic - Queueing flow",
+      "type": "line",
+      "metadata": {"group": "flow"},
+      "source": "vectorTilesFlow",
+      "source-layer": "Traffic flow",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        ["<", ["get", "traffic_level"], 0.35],
+        [">=", ["get", "traffic_level"], 0.15],
+        [
+          "any",
+          [
+            "all",
+            [">=", ["zoom"], 6],
+            [
+              "any",
+              ["==", ["get", "road_category"], "motorway"],
+              ["==", ["get", "road_category"], "trunk"]
+            ]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 8.5],
+            ["==", ["get", "road_category"], "primary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 9.5],
+            ["==", ["get", "road_category"], "secondary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 10.5],
+            ["==", ["get", "road_subcategory"], "connecting"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 11.5],
+            ["==", ["get", "road_subcategory"], "major_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 12.5],
+            ["==", ["get", "road_subcategory"], "local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 13.5],
+            ["==", ["get", "road_subcategory"], "minor_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 14.5],
+            ["==", ["has", "road_category"], true]
+          ]
+        ]
+      ],
+      "layout": {
+        "line-cap": ["step", ["zoom"], "butt", 15, "round"],
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "hsl(9, 97%, 51%)",
+        "line-offset": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            0.8,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            0.6,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            0.4,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            0.2,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Traffic - Queueing flow pattern",
+      "type": "line",
+      "metadata": {"group": "flow"},
+      "source": "vectorTilesFlow",
+      "source-layer": "Traffic flow",
+      "minzoom": 14,
+      "filter": [
+        "all",
+        ["<", ["get", "traffic_level"], 0.35],
+        [">=", ["get", "traffic_level"], 0.15]
+      ],
+      "layout": {"line-cap": "round", "line-join": "round"},
+      "paint": {
+        "line-color": "hsl(9, 97%, 51%)",
+        "line-offset": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ],
+        "line-opacity": {"stops": [[14, 0], [15, 1]]},
+        "line-pattern": "traffic-flow-queueing",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            0.8,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            0.6,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            0.4,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            0.2,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Traffic - Stationary flow outline",
+      "type": "line",
+      "metadata": {"group": "flow"},
+      "source": "vectorTilesFlow",
+      "source-layer": "Traffic flow",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        ["<", ["get", "traffic_level"], 0.15],
+        [
+          "any",
+          [
+            "all",
+            [">=", ["zoom"], 6],
+            [
+              "any",
+              ["==", ["get", "road_category"], "motorway"],
+              ["==", ["get", "road_category"], "trunk"]
+            ]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 8.5],
+            ["==", ["get", "road_category"], "primary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 9.5],
+            ["==", ["get", "road_category"], "secondary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 10.5],
+            ["==", ["get", "road_subcategory"], "connecting"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 11.5],
+            ["==", ["get", "road_subcategory"], "major_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 12.5],
+            ["==", ["get", "road_subcategory"], "local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 13.5],
+            ["==", ["get", "road_subcategory"], "minor_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 14.5],
+            ["==", ["has", "road_category"], true]
+          ]
+        ]
+      ],
+      "layout": {
+        "line-cap": ["step", ["zoom"], "butt", 15, "round"],
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "hsl(0, 100%, 17%)",
+        "line-offset": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "+",
+            0.75,
+            [
+              "*",
+              0.8,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                0.5,
+                ["trunk"],
+                0.25,
+                0
+              ]
+            ]
+          ],
+          9,
+          [
+            "+",
+            1,
+            [
+              "*",
+              0.6,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                2.5,
+                ["trunk"],
+                2.25,
+                ["primary"],
+                2,
+                ["secondary"],
+                1.75,
+                ["tertiary"],
+                [
+                  "match",
+                  ["get", "road_subcategory"],
+                  ["connecting"],
+                  1.5,
+                  1.25
+                ],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+                0
+              ]
+            ]
+          ],
+          13,
+          [
+            "+",
+            1.5,
+            [
+              "*",
+              0.4,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                4.5,
+                ["trunk"],
+                4,
+                ["primary"],
+                3.5,
+                ["secondary"],
+                3,
+                ["tertiary"],
+                ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+                0
+              ]
+            ]
+          ],
+          19,
+          [
+            "+",
+            3,
+            [
+              "*",
+              0.2,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                44,
+                ["trunk"],
+                40,
+                ["primary"],
+                36,
+                ["secondary"],
+                32,
+                ["tertiary"],
+                ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+                12
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Traffic - Stationary flow",
+      "type": "line",
+      "metadata": {"group": "flow"},
+      "source": "vectorTilesFlow",
+      "source-layer": "Traffic flow",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        ["<", ["get", "traffic_level"], 0.15],
+        [
+          "any",
+          [
+            "all",
+            [">=", ["zoom"], 6],
+            [
+              "any",
+              ["==", ["get", "road_category"], "motorway"],
+              ["==", ["get", "road_category"], "trunk"]
+            ]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 8.5],
+            ["==", ["get", "road_category"], "primary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 9.5],
+            ["==", ["get", "road_category"], "secondary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 10.5],
+            ["==", ["get", "road_subcategory"], "connecting"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 11.5],
+            ["==", ["get", "road_subcategory"], "major_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 12.5],
+            ["==", ["get", "road_subcategory"], "local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 13.5],
+            ["==", ["get", "road_subcategory"], "minor_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 14.5],
+            ["==", ["has", "road_category"], true]
+          ]
+        ]
+      ],
+      "layout": {
+        "line-cap": ["step", ["zoom"], "butt", 15, "round"],
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "hsl(0, 100%, 34%)",
+        "line-offset": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            0.8,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            0.6,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            0.4,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            0.2,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Traffic - Stationary flow pattern",
+      "type": "line",
+      "metadata": {"group": "flow"},
+      "source": "vectorTilesFlow",
+      "source-layer": "Traffic flow",
+      "minzoom": 14,
+      "filter": ["all", ["<", ["get", "traffic_level"], 0.15]],
+      "layout": {"line-cap": "round", "line-join": "round"},
+      "paint": {
+        "line-color": "hsl(0, 100%, 34%)",
+        "line-offset": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ],
+        "line-opacity": {"stops": [[14, 0], [15, 1]]},
+        "line-pattern": "traffic-flow-stationary",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            0.8,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            0.6,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            0.4,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            0.2,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Traffic - Closed road outline",
+      "type": "line",
+      "metadata": {"group": "flow"},
+      "source": "vectorTilesFlow",
+      "source-layer": "Traffic flow",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        ["==", ["get", "traffic_level"], 0],
+        ["has", "road_closure"],
+        [
+          "any",
+          [
+            "all",
+            [">=", ["zoom"], 6],
+            [
+              "any",
+              ["==", ["get", "road_category"], "motorway"],
+              ["==", ["get", "road_category"], "trunk"]
+            ]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 8.5],
+            ["==", ["get", "road_category"], "primary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 9.5],
+            ["==", ["get", "road_category"], "secondary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 10.5],
+            ["==", ["get", "road_subcategory"], "connecting"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 11.5],
+            ["==", ["get", "road_subcategory"], "major_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 12.5],
+            ["==", ["get", "road_subcategory"], "local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 13.5],
+            ["==", ["get", "road_subcategory"], "minor_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 14.5],
+            ["==", ["has", "road_category"], true]
+          ]
+        ]
+      ],
+      "layout": {
+        "line-cap": ["step", ["zoom"], "butt", 15, "round"],
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": {
+          "stops": [[10, "hsl(0, 100%, 79%)"], [15, "hsl(0, 100%, 35%)"]]
+        },
+        "line-offset": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "+",
+            0.75,
+            [
+              "*",
+              0.8,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                0.5,
+                ["trunk"],
+                0.25,
+                0
+              ]
+            ]
+          ],
+          9,
+          [
+            "+",
+            1,
+            [
+              "*",
+              0.6,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                2.5,
+                ["trunk"],
+                2.25,
+                ["primary"],
+                2,
+                ["secondary"],
+                1.75,
+                ["tertiary"],
+                [
+                  "match",
+                  ["get", "road_subcategory"],
+                  ["connecting"],
+                  1.5,
+                  1.25
+                ],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+                0
+              ]
+            ]
+          ],
+          13,
+          [
+            "+",
+            1.5,
+            [
+              "*",
+              0.4,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                4.5,
+                ["trunk"],
+                4,
+                ["primary"],
+                3.5,
+                ["secondary"],
+                3,
+                ["tertiary"],
+                ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+                0
+              ]
+            ]
+          ],
+          19,
+          [
+            "+",
+            3,
+            [
+              "*",
+              0.2,
+              [
+                "match",
+                ["get", "road_category"],
+                ["motorway"],
+                44,
+                ["trunk"],
+                40,
+                ["primary"],
+                36,
+                ["secondary"],
+                32,
+                ["tertiary"],
+                ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+                ["street"],
+                ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+                12
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Traffic - Closed road",
+      "type": "line",
+      "metadata": {"group": "flow"},
+      "source": "vectorTilesFlow",
+      "source-layer": "Traffic flow",
+      "minzoom": 6,
+      "filter": [
+        "all",
+        ["==", ["get", "traffic_level"], 0],
+        ["has", "road_closure"],
+        [
+          "any",
+          [
+            "all",
+            [">=", ["zoom"], 6],
+            [
+              "any",
+              ["==", ["get", "road_category"], "motorway"],
+              ["==", ["get", "road_category"], "trunk"]
+            ]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 8.5],
+            ["==", ["get", "road_category"], "primary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 9.5],
+            ["==", ["get", "road_category"], "secondary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 10.5],
+            ["==", ["get", "road_subcategory"], "connecting"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 11.5],
+            ["==", ["get", "road_subcategory"], "major_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 12.5],
+            ["==", ["get", "road_subcategory"], "local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 13.5],
+            ["==", ["get", "road_subcategory"], "minor_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 14.5],
+            ["==", ["has", "road_category"], true]
+          ]
+        ]
+      ],
+      "layout": {
+        "line-cap": ["step", ["zoom"], "butt", 15, "round"],
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "hsl(197, 28%, 95%)",
+        "line-offset": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            0.8,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            0.6,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              3,
+              ["trunk"],
+              2.5,
+              ["primary"],
+              2.25,
+              ["secondary"],
+              2,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.75, 1.5],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            0.4,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              5.5,
+              ["trunk"],
+              5,
+              ["primary"],
+              4.5,
+              ["secondary"],
+              4,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 3.5, 3],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 2.5, 2],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            0.2,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Traffic - Closed road pattern",
+      "type": "line",
+      "metadata": {"group": "flow"},
+      "source": "vectorTilesFlow",
+      "source-layer": "Traffic flow",
+      "minzoom": 5,
+      "filter": [
+        "all",
+        ["==", ["get", "traffic_level"], 0],
+        ["has", "road_closure"],
+        [
+          "any",
+          [
+            "all",
+            [">=", ["zoom"], 6],
+            [
+              "any",
+              ["==", ["get", "road_category"], "motorway"],
+              ["==", ["get", "road_category"], "trunk"]
+            ]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 8.5],
+            ["==", ["get", "road_category"], "primary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 9.5],
+            ["==", ["get", "road_category"], "secondary"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 10.5],
+            ["==", ["get", "road_subcategory"], "connecting"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 11.5],
+            ["==", ["get", "road_subcategory"], "major_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 12.5],
+            ["==", ["get", "road_subcategory"], "local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 13.5],
+            ["==", ["get", "road_subcategory"], "minor_local"]
+          ],
+          [
+            "all",
+            [">=", ["zoom"], 14.5],
+            ["==", ["has", "road_category"], true]
+          ]
+        ]
+      ],
+      "layout": {"line-cap": "round", "line-join": "round"},
+      "paint": {
+        "line-color": "hsl(0, 0%, 100%)",
+        "line-offset": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            ["case", ["has", "left_hand_traffic"], -0.4, 0.4],
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ],
+        "line-opacity": {"stops": [[6, 0.2], [10, 1]]},
+        "line-pattern": "traffic-diagonal-closed",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.3],
+          ["zoom"],
+          5,
+          [
+            "*",
+            0.8,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              0.5,
+              ["trunk"],
+              0.25,
+              0
+            ]
+          ],
+          9,
+          [
+            "*",
+            0.6,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              2.5,
+              ["trunk"],
+              2.25,
+              ["primary"],
+              2,
+              ["secondary"],
+              1.75,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 1.5, 1.25],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1, 0.75],
+              0
+            ]
+          ],
+          13,
+          [
+            "*",
+            0.4,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              4.5,
+              ["trunk"],
+              4,
+              ["primary"],
+              3.5,
+              ["secondary"],
+              3,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 2.5, 2],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 1.5, 1],
+              0
+            ]
+          ],
+          19,
+          [
+            "*",
+            0.2,
+            [
+              "match",
+              ["get", "road_category"],
+              ["motorway"],
+              44,
+              ["trunk"],
+              40,
+              ["primary"],
+              36,
+              ["secondary"],
+              32,
+              ["tertiary"],
+              ["match", ["get", "road_subcategory"], ["connecting"], 28, 24],
+              ["street"],
+              ["match", ["get", "road_subcategory"], ["local"], 20, 16],
+              12
+            ]
+          ]
+        ]
+      }
+    }
+  ],
+  "id": "qmrh9b0o1"
+}

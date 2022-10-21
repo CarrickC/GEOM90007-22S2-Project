@@ -173,9 +173,6 @@
     </div>
 
     <div id="tab-road" class="tab-content">
-        <div class="tab-title">
-            <h1>Traffic Map</h1>
-        </div>
         <div class="container-fluid">
             <div class="row">
                 <!-- Entire sidebar -->
@@ -195,7 +192,7 @@
                         <div class="col py-3 label">
                             <span class="show-traffic-layers">Click to show layers</span>
                             <!-- Incidents toggle -->
-                            <div class="row align-items-center pt-2">
+                            <!-- <div class="row align-items-center pt-2">
                                 <div class="col pt-2">
                                     <label for="incidents-toggle" class="traffic-text">Traffic incidents</label>
                                 </div>
@@ -205,9 +202,25 @@
                                         <span class="toggle round"></span>
                                     </label>
                                 </div>
+                            </div> -->
+
+
+                            <div id="tf-layer-select">
+                                <ul id="tf-layer-list">
+                                    <li>
+                                        <button id="flow-toggle" class="tf-layer-button flow-linear-background">Traffic flow</button>
+                                    </li>
+                                    <li>
+                                        <button id="incidents-toggle" class="tf-layer-button incidents-linear-background">Traffic Incidents</button>
+                                    </li>
+                                </ul>
                             </div>
+
+
+
+
                             <!-- Flow toggle -->
-                            <div class="row align-items-center pt-2">
+                            <!-- <div class="row align-items-center pt-2">
 
                                 <div class="col pt-2">
                                     <label for="flow-toggle" class="traffic-text">Traffic flow</label>
@@ -218,7 +231,12 @@
                                         <span class="toggle round"></span>
                                     </label>
                                 </div>
-                            </div>
+                            </div> -->
+
+
+
+
+
                         </div>
                     </div>
 
@@ -258,6 +276,9 @@
 
 
     <div id="tab-bus" class="tab-content">
+
+
+
         <div id="bus-map">
             <div id="pt-layer-select">
                 <ul id="pt-layer-list">
@@ -270,6 +291,9 @@
                 </ul>
             </div>
         </div>
+
+
+
         <div id="bus-content">
             <h1 class="center-content">Find Your Routes</h1>
             <div id="pt-select" class="center-content">

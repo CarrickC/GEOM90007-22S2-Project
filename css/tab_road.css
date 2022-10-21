@@ -276,3 +276,70 @@ input:focus+.toggle {
     max-width: 98vw;
     width: 100%;
 }
+
+
+
+
+
+/*
+    Layer Selection
+*/
+
+#tf-layer-select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 20px 0 0 20px;
+    z-index: 2;
+}
+
+#tf-layer-list {
+    display: inline-flex;
+    list-style: none;
+    margin-bottom: 0;
+}
+
+.tf-layer-button {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--gray-600);
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-left: 1px solid var(--gray-200);
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+
+.tf-layer-button:hover {
+    color: white;
+    background-position: left;
+}
+
+
+.incidents-linear-background {
+    background: linear-gradient(to right, var(--tram-green) 50%, rgba(255, 255, 255, 0.8) 50%) right;
+    background-size: 200%;
+    transition: all 0.2s ease-out;
+}
+
+
+.flow-linear-background {
+    background: linear-gradient(to right, var(--bus-orange) 50%, rgba(255, 255, 255, 0.8) 50%) right;
+    background-size: 200%;
+    transition: all 0.2s ease-out;
+}
+
+
+.flow-selected {
+    color: white;
+    background: var(--bus-orange);
+}
+
+.incidents-selected {
+    color: white;
+    background: var(--tram-green);
+}
+
