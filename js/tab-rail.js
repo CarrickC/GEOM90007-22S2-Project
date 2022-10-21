@@ -146,6 +146,28 @@ stations.features.forEach((station, i) => {
   station.properties.id = i;
 });
 
+railMap.on('click', (event) => {
+  // If the user clicked on one of your markers, get its information.
+  const features = railMap.queryRenderedFeatures(event.point, {
+    layers: ['tram_stop'] // replace with your layer name
+  });
+  if (!features.length) {
+    return;
+  }
+  const feature = features[0];
+
+  // Code from the next step will go here.
+  const popup = new mapboxgl.Popup({ offset: [0, -15] })
+    .setLngLat(feature.geometry.coordinates)
+    .setHTML(
+      `<h5>TRAM STOP: ${feature.properties.STOP_NAME}</h5>
+      <div>
+      <b>AVAILABLE ROUTE: ${feature.properties.ROUTEUSSP}</b>
+      </div>`
+    )
+    .addTo(railMap);
+});
+
 railMap.on('load', e => {
 railMap.addSource('places', {
     'type': 'geojson',
