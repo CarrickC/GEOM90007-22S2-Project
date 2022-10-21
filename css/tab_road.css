@@ -12,23 +12,9 @@
     overflow: auto;
 }
 
-#lets-start-button {
-    background-color: #000;
-    border: none;
-    font: 700 14px/1.14 Gotham;
-}
-
-#lets-start-button:hover {
-    color: #fff;
-}
 
 
-#modal-close-button {
-    background-color: #df1b12;
-    color: #fff;
-    opacity: 100;
-    padding-left: 20px;
-}
+
 
 #cluster-icon {
     padding-top: 0px;
@@ -40,17 +26,15 @@
 }
 
 #search-panel-container {
-    z-index: 1;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 20px 0 0 20px;
+    z-index: 2;
 }
 
-#show-help-button {
-    background-color: #000;
-    border-color: #7c7c7c;
-    opacity: 0.7;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-}
+
 
 #bounding-box-button:hover {
     background-color: #61ADE0;
@@ -84,6 +68,8 @@
     color: #7f7f7f;
 }
 
+
+
 .btn {
     background-color: #8dc3eb;
     border-color: #8dc3eb;
@@ -105,6 +91,8 @@
     border-top: 2px solid #f2f2f2;
 }
 
+
+
 #first-row {
     background-color: white;
     z-index: 1;
@@ -119,6 +107,7 @@
     margin: auto -15px 0 !important;
     width: 364px;
 }
+
 
 
 .incident-details-list-item-button {
@@ -156,18 +145,8 @@
     color: #707070;
 }
 
-.modal-content {
-    border-radius: 0;
-    min-height: 99%;
-    background-color: #e5e5e5;
-}
 
-.modal-dialog {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
+
 
 .modal-header {
     border-bottom: none;
@@ -270,13 +249,6 @@ input:checked+.toggle:before {
 input:focus+.toggle {
     box-shadow: 0 0 1px #bdd731;
 }
-
-.modal-dialog {
-    margin: 8px auto auto;
-    max-width: 98vw;
-    width: 100%;
-}
-
 
 
 
