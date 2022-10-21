@@ -45,7 +45,8 @@
 
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/tab_rail.css">
-    <link rel="stylesheet" href="../css/tab_bus.css">
+    <link rel="stylesheet" href="../css/tab_parking.css">
+    <link rel="stylesheet" href="../css/tab_pt.css">
     <link rel="stylesheet" href="../css/tab_road.css">
 </head>
 
@@ -65,7 +66,7 @@
     <ul id="navbar-tabs">
         <li><a href="#tab-ov" class="navbar-tab current-tab">Overview</a></li>
         <li><a href="#tab-road" class="navbar-tab">Road</a></li>
-        <li><a href="#tab-park" class="navbar-tab">Parking</a></li>
+        <li><a href="#tab-parking" class="navbar-tab">Parking</a></li>
         <li><a href="#tab-rail" class="navbar-tab">Rail</a></li>
         <li><a href="#tab-bus" class="navbar-tab">Public</a></li>
     </ul>
@@ -75,101 +76,101 @@
 
 <main>
     <div id="tab-ov" class="tab-content width-ov">
-        <div class="ov-title">
-            <h1>Transport in Melbourne City</h1>
-        </div>
-        <p>
-            Transport in Melbourne, the state capital of Victoria, Australia, consists of several interlinking
-            modes.
-            Melbourne is a hub for intercity, intracity and regional travel. Road-based transport accounts for
-            most
-            trips across many parts of the city, facilitated by Australia's largest freeway network. Public
-            transport, including the world's largest tram network, trains and buses, also forms a key part of
-            the
-            transport system.
-        </p>
+<!--        <div class="ov-title">-->
+<!--            <h1>Transport in Melbourne City</h1>-->
+<!--        </div>-->
+<!--        <p>-->
+<!--            Transport in Melbourne, the state capital of Victoria, Australia, consists of several interlinking-->
+<!--            modes.-->
+<!--            Melbourne is a hub for intercity, intracity and regional travel. Road-based transport accounts for-->
+<!--            most-->
+<!--            trips across many parts of the city, facilitated by Australia's largest freeway network. Public-->
+<!--            transport, including the world's largest tram network, trains and buses, also forms a key part of-->
+<!--            the-->
+<!--            transport system.-->
+<!--        </p>-->
 
-        <head>
-            <title>Line Chart JS</title>
-            <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
-            <style type="text/css">
-      html,
-      body,
-      #container {
-        width: 100%;
-        height: 500px;
-        margin: 0;
-        padding: 0;
-      }
+<!--        <head>-->
+<!--            <title>Line Chart JS</title>-->
+<!--            <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>-->
+<!--            <style type="text/css">-->
+<!--      html,-->
+<!--      body,-->
+<!--      #container {-->
+<!--        width: 100%;-->
+<!--        height: 500px;-->
+<!--        margin: 0;-->
+<!--        padding: 0;-->
+<!--      }-->
 
-    </style>
-        </head>
+<!--    </style>-->
+<!--        </head>-->
 
-        <body>
-        <div id="container"></div>
-        <script>
-      anychart.onDocumentReady(function() {
+<!--        <body>-->
+<!--        <div id="container"></div>-->
+<!--        <script>-->
+<!--      anychart.onDocumentReady(function() {-->
 
-        // add data
-        var data = [
-          ["Jan", 14774380, 16966847, 7927612],
-          ["Feb", 16040904, 19792614, 10333573],
-          ["Mar", 16297302, 19552255, 10301701],
-          ["Apr", 11898764, 13685871, 6922504],
-          ["May", 12896498, 16494726, 8628232],
-          ["Jun", 11652855, 14938796, 7931778],
-          ["Jul", 12153032, 15155783, 7748407],
-          ["Aug", 12406163, 15690762, 8345273],
-          ["Sep", 10957316, 14193696, 7385466],
-          ["Oct", 12575151, 16039353, 8766030],
-          ["Nov", 12418075, 15886289, 8856295],
-          ["Dec", 11712064, 14141290, 7561703]
-        ];
+<!--        // add data-->
+<!--        var data = [-->
+<!--          ["Jan", 14774380, 16966847, 7927612],-->
+<!--          ["Feb", 16040904, 19792614, 10333573],-->
+<!--          ["Mar", 16297302, 19552255, 10301701],-->
+<!--          ["Apr", 11898764, 13685871, 6922504],-->
+<!--          ["May", 12896498, 16494726, 8628232],-->
+<!--          ["Jun", 11652855, 14938796, 7931778],-->
+<!--          ["Jul", 12153032, 15155783, 7748407],-->
+<!--          ["Aug", 12406163, 15690762, 8345273],-->
+<!--          ["Sep", 10957316, 14193696, 7385466],-->
+<!--          ["Oct", 12575151, 16039353, 8766030],-->
+<!--          ["Nov", 12418075, 15886289, 8856295],-->
+<!--          ["Dec", 11712064, 14141290, 7561703]-->
+<!--        ];-->
 
-        // create a data set
-        var dataSet = anychart.data.set(data);
+<!--        // create a data set-->
+<!--        var dataSet = anychart.data.set(data);-->
 
-        // map the data for all series
-        var firstSeriesData = dataSet.mapAs({
-          x: 0,
-          value: 1
-        });
-        var secondSeriesData = dataSet.mapAs({
-          x: 0,
-          value: 2
-        });
-        var thirdSeriesData = dataSet.mapAs({
-          x: 0,
-          value: 3
-        });
+<!--        // map the data for all series-->
+<!--        var firstSeriesData = dataSet.mapAs({-->
+<!--          x: 0,-->
+<!--          value: 1-->
+<!--        });-->
+<!--        var secondSeriesData = dataSet.mapAs({-->
+<!--          x: 0,-->
+<!--          value: 2-->
+<!--        });-->
+<!--        var thirdSeriesData = dataSet.mapAs({-->
+<!--          x: 0,-->
+<!--          value: 3-->
+<!--        });-->
 
-        // create a line chart
-        var chart = anychart.line();
+<!--        // create a line chart-->
+<!--        var chart = anychart.line();-->
 
-        // create the series and name them
-        var firstSeries = chart.line(firstSeriesData);
-        firstSeries.name("Tram");
-        var secondSeries = chart.line(secondSeriesData);
-        secondSeries.name("Train");
-        var thirdSeries = chart.line(thirdSeriesData);
-        thirdSeries.name("Bus");
+<!--        // create the series and name them-->
+<!--        var firstSeries = chart.line(firstSeriesData);-->
+<!--        firstSeries.name("Tram");-->
+<!--        var secondSeries = chart.line(secondSeriesData);-->
+<!--        secondSeries.name("Train");-->
+<!--        var thirdSeries = chart.line(thirdSeriesData);-->
+<!--        thirdSeries.name("Bus");-->
 
-        // add a legend
-        chart.legend().enabled(true);
+<!--        // add a legend-->
+<!--        chart.legend().enabled(true);-->
 
-        // add a title
-        chart.title("Average Monthly Public Transport Flow from 2018 to 2020");
+<!--        // add a title-->
+<!--        chart.title("Average Monthly Public Transport Flow from 2018 to 2020");-->
 
-        // specify where to display the chart
-        chart.container("container");
+<!--        // specify where to display the chart-->
+<!--        chart.container("container");-->
 
-        // draw the resulting chart
-        chart.draw();
+<!--        // draw the resulting chart-->
+<!--        chart.draw();-->
 
-      });
+<!--      });-->
 
-    </script>
-        </body>
+<!--    </script>-->
+<!--        </body>-->
 
     </div>
 
@@ -248,9 +249,9 @@
             </div>
         </div>
 
-    <div id="tab-park" class="tab-content">
+    <div id="tab-parking" class="tab-content">
         <nav id="menu"></nav>
-        <div id="map"></div>
+        <div id="park-map"></div>
         <div class="map-overlay" id="legend"></div>
         <div class="map-overlay" id="title">
             <h2>On-street car park and off-street car park </h2>
@@ -265,7 +266,6 @@
             <div id="rail-map"></div>
 
     </div>
-
 
     <div id="tab-bus" class="tab-content">
         <div id="bus-map">
@@ -325,11 +325,11 @@
 
 
 <script src="../js/index.js"></script>
-<script src="../js/tab-rail.js"></script>
-<script src="../js/tab-traffic.js"></script>
+<!--<script src="../js/tab-rail.js"></script>-->
+<!--<script src="../js/tab-traffic.js"></script>-->
 <script src="../js/tab-parking.js"></script>
-<script src="../js/tab-pt.js"></script>
-<script src="../js/tab-traffic.js"></script>
+<!--<script src="../js/tab-pt.js"></script>-->
+<!--<script src="../js/tab-traffic.js"></script>-->
 </body>
 
 </html>
