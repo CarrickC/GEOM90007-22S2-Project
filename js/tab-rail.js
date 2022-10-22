@@ -313,8 +313,8 @@ function createPopUp(currentFeature) {
 Chart.defaults.font.family = 'Montserrat';
 Chart.defaults.font.size = 15;
 
-railMapContainer = document.querySelector('#rail-map');
 
+railMapContainer = document.querySelector('#rail-map');
 respondToVisibility(railMapContainer, visible => {
     if (visible) {
         railMap.resize();
