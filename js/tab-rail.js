@@ -1,13 +1,13 @@
-mapboxgl.accessToken = 'pk.eyJ1IjoiZGFuc3Nzc3MiLCJhIjoiY2w5NnF5cnh5MnBrbzNvcDg2NGZxMmdkZSJ9.t-C_lxlkb_FxdbZWQ7Y70g';
-const railMap = new mapboxgl.Map({
-    container: 'rail-map',
-    style: 'mapbox://styles/dansssss/cl972aw08000g14ofpbilwkgy/draft',
-    center: [144.956785, -37.812000],
-    zoom: 12
-});
-railMap.on('render', function () {
-    railMap.resize();
-});
+// mapboxgl.accessToken = 'pk.eyJ1IjoiZGFuc3Nzc3MiLCJhIjoiY2w5NnF5cnh5MnBrbzNvcDg2NGZxMmdkZSJ9.t-C_lxlkb_FxdbZWQ7Y70g';
+// const railMap = new mapboxgl.Map({
+//     container: 'rail-map',
+//     style: 'mapbox://styles/dansssss/cl972aw08000g14ofpbilwkgy/draft',
+//     center: [144.956785, -37.812000],
+//     zoom: 12
+// });
+// railMap.on('render', function () {
+//     railMap.resize();
+// });
 
 const stations = {
     'type': 'FeatureCollection',
@@ -145,21 +145,50 @@ stations.features.forEach((station, i) => {
     station.properties.id = i;
 });
 
-railMap.on('click', (event) => {
-    // If the user clicked on one of your markers, get its information.
-    const features = railMap.queryRenderedFeatures(event.point, {
-        layers: ['tram_stop'] // replace with your layer name
-    });
-    if (!features.length) {
-        return;
-    }
-    const feature = features[0];
+// railMap.on('click', (event) => {
+//     // If the user clicked on one of your markers, get its information.
+//     const features = railMap.queryRenderedFeatures(event.point, {
+//         layers: ['tram_stop'] // replace with your layer name
+//     });
+//     if (!features.length) {
+//         return;
+//     }
+//     const feature = features[0];
+//
+//     // Code from the next step will go here.
+//     const popup = new mapboxgl.Popup({offset: [0, -15]})
+//         .setLngLat(feature.geometry.coordinates)
+//         .setHTML(
+//             `<h5>TRAM STOP: ${feature.properties.STOP_NAME}</h5>
+//       <div>
+//       <b>AVAILABLE ROUTE: ${feature.properties.ROUTEUSSP}</b>
+//       </div>`
+//         )
+//         .addTo(railMap);
+// });
 
+// ptMap.on('load', e => {
+//     railMap.addSource('places', {
+//         'type': 'geojson',
+//         'data': stations
+//     });
+//     addMarkers();
+// });
+
+ptMap.on('click', 'ptv-metro-train-station', (e) => {
+    const coord = e.features[0].geometry.coordinates.slice();
+    const prop = e.features[0].properties;
+
+    while (Math.abs(e.lngLat.lng - coord[0]) > 180) {
+        coord[0] += e.lngLat.lng > coord[0] ? 360 : -360;
+    }
+
+<<<<<<< HEAD
     // Code from the next step will go here.
     const popup = new mapboxgl.Popup({offset: [0, -15]})
         .setLngLat(feature.geometry.coordinates)
         .setHTML(
-            `<h5>TRAM STOP: ${feature.properties.STOP_NAME}</h5>
+            `<tram-stop>TRAM STOP: ${feature.properties.STOP_NAME}</tram-stop>
       <div>
       <b>AVAILABLE ROUTE: ${feature.properties.ROUTEUSSP}</b>
       </div>`
@@ -174,6 +203,8 @@ railMap.on('load', e => {
     });
 
     addMarkers();
+=======
+>>>>>>> 557d68d045e0b92dc16bfb5450eab775748f2840
 
 });
 
@@ -234,13 +265,14 @@ function createPopUp(currentFeature) {
         closeOnClick: true
     })
         .setLngLat(currentFeature.geometry.coordinates)
-        .setHTML(
-            `
-      <h4>${currentFeature.properties.address}</h4>
-      <h5>Rail: ${currentFeature.properties.rail}</h5>
-      <h6>city circle station entries 2018 - 2020</h6>
-      <div class="chart"><canvas id= "lineChart"style="min-height: 200px; height: 350px; max-height: 300px; max-width: 100%;" ></canvas></div>`
-        )
+        .setHTML(`
+            <h4>${currentFeature.properties.address}</h4>
+            <h5>Line: ${currentFeature.properties.rail}</h5>
+            <h6>Train Station Patronage 2018 - 2020</h6>
+            <div class="chart">
+                <canvas id= "lineChart"style="min-height: 200px; height: 350px; max-height: 300px; max-width: 100%;" ></canvas>
+            </div>
+        `)
         .addTo(railMap);
 
     var areaChartData = {
@@ -313,10 +345,10 @@ function createPopUp(currentFeature) {
 Chart.defaults.font.family = 'Montserrat';
 Chart.defaults.font.size = 15;
 
-railMapContainer = document.querySelector('#rail-map');
-
-respondToVisibility(railMapContainer, visible => {
-    if (visible) {
-        railMap.resize();
-    }
-});
+//
+// railMapContainer = document.querySelector('#rail-map');
+// respondToVisibility(railMapContainer, visible => {
+//     if (visible) {
+//         railMap.resize();
+//     }
+// });

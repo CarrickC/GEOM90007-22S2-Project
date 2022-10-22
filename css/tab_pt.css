@@ -1,4 +1,4 @@
-#bus-map {
+#pt-map {
     width: var(--map-width);
     min-width: var(--map-min-width);
     height: var(--map-height);
@@ -9,6 +9,9 @@
     width: var(--content-width);
     min-width: var(--content-min-width);
     margin: auto;
+}
+#pt-content {
+    margin-top: 10px;
 }
 
 #pt-layer-select {
@@ -60,6 +63,12 @@
     color: inherit;
     background-repeat: no-repeat;
     transition: color .1s ease;
+}
+
+.link-icon {
+    color: inherit;
+    background-repeat: no-repeat;
+    transition: none;
 }
 
 .inline-block-right {
@@ -160,13 +169,24 @@
     background-color: var(--tram-green);
 }
 
+.train-bg {
+    background-color: var(--train-blue);
+}
+
 .route-item-title:hover{
     color: white;
     background-position: left;
 }
 
 .route-item-content {
-    background-color: var(--gray-100);
+    font-weight: 500;
+    padding: 10px 10px;
+    background-color: var(--gray-200);
+}
+
+.route-item-content .timetable-link:hover {
+    color: red;
+    cursor: pointer;
 }
 
 .collapse {
@@ -238,10 +258,12 @@
 
 #routes-list {
     margin-top: 20px;
-    margin-bottom: 200px;
+    margin-bottom: 300px;
 }
 
-.mapboxgl-ctrl-geocoder {
-    max-width: 450px;
-    min-width: 400px;
+.pt-popup-content {
+    font-size: 14px;
 }
+
+
+
