@@ -65,7 +65,7 @@ var trafficFlowTilesTier = new tt.TrafficFlowTilesTier({
     refresh: refreshTimeInMillis
 });
 
-
+map.addTier(trafficFlowTilesTier);
 
 
 /*

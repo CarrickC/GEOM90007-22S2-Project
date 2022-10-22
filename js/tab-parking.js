@@ -29,6 +29,8 @@ parkMap.addControl(
         language: 'en',
     })
 );
+parkMap.addControl(new mapboxgl.NavigationControl());
+
 parkMap.on('load', e => {
     // the rest of the code goes in here
     parkMap.on('click', 'on-street-parking-bays-cjix2f', e => {

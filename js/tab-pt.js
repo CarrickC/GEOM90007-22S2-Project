@@ -186,7 +186,11 @@ ptMap.on('mouseleave', allLayers['Train'], () => {
 });
 
 
-let ptPopup;
+let ptPopup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: true,
+    maxWidth: '600px'
+});
 
 Object.entries([allLayers['Bus'], allLayers['Tram']]).forEach(([key, layers]) => {
     let stopLayer = layers[0];
@@ -230,12 +234,6 @@ Object.entries([allLayers['Bus'], allLayers['Tram']]).forEach(([key, layers]) =>
                 Route: ${prop['ROUTEUSSP'].replaceAll(',', ', ')}
             </div>
         `;
-
-        ptPopup = new mapboxgl.Popup({
-            closeButton: false,
-            closeOnClick: true,
-            maxWidth: '600px'
-        });
 
         ptPopup.setLngLat(coord)
             .setHTML(html)
@@ -307,6 +305,7 @@ let toggleLayers = function (toHide, toVisi) {
 $('.pt-layer-button').on('click', (e) => {
     let clicked = $(e.target);
     if (!clicked.hasClass('current')) {
+        ptPopup.remove();
         let current = $('.pt-layer-button.current')
         if (current.text() === 'Bus') {
             current.toggleClass('bus-selected bus-linear-background');
@@ -422,4 +421,74 @@ routeSelectize.on('change', (value) => {
 });
 
 
+let ptTrainPopup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: true,
+    maxWidth: '600px'
+});
 
+let areaChartOptions = {
+    maintainAspectRatio: false,
+    responsive: true,
+    legend: {
+        display: false
+    },
+    scales: {
+        xAxes: [{
+            gridLines: {
+                display: false,
+            }
+        }],
+        yAxes: [{
+            gridLines: {
+                display: false,
+            }
+        }]
+    }
+}
+
+const areaChartData = {
+    labels: ['2018', '2019', '2020'],
+    datasets: [
+        {
+            label: 'Flinders Street',
+            backgroundColor: '#CA4027',
+            data: [28320650, 21503500, 8528000]
+        },
+        {
+            label: 'North Melbourne',
+            backgroundColor: '#0072CE',
+            data: [1497300, 10865600, 2213650]
+        },
+        {
+            label: 'Flagstaff',
+            backgroundColor: '#008140',
+            data: [4854950, 2882250, 1378000]
+        },
+    ]
+}
+
+ptMap.on('click', allLayers['Train'][0], (e) => {
+    ptTrainPopup.setLngLat(e.features[0].geometry.coordinates)
+        .setHTML(`
+            <h5>${e.features[0].properties['STOP_NAME']}</h5>
+            <h6>Train Station Patronage 2018 - 2020</h6>
+            <div class="chart">
+                <canvas id= "line-chart" style="height: 200px; max-height: 300px; max-width: 100%;" ></canvas>
+            </div>
+        `)
+        .addTo(ptMap);
+
+    let lineChartCanvas = $('#line-chart').get(0).getContext('2d')
+    let lineChartOptions = jQuery.extend(true, {}, areaChartOptions)
+    let lineChartData = jQuery.extend(true, {}, areaChartData)
+    lineChartData.datasets[0].fill = false;
+    lineChartData.datasets[1].fill = false;
+    lineChartOptions.datasetFill = false
+
+    new Chart(lineChartCanvas, {
+        type: 'line',
+        data: lineChartData,
+        options: lineChartOptions
+    })
+});

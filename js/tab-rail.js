@@ -249,6 +249,37 @@ function flyToStation(currentFeature) {
     });
 }
 
+const areaChartData = {
+    labels: ['2018', '2019', '2020'],
+    datasets: [
+        {
+            label: 'Flagstaff',
+            backgroundColor: 'rgba(29, 72, 35, 0.8)',
+            data: [4854950, 2882250, 1378000]
+        },
+        {
+            label: 'Flinders Street',
+            backgroundColor: 'rgba(75, 120, 81, 0.8)',
+            data: [28320650, 21503500, 8528000]
+        },
+        {
+            label: 'Melbourne Central',
+            backgroundColor: 'rgba(125, 156, 129, 0.8)',
+            data: [15250700, 10865600, 4206700]
+        },
+        {
+            label: 'Parliament',
+            backgroundColor: 'rgba(78, 178, 92, 0.8)',
+            data: [10124200, 7646300, 2213650]
+        },
+        {
+            label: 'Southern Cross',
+            backgroundColor: 'rgba(180, 227, 186, 0.8)',
+            data: [19551450, 14895400, 4556450]
+        }
+    ]
+}
+
 /**
  * Create a Mapbox GL JS `Popup`.
  **/
@@ -266,41 +297,10 @@ function createPopUp(currentFeature) {
             <h5>Line: ${currentFeature.properties.rail}</h5>
             <h6>Train Station Patronage 2018 - 2020</h6>
             <div class="chart">
-                <canvas id= "lineChart"style="min-height: 200px; height: 350px; max-height: 300px; max-width: 100%;" ></canvas>
+                <canvas id= "line-chart" style="min-height: 200px; height: 350px; max-height: 300px; max-width: 100%;" ></canvas>
             </div>
         `)
         .addTo(railMap);
-
-    var areaChartData = {
-        labels: ['2018', '2019', '2020'],
-        datasets: [
-            {
-                label: 'Flagstaff',
-                backgroundColor: 'rgba(29, 72, 35, 0.8)',
-                data: [4854950, 2882250, 1378000]
-            },
-            {
-                label: 'Flinders Street',
-                backgroundColor: 'rgba(75, 120, 81, 0.8)',
-                data: [28320650, 21503500, 8528000]
-            },
-            {
-                label: 'Melbourne Central',
-                backgroundColor: 'rgba(125, 156, 129, 0.8)',
-                data: [15250700, 10865600, 4206700]
-            },
-            {
-                label: 'Parliament',
-                backgroundColor: 'rgba(78, 178, 92, 0.8)',
-                data: [10124200, 7646300, 2213650]
-            },
-            {
-                label: 'Southern Cross',
-                backgroundColor: 'rgba(180, 227, 186, 0.8)',
-                data: [19551450, 14895400, 4556450]
-            }
-        ]
-    }
 
     //these are the options for testing
     var areaChartOptions = {
@@ -323,14 +323,14 @@ function createPopUp(currentFeature) {
         }
     }
 
-    var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
+    var lineChartCanvas = $('#line-chart').get(0).getContext('2d')
     var lineChartOptions = jQuery.extend(true, {}, areaChartOptions)
     var lineChartData = jQuery.extend(true, {}, areaChartData)
     lineChartData.datasets[0].fill = false;
     lineChartData.datasets[1].fill = false;
     lineChartOptions.datasetFill = false
 
-    var lineChart = new Chart(lineChartCanvas, {
+    new Chart(lineChartCanvas, {
         type: 'line',
         data: lineChartData,
         options: lineChartOptions
