@@ -6,39 +6,39 @@
 root  
 │
 └───data
-|	|	'''
-|	|	Here is a copy of the shapefiles we used.
-|	|	All the involved shapefiles have been uploaded 
-|	|	to Mapbox studio.
-|	|	
-|	|	Contact hanchenc@unimelb.edu.au or another group members,
-|	|	if you would like to assess our group mapbox account.
-|	|	'''
+|	|'''
+|	|Here is a copy of the shapefiles we used.
+|	|All the involved shapefiles have been uploaded 
+|	|to Mapbox studio.
+|	|
+|	|Contact hanchenc@unimelb.edu.au or another group members,
+|	|if you would like to assess our group mapbox account.
+|	|'''
 │   
 └───GEOM90007_22S2_Project
-	|	'''
-	|	Here is the workspace/root folder for our github repo
-	|	'''
+	|'''
+	|Here is the workspace/root folder for our github repo
+	|'''
 	|
 	└───css
-	|	|	'''
-	|	|	Stylesheet files
-	|	|	'''
+	|	|'''
+	|	|Stylesheet files
+	|	|'''
 	|
 	└───images
-	|	|	'''
-	|	|	Pictures and icons files
-	|	|	'''
+	|	|'''
+	|	|Pictures and icons files
+	|	|'''
 	|	
 	└───js
-	|	|	'''
-	|	|	Javascript files
-	|	|	'''
+	|	|'''
+	|	|Javascript files
+	|	|'''
 	|	
 	└───index.html
-	|	|	'''
-	|	|	Web interface
-	|	|	'''
+	|	|'''
+	|	|Web interface
+	|	|'''
 	|
     
     
