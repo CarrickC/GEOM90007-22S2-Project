@@ -49,7 +49,7 @@ anychart.onDocumentReady(function () {
     chart.legend().enabled(true);
 
     // add a title
-    chart.title("Average Monthly Public Transport Flow From 2018 To 2020");
+    chart.title("Average Monthly Public Transport Patronages From 2018 To 2020");
 
     // specify where to display the chart
     chart.container("overview-chart");

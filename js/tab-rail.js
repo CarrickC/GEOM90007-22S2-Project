@@ -183,6 +183,28 @@ ptMap.on('click', 'ptv-metro-train-station', (e) => {
         coord[0] += e.lngLat.lng > coord[0] ? 360 : -360;
     }
 
+<<<<<<< HEAD
+    // Code from the next step will go here.
+    const popup = new mapboxgl.Popup({offset: [0, -15]})
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML(
+            `<tram-stop>TRAM STOP: ${feature.properties.STOP_NAME}</tram-stop>
+      <div>
+      <b>AVAILABLE ROUTE: ${feature.properties.ROUTEUSSP}</b>
+      </div>`
+        )
+        .addTo(railMap);
+});
+
+railMap.on('load', e => {
+    railMap.addSource('places', {
+        'type': 'geojson',
+        'data': stations
+    });
+
+    addMarkers();
+=======
+>>>>>>> 557d68d045e0b92dc16bfb5450eab775748f2840
 
 });
 
