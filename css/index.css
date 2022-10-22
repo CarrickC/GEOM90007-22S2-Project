@@ -25,6 +25,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
     color: var(--gray-900);
 }
 
@@ -91,6 +92,13 @@ hr {
     display: flex;
 }
 
+#overview_chart {
+        width: 100%;
+        height: 500px;
+        margin: 0;
+        padding: 0;
+      }
+
 .navbar-tab {
     display: inline-block;
     font-weight: bold;
@@ -137,4 +145,19 @@ hr {
     display: inline-block;
 }
 
+.mapboxgl-ctrl-geocoder {
+    max-width: 450px;
+    min-width: 400px;
+}
+
+/*.mapboxgl-popup-close-button {*/
+/*    display: inline-block;*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*    font-size: 16px;*/
+/*}*/
+
+/*.mapboxgl-popup-content {*/
+/*    padding: 5px;*/
+/*}*/
 

@@ -1,8 +1,8 @@
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiY2NhcnJpY2tjYyIsImEiOiJjbDkxaW0yc3AxYXJ3M3Z0NWc2a3d5d3RoIn0.DsBfI0AbR2c_ZEfvrUXNEA';
+mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JvdXA5MiIsImEiOiJjbDk3YzEyaGIyd2lqM3VteDV4Nmtqd3ZnIn0.f3fuko4inv9oX1FwG5DZcw';
 let ptMap = new mapboxgl.Map({
-    container: 'bus-map',
-    style: 'mapbox://styles/ccarrickcc/cl91jeqf6001214mos5t57hx7',
+    container: 'pt-map',
+    style: 'mapbox://styles/group92/cl9iwhbdt000115nzsxnrxmmz',
     center: [144.956785, -37.812000],
     zoom: 11.9
 });
@@ -29,6 +29,10 @@ const allLayers = {
     "Tram": [
         'ptv-metro-tram-stop',
         'ptv-metro-tram-route'
+    ],
+    "Train": [
+        'ptv-metro-train-station',
+        'ptv-train-track'
     ]
 };
 
@@ -38,7 +42,7 @@ ptMap.on('render', function () {
     ptMap.resize();
 });
 
-respondToVisibility($('#bus-map')[0], visible => {
+respondToVisibility($('#pt-map')[0], visible => {
     if (visible) {
         ptMap.resize();
     }
@@ -76,27 +80,28 @@ let modeSelectize = $('#pt-mode-select').selectize({
     searchField: 'mode',
     options: [
         {mode: 'Bus'},
-        {mode: 'Tram'},
+        {mode: 'Tram'}
     ],
     items: ['Bus'],
     create: false,
 })[0].selectize;
 
-modeSelectize.on('change', function(value) {
+modeSelectize.on('change', function (value) {
     routeSelectize.clear(true);
     routeSelectize.clearOptions(true);
     routeSelectize.addOption(Object.values(routeProps[value]))
 });
 
 $('#clear-button').on('click', () => {
-    routeSelectize.clear(false);
+    // routeSelectize.clear(false);
+    $('#routes-list').empty();
 });
 
 ptMap.on('load', () => {
 
     let busStopFeats = ptMap.querySourceFeatures(
         'composite',
-        {sourceLayer: 'PTV_METRO_BUS_STOP-82rco0'}
+        {sourceLayer: 'PTV_METRO_BUS_STOP-849v0z'}
     );
     busStopFeats.forEach((feat) => {
         let routes = feat.properties['ROUTEUSSP'].split(',');
@@ -110,7 +115,7 @@ ptMap.on('load', () => {
     });
     let busRouteFeats = ptMap.querySourceFeatures(
         'composite',
-        {sourceLayer: 'PTV_METRO_BUS_ROUTE-cgxses'}
+        {sourceLayer: 'PTV_METRO_BUS_ROUTE-4kof5w'}
     );
     busRouteFeats.forEach((feat) => {
         let routeID = feat.properties['ROUTESHTNM']
@@ -124,7 +129,7 @@ ptMap.on('load', () => {
 
     let tramStopFeats = ptMap.querySourceFeatures(
         'composite',
-        {sourceLayer: 'PTV_METRO_TRAM_STOP-0a76zk'}
+        {sourceLayer: 'PTV_METRO_TRAM_STOP-diuya1'}
     );
     tramStopFeats.forEach((feat) => {
         let routes = feat.properties['ROUTEUSSP'].split(',');
@@ -138,7 +143,7 @@ ptMap.on('load', () => {
     });
     let tramRouteFeats = ptMap.querySourceFeatures(
         'composite',
-        {sourceLayer: 'PTV_METRO_TRAM_ROUTE-9xqbxk'}
+        {sourceLayer: 'Order_tram_final-5mguxu'}
     );
     tramRouteFeats.forEach((feat) => {
         let routeID = feat.properties['ROUTESHTNM']
@@ -171,10 +176,70 @@ ptMap.on('mouseleave', allLayers['Tram'], () => {
     ptMap.getCanvas().style.cursor = '';
 });
 
+ptMap.on('mouseenter', allLayers['Train'], () => {
+    ptMap.getCanvas().style.cursor = 'pointer';
+});
 
-Object.entries(allLayers).forEach(([key, layers]) => {
+ptMap.on('mouseleave', allLayers['Train'], () => {
+    ptMap.getCanvas().style.cursor = '';
+});
+
+
+let ptPopup;
+
+Object.entries([allLayers['Bus'], allLayers['Tram']]).forEach(([key, layers]) => {
     let stopLayer = layers[0];
     let routeLayer = layers[1];
+    let popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: true,
+        maxWidth: '600px'
+    });
+
+    ptMap.on('mouseenter', stopLayer, (e) => {
+        const coord = e.features[0].geometry.coordinates.slice();
+        const name = e.features[0].properties['STOP_NAME'];
+
+        while (Math.abs(e.lngLat.lng - coord[0]) > 180) {
+            coord[0] += e.lngLat.lng > coord[0] ? 360 : -360;
+        }
+
+        let html = `
+            <span class="pt-popup-content">${name}</span>
+        `;
+
+        popup.setLngLat(coord).setHTML(html).addTo(ptMap);
+    });
+
+    ptMap.on('mouseleave', stopLayer, () => {
+        popup.remove();
+    });
+
+    ptMap.on('click', stopLayer, (e) => {
+        const coord = e.features[0].geometry.coordinates.slice();
+        const prop = e.features[0].properties;
+
+        while (Math.abs(e.lngLat.lng - coord[0]) > 180) {
+            coord[0] += e.lngLat.lng > coord[0] ? 360 : -360;
+        }
+
+        let html = `
+            <div class="pt-popup-content">
+                Stop: ${prop['STOP_NAME']} <br>
+                Route: ${prop['ROUTEUSSP'].replaceAll(',', ', ')}
+            </div>
+        `;
+
+        ptPopup = new mapboxgl.Popup({
+            closeButton: false,
+            closeOnClick: true,
+            maxWidth: '600px'
+        });
+
+        ptPopup.setLngLat(coord)
+            .setHTML(html)
+            .addTo(ptMap);
+    });
 
     ptMap.on('click', stopLayer, (e) => {
         ptMap.setFilter(routeLayer, null);
@@ -183,10 +248,17 @@ Object.entries(allLayers).forEach(([key, layers]) => {
             stopLayer,
             ['in', 'STOP_ID', busStopID]
         );
+
+        let routes = e.features[0].properties['ROUTEUSSP'].split(',')
         ptMap.setFilter(
             routeLayer,
-            ['in', 'ROUTESHTNM', ...e.features[0].properties['ROUTEUSSP'].split(',')]
+            ['in', 'ROUTESHTNM', ...routes]
         );
+
+        $('#routes-list').empty();
+        routes.forEach((route) => {
+            addRouteItem(currLayers, routeProps[currLayers][route]);
+        })
     });
 
     ptMap.on('click', routeLayer, (e) => {
@@ -239,11 +311,15 @@ $('.pt-layer-button').on('click', (e) => {
             current.toggleClass('bus-selected bus-linear-background');
         } else if (current.text() === 'Tram') {
             current.toggleClass('tram-selected tram-linear-background');
+        } else if (current.text() === 'Train') {
+            current.toggleClass('train-selected train-linear-background');
         }
         if (clicked.text() === 'Bus') {
             clicked.toggleClass('bus-linear-background bus-selected');
         } else if (clicked.text() === 'Tram') {
             clicked.toggleClass('tram-linear-background tram-selected');
+        } else if (clicked.text() === 'Train') {
+            clicked.toggleClass('train-linear-background train-selected');
         }
         clicked.toggleClass('current');
         current.toggleClass('current');
@@ -253,57 +329,96 @@ $('.pt-layer-button').on('click', (e) => {
     }
 });
 
-let addRouteItems = function (mode, routes) {
+let addRouteItem = function (mode, prop) {
     let routeList = $('#routes-list');
     let itemTitleBg;
     let itemIconBg;
     let icon;
+    let routeID = prop['id'];
     if (mode === 'Bus') {
         itemTitleBg = 'bus-linear-background';
-        itemIconBg = 'bus-bg'
+        itemIconBg = 'bus-bg';
         icon = 'icon-bus';
     } else {
         itemTitleBg = 'tram-linear-background';
-        itemIconBg = 'tram-bg'
+        itemIconBg = 'tram-bg';
         icon = 'icon-tram';
     }
 
-    routes.forEach((route) => {
-        let item = $(`
-        <li class="route-item">
-            <div class="route-item-title ${itemTitleBg}">
-                <div class="${itemIconBg} route-item-icon">
-                    <i class="icon ${icon}"></i>
-                    ${route['id']}
-                </div>
-                ${route['name']}
-                <i class="icon fa-solid fa-angle-down fa-lg"></i>
+    let item = $(`
+    <li class="route-item">
+        <div class="route-item-title ${itemTitleBg}" data-mode="${mode}" data-route="${routeID}">
+            <div class="${itemIconBg} route-item-icon">
+                <i class="icon ${icon}"></i>
+                ${prop['id']}
             </div>
-            <div class="route-item-content collapse">
-                Route content
-            </div>
-        </li>
-        `);
+            ${prop['name']}
+            <i class="icon fa-solid fa-angle-down fa-lg"></i>
+        </div>
+        <div class="route-item-content collapse">
+            Timetable:  
+            <span class="timetable-link">
+                Find more on Public Transport Victoria Timetable
+                <i class="link-icon fa-solid fa-arrow-up-right-from-square"></i>
+            </span>
+            
+        </div>
+    </li>
+    `);
 
-        item.children().first().on('click', (e) => {
-            let content = $(e.currentTarget).next();
-            $(e.currentTarget).toggleClass('route-item-title bus-route-title-expend');
-            $(e.currentTarget).toggleClass(`${itemTitleBg} ${itemIconBg}`);
-            content.toggleClass('collapse expand');
+    item.children().eq(0).on('click', (e) => {
+        let content = $(e.currentTarget).next();
+        $(e.currentTarget).toggleClass('route-item-title bus-route-title-expend');
+        $(e.currentTarget).toggleClass(`${itemTitleBg} ${itemIconBg}`);
+        content.toggleClass('collapse expand');
 
-            let icon = $(e.currentTarget).children().last();
-            icon.toggleClass('fa-angle-down fa-angle-up')
-        });
+        $(e.currentTarget).children().last().toggleClass('fa-angle-down fa-angle-up');
 
-        routeList.append(item);
+        let mode = $(e.target).data('mode');
+        let routeID = $(e.target).data('route');
+        if (mode === 'Bus') {
+            $('#pt-layer-bus-btn').click();
+        } else {
+            $('#pt-layer-tram-btn').click();
+        }
+        console.log(routeID);
+        ptMap.setFilter(
+            allLayers[mode][0],
+            null
+        );
+        console.log(routeID);
+        ptMap.setFilter(
+            allLayers[mode][0],
+            ['in', 'STOP_ID', ...routeStops[mode][routeID]]
+        );
+        ptMap.setFilter(
+            allLayers[mode][1],
+            null
+        );
+        ptMap.setFilter(
+            allLayers[mode][1],
+            ['in', 'ROUTESHTNM', `${routeID}`]
+        );
+        ptPopup.remove();
     });
+
+    item.children().eq(1).find('span').on('click', () => {
+        let text = 'You will be directed to:\n' +
+            'https://www.ptv.vic.gov.au/timetables';
+        if (confirm(text) === true) {
+            let win = window.open('https://www.ptv.vic.gov.au/timetables');
+            win.focus();
+        }
+    });
+
+    routeList.append(item);
 }
-
-
 
 routeSelectize.on('change', (value) => {
     let mode = modeSelectize.getValue();
     $('#routes-list').empty();
-    addRouteItems(mode, [routeProps[mode][value]]);
+    addRouteItem(mode, routeProps[mode][value]);
 });
+
+
 
