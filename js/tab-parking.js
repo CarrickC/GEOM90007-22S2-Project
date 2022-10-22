@@ -198,9 +198,9 @@ parkMap.on('idle', () => {
     link.id = id;
     link.href = '#';
     if (id === 'on-street-parking-bays-cjix2f') {
-        link.textContent = 'on-street-parking-bay';
+        link.textContent = 'On Street';
     } else {
-        link.textContent = 'off-street-parking-bay';
+        link.textContent = 'Off Street';
     }
     link.className = 'active';
 // Show or hide layer when the toggle is clicked.

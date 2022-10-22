@@ -42,13 +42,13 @@ h2 {
 }
 
 #park-menu {
+    display: inline-flex;
     background: #fff;
     position: absolute;
     z-index: 1;
-    top: 150px;
+    top: 200px;
     left: 10px;
     border-radius: 3px;
-    width: 120px;
     border: 1px solid rgba(0, 0, 0, 0.4);
     font-family: 'Open Sans', sans-serif;
 }
@@ -56,10 +56,12 @@ h2 {
 #park-menu a {
     font-size: 13px;
     color: #404040;
-    display: block;
+    display: inline-block;
     margin: 0;
-    padding: 0;
-    padding: 10px;
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
+    font-weight: bold;
     text-decoration: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
     text-align: center;
@@ -75,10 +77,20 @@ h2 {
 }
 
 #park-menu a.active {
-    background-color: #3887be;
+    /*background-color: #3887be;*/
     color: #ffffff;
 }
 
-#park-menu a.active:hover {
-    background: #3074a4;
+/*#park-menu a.active:hover {*/
+/*    background: #3887be;*/
+/*}*/
+
+#on-street-parking-bays-cjix2f.active:hover,
+#on-street-parking-bays-cjix2f.active {
+    background: red;
+}
+
+#off-street-car-parks-with-cap-aw9fts.active:hover,
+#off-street-car-parks-with-cap-aw9fts.active {
+    background: blue;
 }
