@@ -10,24 +10,7 @@
     bottom: 0;
     right: 0;
     overflow: auto;
-}
-
-#lets-start-button {
-    background-color: #000;
-    border: none;
-    font: 700 14px/1.14 Gotham;
-}
-
-#lets-start-button:hover {
-    color: #fff;
-}
-
-
-#modal-close-button {
-    background-color: #df1b12;
-    color: #fff;
-    opacity: 100;
-    padding-left: 20px;
+    opacity: 0.7;
 }
 
 #cluster-icon {
@@ -40,17 +23,14 @@
 }
 
 #search-panel-container {
-    z-index: 1;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 20px 0 0 20px;
+    z-index: 2;
 }
 
-#show-help-button {
-    background-color: #000;
-    border-color: #7c7c7c;
-    opacity: 0.7;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-}
 
 #bounding-box-button:hover {
     background-color: #61ADE0;
@@ -59,24 +39,19 @@
 
 .show-traffic-layers {
     color: #b2b2b2;
-    font: 700 14px / normal Gotham;
-    font-stretch: normal;
+    /* font: 700 14px / normal Gotham;
+    font-stretch: normal; */
     height: 16px;
     letter-spacing: -0.25px;
     width: 128px;
 }
 
-.style-relative {
-    font-family: Monaco;
-    font-size: 12px;
-    color: #333333;
-    background-color: #f4f4f4;
-}
+
 
 .app-info-text {
     cursor: pointer;
-    font: 400 12px / normal Noway;
-    font-stretch: normal;
+    /* font: 400 12px / normal Noway;
+    font-stretch: normal; */
     letter-spacing: -0.21px;
 }
 
@@ -85,12 +60,15 @@
 }
 
 .btn {
-    background-color: var(--gray-800);
-    border-color: var(--gray-800);
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #8dc3eb;
+    border-color: #8dc3eb;
     border-radius: 0;
     color: #fff;
-    font: 700 14px/1.14 Gotham;
-    padding: 10px;
+    padding: 10px; 
 }
 
 .btn:active {
@@ -98,12 +76,14 @@
     border-color: #e5e5e5;
     box-shadow: none !important;
     color: #ccc;
-}
+} 
 
 .row-border {
     background-color: white;
     border-top: 2px solid #f2f2f2;
 }
+
+
 
 #first-row {
     background-color: white;
@@ -121,14 +101,15 @@
 }
 
 
+
 .incident-details-list-item-button {
     border: none;
 }
 
 .incident-details-list-normal-text {
     color: #000;
-    font: 400 16px / normal Noway;
-    font-stretch: normal;
+    /* font: 400 16px / normal Noway;
+    font-stretch: normal; */
     height: 19px;
     letter-spacing: normal;
     width: 160px;
@@ -136,13 +117,13 @@
 
 .label {
     color: #000;
-    font: 700 14px/1.14 Gotham;
-    font-stretch: normal;
+    /* font: 700 14px/1.14 Gotham;
+    font-stretch: normal; */
     letter-spacing: -0.25px;
 }
 
 .legend-font {
-    font: 700 12px/1.33 Gotham;
+    /* font: 700 12px/1.33 Gotham; */
     letter-spacing: normal;
 }
 
@@ -156,18 +137,6 @@
     color: #707070;
 }
 
-.modal-content {
-    border-radius: 0;
-    min-height: 99%;
-    background-color: #e5e5e5;
-}
-
-.modal-dialog {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
 
 .modal-header {
     border-bottom: none;
@@ -181,15 +150,12 @@
     display: flex;
     flex-direction: column;
     max-width: 364px;
-    background-color: #f2f2f2;
+    /* background-color: #f2f2f2; */
+    width: 300px;
+    height: 300px;
+    opacity: 0.9;
 }
 
-.style-relative {
-    color: #333;
-    font: 400 12px / normal Monaco;
-    font-stretch: normal;
-    letter-spacing: -0.21px;
-}
 
 .switch {
     display: inline-block;
@@ -246,17 +212,19 @@
 
 .traffic-text {
     color: #000;
-    font: 700 14px/1.14 Gotham;
-    font-stretch: normal;
+    /* font: 700 14px/1.14 Gotham;
+    font-stretch: normal; */
     height: 16px;
     letter-spacing: -0.25px;
     width: 111px;
 }
 
-
 #map {
-    height: 550px;
-    width: 1080px;
+    /* height: 1080px;
+    width: 1080px; */
+    position:absolute;
+    width:100%;
+    height:100%;
 }
 
 input:checked+.toggle {
@@ -271,8 +239,67 @@ input:focus+.toggle {
     box-shadow: 0 0 1px #bdd731;
 }
 
-.modal-dialog {
-    margin: 8px auto auto;
-    max-width: 98vw;
-    width: 100%;
+
+/*
+    Layer Selection
+*/
+
+#tf-layer-select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 20px 0 0 20px;
+    z-index: 2;
+    height: 600px;
 }
+
+#tf-layer-list {
+    display: inline-flex;
+    list-style: none;
+    margin-bottom: 0;
+}
+
+.tf-layer-button {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--gray-600);
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-left: 1px solid var(--gray-200);
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+
+.tf-layer-button:hover {
+    color: white;
+    background-position: left;
+}
+
+
+.incidents-linear-background {
+    background: linear-gradient(to right, var(--tram-green) 50%, rgba(255, 255, 255, 0.8) 50%) right;
+    background-size: 200%;
+    transition: all 0.2s ease-out;
+}
+
+
+.flow-linear-background {
+    background: linear-gradient(to right, var(--bus-orange) 50%, rgba(255, 255, 255, 0.8) 50%) right;
+    background-size: 200%;
+    transition: all 0.2s ease-out;
+}
+
+
+.flow-selected {
+    color: white;
+    background: var(--bus-orange);
+}
+
+.incidents-selected {
+    color: white;
+    background: var(--tram-green);
+}
+
