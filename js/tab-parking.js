@@ -205,7 +205,7 @@ parkMap.on('idle', () => {
     for (const id of toggleableLayerIds) {
 // Skip layers that already have a button set up.
         if (document.getElementById(id)) {
-            console.log(id);
+            // console.log(id);
             continue;
         }
         //link = document.createElement('a');

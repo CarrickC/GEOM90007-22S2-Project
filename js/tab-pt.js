@@ -157,8 +157,8 @@ ptMap.on('load', () => {
     });
 
     routeSelectize.addOption(Object.values(routeProps['Bus']));
-    console.log(busRouteProps);
-    console.log(tramRouteProps);
+    // console.log(busRouteProps);
+    // console.log(tramRouteProps);
 });
 
 ptMap.on('mouseenter', allLayers['Bus'], () => {

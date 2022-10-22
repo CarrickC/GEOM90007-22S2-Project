@@ -175,38 +175,34 @@ stations.features.forEach((station, i) => {
 //     addMarkers();
 // });
 
-ptMap.on('click', 'ptv-metro-train-station', (e) => {
-    const coord = e.features[0].geometry.coordinates.slice();
-    const prop = e.features[0].properties;
+// ptMap.on('click', 'ptv-metro-train-station', (e) => {
+//     const coord = e.features[0].geometry.coordinates.slice();
+//     const prop = e.features[0].properties;
+//
+//     while (Math.abs(e.lngLat.lng - coord[0]) > 180) {
+//         coord[0] += e.lngLat.lng > coord[0] ? 360 : -360;
+//     }
+//
+//     const popup = new mapboxgl.Popup({offset: [0, -15]})
+//         .setLngLat(feature.geometry.coordinates)
+//         .setHTML(
+//             `<tram-stop>TRAM STOP: ${feature.properties.STOP_NAME}</tram-stop>
+//               <div>
+//               <b>AVAILABLE ROUTE: ${feature.properties.ROUTEUSSP}</b>
+//             </div>
+//         `)
+//         .addTo(railMap);
+// });
 
-    while (Math.abs(e.lngLat.lng - coord[0]) > 180) {
-        coord[0] += e.lngLat.lng > coord[0] ? 360 : -360;
-    }
-
-<<<<<<< HEAD
-    // Code from the next step will go here.
-    const popup = new mapboxgl.Popup({offset: [0, -15]})
-        .setLngLat(feature.geometry.coordinates)
-        .setHTML(
-            `<tram-stop>TRAM STOP: ${feature.properties.STOP_NAME}</tram-stop>
-      <div>
-      <b>AVAILABLE ROUTE: ${feature.properties.ROUTEUSSP}</b>
-      </div>`
-        )
-        .addTo(railMap);
-});
-
-railMap.on('load', e => {
-    railMap.addSource('places', {
-        'type': 'geojson',
-        'data': stations
-    });
-
-    addMarkers();
-=======
->>>>>>> 557d68d045e0b92dc16bfb5450eab775748f2840
-
-});
+// railMap.on('load', e => {
+//     railMap.addSource('places', {
+//         'type': 'geojson',
+//         'data': stations
+//     });
+//
+//     addMarkers();
+//
+// });
 
 function addMarkers() {
     /* For each feature in the GeoJSON object above: */

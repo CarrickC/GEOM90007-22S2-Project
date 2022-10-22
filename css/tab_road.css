@@ -283,7 +283,7 @@ input:focus+.toggle {
 }
 
 .tf-layer-button:focus {
-    outline: none;
+    outline: 0;
 }
 
 
