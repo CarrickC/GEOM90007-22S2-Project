@@ -1,6 +1,7 @@
 anychart.onDocumentReady(function () {
 
     // add data
+
     var data = [
         ["Jan", 14774380, 16966847, 7927612],
         ["Feb", 16040904, 19792614, 10333573],
@@ -48,10 +49,10 @@ anychart.onDocumentReady(function () {
     chart.legend().enabled(true);
 
     // add a title
-    chart.title("Average Monthly Public Transport Flow from 2018 to 2020");
+    chart.title("Average Monthly Public Transport Flow From 2018 To 2020");
 
     // specify where to display the chart
-    chart.container("container");
+    chart.container("overview-chart");
 
     // draw the resulting chart
     chart.draw();
