@@ -1,6 +1,6 @@
-### GEOM90007 Group Project - Group 92
+## GEOM90007 Group Project - Group 92
 
-##### Submission folder directory
+### Submission folder directory
 
 ```
 root  
@@ -46,7 +46,7 @@ root
 
 
 
-##### Important
+### Important
 
 - By clicking the index.html, you would be able to run our web on the browser (chrome is recommended). However, some functions (e.g. the display of traffic map) may be unavailable.
 - To migrate the problem above, please try to open the submission folder as the project folder WebStorm or VS Code, and run the index.html in there.
