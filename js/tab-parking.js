@@ -17,6 +17,7 @@ respondToVisibility($('#park-map')[0], visible => {
 
 // Create a popup, but don't add it to the map yet.
 const popup = new mapboxgl.Popup({
+    maxWidth: '500px',
     closeButton: false
 });
 // Add the control to the map.
@@ -30,9 +31,13 @@ parkMap.on('load', e => {
     // the rest of the code goes in here
     parkMap.on('click', 'on-street-parking-bays-cjix2f', e => {
         console.log(e.features[0].properties);
-        new mapboxgl.Popup()
+        new mapboxgl.Popup({maxWidth: '500px'})
             .setLngLat(e.lngLat)
-            .setHTML('Address: ' + e.features[0].properties.rd_seg_dsc)
+            .setHTML(`
+            <div class='parking-popup-content'>
+            Address:${e.features[0].properties.rd_seg_dsc}
+            </div>
+            `)
             .addTo(parkMap);
         // the code in step 3 below must go in here
     });
@@ -132,9 +137,18 @@ parkMap.on('load', e => {
 
     parkMap.on('click', 'off-street-car-parks-with-cap-aw9fts', e => {
         console.log(e.features[0].properties);
-        new mapboxgl.Popup()
+        new mapboxgl.Popup({
+            maxWidth: '500px',
+            closeButton: false,
+            closeOnClick: true,
+        })
             .setLngLat(e.lngLat)
-            .setHTML('Address: ' + e.features[0].properties['street_nam'] + '<br>' + 'Available space: ' + parseInt(e.features[0].properties.parking_sp))
+            .setHTML(`
+                <div class="parking-popup-content">
+                    Address:  ${e.features[0].properties['street_nam']}<br>
+                    Available space: ${parseInt(e.features[0].properties.parking_sp)}
+                </div>
+            `)
 
             .addTo(parkMap);
         // the code in step 3 below must go in here
@@ -198,9 +212,9 @@ parkMap.on('idle', () => {
     link.id = id;
     link.href = '#';
     if (id === 'on-street-parking-bays-cjix2f') {
-        link.textContent = 'on-street-parking-bay';
+        link.textContent = 'On Street';
     } else {
-        link.textContent = 'off-street-parking-bay';
+        link.textContent = 'Off Street';
     }
     link.className = 'active';
 // Show or hide layer when the toggle is clicked.

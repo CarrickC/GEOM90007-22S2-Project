@@ -8,9 +8,11 @@ var initialZoom = 13;
 var map = tt.map({
     key: apiKey,
     container: "map",
+    style: "../config/traffic_map_style.json",
     center: centerCoords,
     zoom: initialZoom
 });
+
 
 
 var searchBoxInstance;
@@ -31,12 +33,17 @@ var popupHideDelayInMilis = 4000;
 var incidentListContainer = document.getElementById("incident-list");
 var trafficFlowTilesToggle = document.getElementById("flow-toggle");
 
+
+
+var flow_layer_control = false
+var incidents_layer_control = false
+
+
+
 var commonSearchBoxOptions = {
     key: apiKey,
     center: map.getCenter()
 };
-
-
 
 /*
     Initialize two layers: Flow & Incidents
@@ -47,52 +54,84 @@ var trafficIncidentsTier = new tt.TrafficIncidentTier({
         style: styleS1
     },
     incidentTiles: {
-        style: styleBase + styleS1,
+        style: "tomtom://vector/1/s1",
     },
     refresh: refreshTimeInMillis
 });
 
 var trafficFlowTilesTier = new tt.TrafficFlowTilesTier({
     key: apiKey,
-    style: styleBase + styleRelative,
+    style:"../config/traffic_flow_style.json",
     refresh: refreshTimeInMillis
 });
 
+
+
+
 /*
-    Traffic flow toggle events
+    Layer control
 */
+
+// traffic layer toggle
 function toggleTrafficFlowTilesTier() {
-    if (trafficFlowTilesToggle.checked) {
+
+    if (!flow_layer_control) {
         map.addTier(trafficFlowTilesTier);
+        // style switch
+        let current = $('.tf-layer-button.flow-linear-background')
+        current.toggleClass('flow-linear-background flow-selected')
+
+        flow_layer_control = true;
     } else {
         map.removeTier(trafficFlowTilesTier.getId());
+
+        // style switch
+        let current = $('.tf-layer-button.flow-selected')
+        current.toggleClass('flow-selected flow-linear-background')
+
+        flow_layer_control = false;
     }
+    
+    console.log("flow layer control: {%s}", flow_layer_control)
 }
 
-/*
-    Traffic incidents events
+// flow layer toggle
+function toggleTrafficIncidentsTier() {
+    if (!incidents_layer_control) {
+        showTrafficIncidentsTier();
+        // style switch
+        let current = $('.tf-layer-button.incidents-linear-background')
+        current.toggleClass('incidents-linear-background incidents-selected')
 
-    Clear bounding box when close layer
-*/
-function showTrafficIncidentsTier() {
-    document.getElementById("incidents-toggle").checked = true;
+        incidents_layer_control = true;
+    } else {
+        hideTrafficIncidentsTier();
+        // style switch
+        let current = $('.tf-layer-button.incidents-selected')
+        current.toggleClass('incidents-selected incidents-linear-background')
+
+
+        incidents_layer_control = false
+    }
+    console.log("incidents_layer_control: {%s}", incidents_layer_control)
+}
+
+function showTrafficIncidentsTier() {    
     map.addTier(trafficIncidentsTier);
 }
 
 function hideTrafficIncidentsTier() {
-    document.getElementById("incidents-toggle").checked = false;
     map.removeTier(trafficIncidentsTier.getId());
     clearIncidentList();
     removeBoundingBox();
 }
 
-function toggleTrafficIncidentsTier() {
-    if (document.getElementById("incidents-toggle").checked) {
-        showTrafficIncidentsTier();
-    } else {
-        hideTrafficIncidentsTier();
-    }
-}
+// button style switch
+
+
+
+
+
 
 /*
     Search box
@@ -117,7 +156,6 @@ function onSearchBoxResult(result) {
         speed: 3
     });
 }
-
 
 /*
     Bounding Box
@@ -334,9 +372,12 @@ function initApplication() {
     searchBoxInstance.on("tomtom.searchbox.resultselected", onSearchBoxResult);
     
     // Add flow layer when toggle
-    trafficFlowTilesToggle.addEventListener("change", toggleTrafficFlowTilesTier);
+    trafficFlowTilesToggle.addEventListener("click", toggleTrafficFlowTilesTier);
 
-    document.getElementById("incidents-toggle").addEventListener("change", toggleTrafficIncidentsTier);
+    document.getElementById("incidents-toggle").addEventListener("click", toggleTrafficIncidentsTier);
+
+
+
 
     // When click, start to record lat and lng
     document.getElementById("bounding-box-button").addEventListener("click", enableBoundingBoxDraw);
@@ -345,6 +386,8 @@ function initApplication() {
     map.on("mouseup", onMouseUp);
     map.on("mousemove", onMouseMove);
     map.on("moveend", updateSearchBoxOptions);
+
+    
 }
 
 initApplication();
