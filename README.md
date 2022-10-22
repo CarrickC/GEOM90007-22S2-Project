@@ -8,7 +8,7 @@ root
 └───data
 |	|	'''
 |	|	Here is a copy of the shapefiles we used.
-│   │   All the involved shapefiles have been uploaded 
+|	|	All the involved shapefiles have been uploaded 
 |	|	to Mapbox studio.
 |	|	
 |	|	Contact hanchenc@unimelb.edu.au or another group members,
@@ -19,11 +19,11 @@ root
 	|	'''
 	|	Here is the workspace/root folder for our github repo
 	|	'''
-    │   
+    |
 	└───css
     |	|	'''
-	|	|	Stylesheet files
-	|	|	'''
+    |	|	Stylesheet files
+    |	|	'''
     |
     └───images
     |	|	'''
@@ -31,14 +31,15 @@ root
 	|	|	'''
     |	
     └───js
-    |	|	'''
+	|	|	'''
 	|	|	Javascript files
 	|	|	'''
     |	
     └───index.html
-    |	|	'''
+	|	|	'''
 	|	|	Web interface
 	|	|	'''
+	|
     
     
 ```
