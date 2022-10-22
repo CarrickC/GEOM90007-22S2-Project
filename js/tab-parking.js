@@ -33,7 +33,11 @@ parkMap.on('load', e => {
         console.log(e.features[0].properties);
         new mapboxgl.Popup({maxWidth: '500px'})
             .setLngLat(e.lngLat)
-            .setHTML('>Address: ' + e.features[0].properties.rd_seg_dsc)
+            .setHTML(`
+            <div class='parking-popup-content'>
+            Address:${e.features[0].properties.rd_seg_dsc}
+            </div>
+            `)
             .addTo(parkMap);
         // the code in step 3 below must go in here
     });
