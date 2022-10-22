@@ -14,7 +14,8 @@ ptMap.addControl(
         flyTo: {
             zoom: 13.5
         },
-        language: 'en',
+        country: 'au',
+        language: 'au',
     })
 );
 ptMap.addControl(new mapboxgl.NavigationControl());

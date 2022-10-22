@@ -26,7 +26,8 @@ parkMap.addControl(
     new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl,
-        language: 'en',
+        country: 'au',
+        language: 'au',
     })
 );
 parkMap.addControl(new mapboxgl.NavigationControl());
