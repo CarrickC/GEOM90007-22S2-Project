@@ -19,23 +19,23 @@ root
 	|	'''
 	|	Here is the workspace/root folder for our github repo
 	|	'''
-    |
+	|
 	└───css
-    |	|	'''
-    |	|	Stylesheet files
-    |	|	'''
-    |
-    └───images
-    |	|	'''
+	|	|	'''
+	|	|	Stylesheet files
+	|	|	'''
+	|
+	└───images
+	|	|	'''
 	|	|	Pictures and icons files
 	|	|	'''
-    |	
-    └───js
+	|	
+	└───js
 	|	|	'''
 	|	|	Javascript files
 	|	|	'''
-    |	
-    └───index.html
+	|	
+	└───index.html
 	|	|	'''
 	|	|	Web interface
 	|	|	'''
