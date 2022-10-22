@@ -94,3 +94,7 @@ h2 {
 #off-street-car-parks-with-cap-aw9fts.active {
     background: blue;
 }
+
+.parking-popup-content {
+    padding: 10px 20px;
+}
