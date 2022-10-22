@@ -14,9 +14,6 @@
 }
 
 
-
-
-
 #cluster-icon {
     padding-top: 0px;
     text-align: center;
@@ -51,7 +48,6 @@
 }
 
 
-
 .app-info-text {
     cursor: pointer;
     /* font: 400 12px / normal Noway;
@@ -59,7 +55,7 @@
     letter-spacing: -0.21px;
 }
 
-.app-info-text>a {
+.app-info-text > a {
     color: #7f7f7f;
 }
 
@@ -72,7 +68,7 @@
     border-color: #8dc3eb;
     border-radius: 0;
     color: #fff;
-    padding: 10px; 
+    padding: 10px;
 }
 
 .btn:active {
@@ -80,13 +76,12 @@
     border-color: #e5e5e5;
     box-shadow: none !important;
     color: #ccc;
-} 
+}
 
 .row-border {
     background-color: white;
     border-top: 2px solid #f2f2f2;
 }
-
 
 
 #first-row {
@@ -103,7 +98,6 @@
     margin: auto -15px 0 !important;
     width: 364px;
 }
-
 
 
 .incident-details-list-item-button {
@@ -226,20 +220,20 @@
 #map {
     /* height: 1080px;
     width: 1080px; */
-    position:absolute;
-    width:100%;
-    height:100%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
-input:checked+.toggle {
+input:checked + .toggle {
     background-color: #8dc3eb;
 }
 
-input:checked+.toggle:before {
+input:checked + .toggle:before {
     transform: translateX(16px);
 }
 
-input:focus+.toggle {
+input:focus + .toggle {
     box-shadow: 0 0 1px #bdd731;
 }
 
@@ -311,3 +305,6 @@ input:focus+.toggle {
     background: var(--gray-700);
 }
 
+.btn-col {
+    padding: 0;
+}
