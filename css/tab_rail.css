@@ -5,12 +5,6 @@
     margin: auto;
 }
 
-.center-content {
-    width: var(--content-width);
-    min-width: var(--content-min-width);
-    margin: auto;
-}
-
 .map-overlay {
     position: absolute;
     z-index: 100;
