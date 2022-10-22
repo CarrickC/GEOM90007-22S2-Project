@@ -159,7 +159,7 @@ railMap.on('click', (event) => {
     const popup = new mapboxgl.Popup({offset: [0, -15]})
         .setLngLat(feature.geometry.coordinates)
         .setHTML(
-            `<h5>TRAM STOP: ${feature.properties.STOP_NAME}</h5>
+            `<tram-stop>TRAM STOP: ${feature.properties.STOP_NAME}</tram-stop>
       <div>
       <b>AVAILABLE ROUTE: ${feature.properties.ROUTEUSSP}</b>
       </div>`

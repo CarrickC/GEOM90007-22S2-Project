@@ -43,7 +43,7 @@
 }
 
 .mapboxgl-popup-content h4 {
-    background: #91c949;
+    background: #0070cc;
     color: #fff;
     margin: 0px;
     padding: 14px;
@@ -61,6 +61,16 @@
     font-weight: 400;
     margin-top: -10px;
     width: 500px;
+}
+.mapboxgl-popup-content tram-stop {
+   background: #78c021;
+       color: #fff;
+       margin: 0px;
+       padding: 14px;
+       border-radius: 3px 3px 0 0;
+       font-weight: 100;
+       margin-top: -10px;
+       width: 500px;
 }
 
 .mapboxgl-popup-content h6 {
