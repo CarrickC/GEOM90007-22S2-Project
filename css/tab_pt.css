@@ -93,6 +93,7 @@
 .route-item-icon {
     display: inline-flex;
     align-items: center;
+    width: 180px;
     padding: 5px 30px 5px 15px;
     font-size: 20px;
     color: white;

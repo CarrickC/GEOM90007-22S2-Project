@@ -18,13 +18,15 @@ respondToVisibility($('#park-map')[0], visible => {
 // Create a popup, but don't add it to the map yet.
 const popup = new mapboxgl.Popup({
     maxWidth: '500px',
-    closeButton: false
+    closeButton: false,
+    className: 'parking-popup-content'
 });
 // Add the control to the map.
 parkMap.addControl(
     new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl
+        mapboxgl: mapboxgl,
+        language: 'en',
     })
 );
 parkMap.on('load', e => {

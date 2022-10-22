@@ -13,7 +13,8 @@ ptMap.addControl(
         mapboxgl: mapboxgl,
         flyTo: {
             zoom: 13.5
-        }
+        },
+        language: 'en',
     })
 );
 ptMap.addControl(new mapboxgl.NavigationControl());
