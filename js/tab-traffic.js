@@ -4,7 +4,7 @@
 */
 var apiKey = "NXXiqvnNA5ONcLNg0m7Cf9O2JWULZfVq";
 var centerCoords = [144.9588, -37.815];
-var initialZoom = 13;
+var initialZoom = 15;
 var map = tt.map({
     key: apiKey,
     container: "map",
