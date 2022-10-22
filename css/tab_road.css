@@ -13,6 +13,10 @@
     opacity: 0.7;
 }
 
+
+
+
+
 #cluster-icon {
     padding-top: 0px;
     text-align: center;
@@ -280,14 +284,14 @@ input:focus+.toggle {
 
 
 .incidents-linear-background {
-    background: linear-gradient(to right, var(--tram-green) 50%, rgba(255, 255, 255, 0.8) 50%) right;
+    background: linear-gradient(to right, var(--gray-700) 50%, rgba(255, 255, 255, 0.8) 50%) right;
     background-size: 200%;
     transition: all 0.2s ease-out;
 }
 
 
 .flow-linear-background {
-    background: linear-gradient(to right, var(--bus-orange) 50%, rgba(255, 255, 255, 0.8) 50%) right;
+    background: linear-gradient(to right, var(--gray-700) 50%, rgba(255, 255, 255, 0.8) 50%) right;
     background-size: 200%;
     transition: all 0.2s ease-out;
 }
@@ -295,11 +299,11 @@ input:focus+.toggle {
 
 .flow-selected {
     color: white;
-    background: var(--bus-orange);
+    background: var(--gray-700);
 }
 
 .incidents-selected {
     color: white;
-    background: var(--tram-green);
+    background: var(--gray-700);
 }
 

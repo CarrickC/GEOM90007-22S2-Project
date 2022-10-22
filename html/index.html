@@ -116,64 +116,69 @@
         </div>
 
 
-
         <div id="tab-traffic" class="tab-content">
-            <div class="tab-title">
-                <h1>Traffic Map</h1>
-            </div>
             <div class="container-fluid">
                 <div class="row">
-                    <!-- Entire sidebar -->
-                    <div class="sidebar col-sm-4">
-                        <!-- Search Panel -->
-                        <div id="secondary-row" class="row">
-                            <div class="col pt-3 label">
-                                <span>Enter a location</span>
-                                <div id="search-panel-container" class="row">
-                                    <div id="search-panel" class="container-fluid pb-4"></div>
-                                </div>
-                            </div>
-                        </div>
-
+                    <div class="col" id="map">
                         <!-- Show layer -->
                         <div class="row row-border">
                             <div class="col py-3 label">
-                                <span class="show-traffic-layers">Click to show layers</span>
-                                <!-- Incidents toggle -->
-                                <div class="row align-items-center pt-2">
-                                    <div class="col pt-2">
-                                        <label for="incidents-toggle" class="traffic-text">Traffic incidents</label>
-                                    </div>
-                                    <div class="col-sm-3 pt-2 text-right">
-                                        <label class="switch">
-                                            <input id="incidents-toggle" type="checkbox"/>
-                                            <span class="toggle round"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <!-- Flow toggle -->
-                                <div class="row align-items-center pt-2">
 
-                                    <div class="col pt-2">
-                                        <label for="flow-toggle" class="traffic-text">Traffic flow</label>
+                                <div id="tf-layer-select">
+                                    <ul id="tf-layer-list">
+                                        <li>
+                                            <button id="flow-toggle"
+                                                class="tf-layer-button flow-linear-background">Traffic flow</button>
+                                        </li>
+                                        <li>
+                                            <button id="incidents-toggle"
+                                                class="tf-layer-button incidents-linear-background">Traffic
+                                                Incidents</button>
+                                        </li>
+                                    </ul>
+
+                                    <div class="col">
+                                        <button id="bounding-box-button" type="button" class="btn btn-block my-2">
+                                            Drag Rectangle
+                                        </button>
                                     </div>
-                                    <div class="col-sm-3 pt-2 text-right">
-                                        <label class="switch">
-                                            <input id="flow-toggle" type="checkbox"/>
-                                            <span class="toggle round"></span>
-                                        </label>
+
+                                    <div class="sidebar col-sm-4">
+                                        <div class="col">
+                                            <div id="incident-list-container" class="p-0">
+                                                <div class="list-group" id="incident-list">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
                         <div id="search-panel-container" class="row">
                             <div id="search-panel" class="container-fluid pb-4"></div>
                         </div>
+
+
                     </div>
+
                 </div>
+
+            </div>
+
+            <div id="popup-wrapper">
+                
             </div>
         </div>
+
+
+
+
+
+
+
+
 
         <div id="tab-parking" class="tab-content">
             <nav id="park-menu"></nav>
