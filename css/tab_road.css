@@ -282,6 +282,10 @@ input:focus+.toggle {
     background-position: left;
 }
 
+.tf-layer-button:focus {
+    outline: none;
+}
+
 
 .incidents-linear-background {
     background: linear-gradient(to right, var(--gray-700) 50%, rgba(255, 255, 255, 0.8) 50%) right;
