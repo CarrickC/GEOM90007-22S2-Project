@@ -5,14 +5,6 @@
 var apiKey = "NXXiqvnNA5ONcLNg0m7Cf9O2JWULZfVq";
 var centerCoords = [144.9588, -37.815];
 var initialZoom = 15;
-var map = tt.map({
-    key: apiKey,
-    container: "map",
-    style: "../config/traffic_map_style.json",
-    center: centerCoords,
-    zoom: initialZoom
-});
-
 
 
 var searchBoxInstance;
@@ -20,24 +12,20 @@ var startCornerLngLat;
 var endCornerLngLat;
 var mousePressed;
 var drawBoundingBoxButtonPressed;
-var layerFillID = "layerFillID";
-var layerOutlineID = "layerOutlineID";
-var sourceID = "sourceID";
-var styleBase = "tomtom://vector/1/";
-var styleS1 = "s1";
 var styleRelative = "relative";
-var refreshTimeInMillis = 40000;
-var popupHideDelayInMilis = 4000;
-
-
 var incidentListContainer = document.getElementById("incident-list");
 var trafficFlowTilesToggle = document.getElementById("flow-toggle");
-
-
-
 var flow_layer_control = false
 var incidents_layer_control = false
 
+
+var map = tt.map({
+    key: apiKey,
+    container: "map",
+    style: "../config/traffic_map_style.json",
+    center: centerCoords,
+    zoom: initialZoom
+});
 
 
 var commonSearchBoxOptions = {
@@ -51,18 +39,18 @@ var commonSearchBoxOptions = {
 var trafficIncidentsTier = new tt.TrafficIncidentTier({
     key: apiKey,
     incidentDetails: {
-        style: styleS1
+        style: "s1"
     },
     incidentTiles: {
         style: "tomtom://vector/1/s1",
     },
-    refresh: refreshTimeInMillis
+    refresh: 40000
 });
 
 var trafficFlowTilesTier = new tt.TrafficFlowTilesTier({
     key: apiKey,
     style:"../config/traffic_flow_style.json",
-    refresh: refreshTimeInMillis
+    refresh: 40000
 });
 
 map.addTier(trafficFlowTilesTier);
@@ -116,6 +104,7 @@ function toggleTrafficIncidentsTier() {
     console.log("incidents_layer_control: {%s}", incidents_layer_control)
 }
 
+
 function showTrafficIncidentsTier() {    
     map.addTier(trafficIncidentsTier);
 }
@@ -126,56 +115,30 @@ function hideTrafficIncidentsTier() {
     removeBoundingBox();
 }
 
-// button style switch
-
 
 
 
 
 
 /*
-    Search box
-    
-    Update search range with current map position
-*/
-
-function updateSearchBoxOptions() {
-    var updatedOptions = Object.assign(commonSearchBoxOptions, {
-        center: map.getCenter()
-    });
-    searchBoxInstance.updateOptions({
-        minNumberOfCharacters: 0,
-        searchOptions: updatedOptions,
-        autocompleteOptions: updatedOptions
-    });
-}
-
-function onSearchBoxResult(result) {
-    map.flyTo({
-        center: result.data.result.position,
-        speed: 3
-    });
-}
-
-/*
-    Bounding Box
-    Show incidents information on bounding box
+    Rectangle
+    Show incidents information on Rectangle
 */
 function enableBoundingBoxDraw() {
-    // showInfoPopup("Click and drag to draw a bounding box");
     drawBoundingBoxButtonPressed = true;
     removeBoundingBox();
     clearIncidentList();
 }
 
 function removeBoundingBox() {
-    if (map.getSource(sourceID)) {
-        map.removeLayer(layerFillID);
-        map.removeLayer(layerOutlineID)
-        map.removeSource(sourceID);
+    if (map.getSource("sourceID")) {
+        map.removeLayer("layerFillID");
+        map.removeLayer("layerOutlineID")
+        map.removeSource("sourceID");
     }
 }
 
+// Drawing rectangle (add outline layer and fill layer)
 function onMouseDown(eventDetails) {
     if (drawBoundingBoxButtonPressed) {
         eventDetails.preventDefault();
@@ -183,25 +146,24 @@ function onMouseDown(eventDetails) {
         startCornerLngLat = eventDetails.lngLat;
         removeBoundingBox();
         // Add rectangle data
-        map.addSource(sourceID, getPolygonSource(startCornerLngLat, startCornerLngLat));
+        map.addSource("sourceID", getPolygonSource(startCornerLngLat, startCornerLngLat));
 
         // Add rectangle inner
         map.addLayer({
-            id: layerFillID,
+            id: "layerFillID",
             type: "fill",
-            source: sourceID,
+            source: "sourceID",
             layout: {},
             paint: {
                 "fill-color": "#777",
                 "fill-opacity": 0.2
             }
         });
-
         // Add Retangle edge
         map.addLayer({
-            id: layerOutlineID,
+            id: "layerOutlineID",
             type: "line",
-            source: sourceID,
+            source: "sourceID",
             layout: {},
             paint: {
                 "line-width": 4,
@@ -213,7 +175,7 @@ function onMouseDown(eventDetails) {
     }
 }
 
-
+// Track & Update rectangle lng and lat
 function onMouseMove(eventDetails) {
     if (mousePressed) {
         endCornerLngLat = eventDetails.lngLat;
@@ -221,12 +183,12 @@ function onMouseMove(eventDetails) {
     }
 }
 
-
+// When drawing finish, clear previous layer and display new layer
 function onMouseUp(eventDetails) {
     mousePressed = false;
     if (drawBoundingBoxButtonPressed) {
         endCornerLngLat = eventDetails.lngLat;
-        if (bothLngLatAreDifferent(startCornerLngLat, endCornerLngLat)) {
+        if (startCornerLngLat.lat !== endCornerLngLat.lat && startCornerLngLat.lng !== endCornerLngLat.lng) {
             updateRectangleData(startCornerLngLat, endCornerLngLat);
             clearIncidentList();
             displayTrafficIncidents(getLngLatBoundsForIncidentDetailsCall(startCornerLngLat, endCornerLngLat));
@@ -238,12 +200,15 @@ function onMouseUp(eventDetails) {
     drawBoundingBoxButtonPressed = false;
 }
 
-function bothLngLatAreDifferent(lngLat1, lngLat2) {
-    return lngLat1.lat !== lngLat2.lat && lngLat1.lng !== lngLat2.lng;
-}
+
+
+/*
+    Rectangle data
+    Get rectangle bounding area for flitering
+*/
 
 function updateRectangleData(startCornerLngLat, endCornerLngLat) {
-    map.getSource(sourceID).setData(getPolygonSourceData(startCornerLngLat, endCornerLngLat));
+    map.getSource("sourceID").setData(getPolygonSourceData(startCornerLngLat, endCornerLngLat));
 }
 
 function getLngLatBoundsForIncidentDetailsCall(startCornerLngLat, endCornerLngLat) {
@@ -255,11 +220,6 @@ function getLngLatBoundsForIncidentDetailsCall(startCornerLngLat, endCornerLngLa
         startCornerLngLat.lat > endCornerLngLat.lat ? startCornerLngLat.lat : endCornerLngLat.lat);
     return tt.LngLatBounds.convert([bottomLeftCorner.toArray(), topRightCorner.toArray()]);
 }
-
-
-/*
-    Rectangle data
-*/
 
 function getPolygonSourceData(startCornerLngLat, endCornerLngLat) {
     console.log(startCornerLngLat.lng, startCornerLngLat.lat)
@@ -287,6 +247,16 @@ function getPolygonSource(startCornerLngLat, endCornerLngLat) {
     };
 }
 
+
+
+
+
+/**
+ *  Incident List interactivity (leverage internal tt api functionality)
+ *  Display incident details within bounding box
+ *  Create buttom for each information (inject html)
+ */
+
 function clearIncidentList() {
     incidentListContainer.innerHTML = "";
 }
@@ -302,7 +272,7 @@ function displayTrafficIncidents(boundingBox) {
     tt.services.incidentDetails({
             key: apiKey,
             boundingBox: boundingBox,
-            style: styleS1,
+            style: "s1",
             zoomLevel: parseInt(map.getZoom())
         })
         .go()
@@ -348,8 +318,6 @@ function getButtonClusterContent(description, numberOfIncidents, delayMagnitude)
 
 
 
-
-
 /**
  * Running applications
  */
@@ -369,14 +337,17 @@ function initApplication() {
     document.getElementById("search-panel").append(searchBoxInstance.getSearchBoxHTML());
 
     // Return search result and move map to position
-    searchBoxInstance.on("tomtom.searchbox.resultselected", onSearchBoxResult);
+    searchBoxInstance.on("tomtom.searchbox.resultselected", function(result) {
+        map.flyTo({
+            center: result.data.result.position,
+            speed: 3
+        });
+    });
     
     // Add flow layer when toggle
     trafficFlowTilesToggle.addEventListener("click", toggleTrafficFlowTilesTier);
 
     document.getElementById("incidents-toggle").addEventListener("click", toggleTrafficIncidentsTier);
-
-
 
 
     // When click, start to record lat and lng
@@ -385,7 +356,22 @@ function initApplication() {
     map.on("mousedown", onMouseDown);
     map.on("mouseup", onMouseUp);
     map.on("mousemove", onMouseMove);
-    map.on("moveend", updateSearchBoxOptions);
+
+    /*
+        Search box
+        
+        Update search range with current map position
+    */
+    map.on("moveend", function(){
+        var updatedOptions = Object.assign(commonSearchBoxOptions, {
+            center: map.getCenter()
+        });
+        searchBoxInstance.updateOptions({
+            minNumberOfCharacters: 0,
+            searchOptions: updatedOptions,
+            autocompleteOptions: updatedOptions
+        });
+    });
 
     
 }
